@@ -9,21 +9,21 @@ var users = [{
   email: 'ekene@test.com',
   firstname: 'Ekene',
   lastname: 'Ok',
-  password: 'test',
+  password: 'testtest',
   is_admin: false
 }, {
   id: 2,
   email: 'rachy@test.com',
   firstname: 'Rachy',
   lastname: 'Francis',
-  password: 'rachy',
+  password: 'rachyfran',
   is_admin: false
 }, {
   id: 3,
   email: 'iyke@test.com',
   firstname: 'Iyke',
   lastname: 'Okoro',
-  password: 'iyke',
+  password: 'iykezadby',
   is_admin: true
 }];
 var _default = users;

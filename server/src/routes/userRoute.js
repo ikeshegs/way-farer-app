@@ -11,6 +11,12 @@ userRoute.post(
   userController.createUser
 );
 
+userRoute.post(
+  '/api/v1/auth/signin',
+  userValidator.loginValidator,
+  userController.userSignup
+);
+
 userRoute.get('/api/v1/getusers', userController.getUsers);
 
 export default userRoute;

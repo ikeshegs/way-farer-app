@@ -1,7 +1,7 @@
 import users from '../database/users';
 
-const userValidator = {
-  signupValidator(req, res, next) {
+class userValidator {
+  static signupValidator(req, res, next) {
     let { email, firstname, lastname, password } = req.body;
 
     // Email Validation
@@ -45,10 +45,10 @@ const userValidator = {
       });
     }
     email = email.toLowerCase().trim();
-    if (email.length < 5 || email.length > 30) {
+    if (email.length < 5 || email.length > 20) {
       return res.status(400).send({
         status: 400,
-        message: 'Email should be 10 to 30 characters long'
+        message: 'Email should be 5 to 20 characters long'
       });
     }
 
@@ -125,21 +125,82 @@ const userValidator = {
         message: 'Password cannot be a space'
       });
     }
-    if (typeof password !== 'string') {
-      return res.status(400).send({
-        status: 400,
-        message: 'Password should be a string'
-      });
-    }
     password = password.trim();
-    if (password.length < 5 || password.length > 30) {
+    if (password.length < 8 || password.length > 30) {
       return res.status(400).send({
         status: 400,
-        message: 'Password should be 5 to 30 characters long'
+        message: 'Password should be 8 to 30 characters long'
       });
     }
     next();
   }
-};
+
+  static loginValidator(req, res, next) {
+    // eslint-disable-next-line prefer-const
+    let { email, password } = req.body;
+
+    if (email === undefined) {
+      return res.status(400).send({
+        status: 400,
+        message: 'Email field cannot be empty'
+      });
+    }
+    if (email === '') {
+      return res.status(400).send({
+        status: 400,
+        message: 'Email field cannot be empty.'
+      });
+    }
+    if (typeof email !== 'string') {
+      return res.status(400).send({
+        status: 400,
+        message: 'Email should be a string'
+      });
+    }
+    if (email.includes(' ')) {
+      return res.status(400).send({
+        status: 400,
+        message: 'Email cannot include space.'
+      });
+    }
+
+    const emailCheck = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    if (!emailCheck.test(email)) {
+      return res.status(400).send({
+        status: 400,
+        message: 'Email format is invalid'
+      });
+    }
+
+    // Password Validation
+    if (password === undefined) {
+      return res.status(400).send({
+        status: 400,
+        message: 'Password field cannot be empty'
+      });
+    }
+    if (password === '') {
+      return res.status(400).send({
+        status: 400,
+        message: 'Password field cannot be empty'
+      });
+    }
+    if (password === ' ') {
+      return res.status(400).send({
+        status: 400,
+        message: 'Password cannot be a space'
+      });
+    }
+    password = password.trim();
+    if (password.length < 8 || password.length > 30) {
+      return res.status(400).send({
+        status: 400,
+        message: 'Password should be 8 to 30 characters long'
+      });
+    }
+
+    return next();
+  }
+}
 
 export default userValidator;
