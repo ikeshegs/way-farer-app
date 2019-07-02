@@ -4,9 +4,10 @@
   "description": "WayFarer is a public bus transportation booking App.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/index.js",
-    "build": "babel src --out-dir build",
+    "test": "mocha build/src/tests/*.js",
+    "start": "node build/src/index.js",
+    "dev-start": "nodemon --exec babel-node server/src/index.js",
+    "build": "babel server --out-dir build",
     "serve": "node build/index.js"
   },
   "repository": {
