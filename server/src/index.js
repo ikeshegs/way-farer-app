@@ -10,9 +10,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(userRoute);
 
 app.get('/', (req, res) => {
-  return res
-    .status(200)
-    .send('Welcome to WayFarer app. A public bus transport booking app.');
+  return res.send({
+    status: 200,
+    message: 'Welcome to WayFarer app. A public bus transport booking app.'
+  });
 });
 
 const PORT = process.env.PORT || 3000;

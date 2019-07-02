@@ -78,7 +78,7 @@ var userValidator = {
     if (firstname === undefined) {
       return res.status(400).send({
         status: 400,
-        message: 'Firstname field cannot is required'
+        message: 'Firstname field is required'
       });
     }
 
@@ -96,21 +96,12 @@ var userValidator = {
       });
     }
 
-    firstname = firstname.trim().replace(/\s\s+/g, ' ');
-
-    if (firstname.length < 3 || firstname.length > 20) {
-      return res.status(400).send({
-        status: 400,
-        message: 'First name should be 4 to 20 alphabets long'
-      });
-    }
-
     var validFirstNameCharacters = /^[a-zA-Z]+$/;
 
     if (!validFirstNameCharacters.test(firstname)) {
       return res.status(400).send({
         status: 400,
-        message: 'First name accepts only alphabets'
+        message: 'Firstname accepts only alphabets'
       });
     } // Last name validation
 
@@ -134,14 +125,7 @@ var userValidator = {
         status: 400,
         message: 'Lastname must be a string'
       });
-    } // lastname = lastname.trim().replace(/\s\s+/g, ' ');
-    // if (lastname.length < 8 || lastname.length > 20) {
-    //   return res.status(400).send({
-    //     status: 400,
-    //     message: 'Lastname should be between 8 to 20 alphabets long'
-    //   });
-    // }
-
+    }
 
     var validLastNameCharacters = /^[a-zA-Z]+$/;
 

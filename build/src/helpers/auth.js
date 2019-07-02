@@ -14,9 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 _dotenv["default"].config();
 
 var createToken = function createToken(payload) {
-  return _jsonwebtoken["default"].sign({
-    payload: payload
-  }, process.env.JWT_KEY, {
+  return _jsonwebtoken["default"].sign(payload, 'process.env.JWT_KEY', {
     expiresIn: '1h'
   });
 };

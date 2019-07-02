@@ -56,7 +56,7 @@ const userValidator = {
     if (firstname === undefined) {
       return res.status(400).send({
         status: 400,
-        message: 'Firstname field cannot is required'
+        message: 'Firstname field is required'
       });
     }
     if (firstname === '') {
@@ -71,18 +71,11 @@ const userValidator = {
         message: 'Firstname must be an alphabet'
       });
     }
-    firstname = firstname.trim().replace(/\s\s+/g, ' ');
-    if (firstname.length < 3 || firstname.length > 20) {
-      return res.status(400).send({
-        status: 400,
-        message: 'First name should be 4 to 20 alphabets long'
-      });
-    }
     const validFirstNameCharacters = /^[a-zA-Z]+$/;
     if (!validFirstNameCharacters.test(firstname)) {
       return res.status(400).send({
         status: 400,
-        message: 'First name accepts only alphabets'
+        message: 'Firstname accepts only alphabets'
       });
     }
 
@@ -105,13 +98,6 @@ const userValidator = {
         message: 'Lastname must be a string'
       });
     }
-    // lastname = lastname.trim().replace(/\s\s+/g, ' ');
-    // if (lastname.length < 8 || lastname.length > 20) {
-    //   return res.status(400).send({
-    //     status: 400,
-    //     message: 'Lastname should be between 8 to 20 alphabets long'
-    //   });
-    // }
     const validLastNameCharacters = /^[a-zA-Z]+$/;
     if (!validLastNameCharacters.test(lastname)) {
       return res.status(400).send({

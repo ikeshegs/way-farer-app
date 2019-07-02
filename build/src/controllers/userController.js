@@ -31,12 +31,18 @@ function () {
   _createClass(userController, null, [{
     key: "createUser",
     value: function createUser(req, res) {
-      var hash = _bcrypt["default"].hashSync(req.body.password, salt);
+      var hash = _bcrypt["default"].hashSync(req.body.password, salt, function (err, result) {
+        if (err) {
+          return err;
+        }
+
+        return result;
+      });
 
       var user = {
         id: _users["default"].length + 1,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        firstName: req.body.firstname,
+        lastName: req.body.lastname,
         email: req.body.email,
         password: hash
       }; // Create account if no errors
@@ -49,6 +55,18 @@ function () {
         status: 201,
         message: 'Success: User created successfully',
         token: token
+      });
+    }
+  }, {
+    key: "getUsers",
+    value: function getUsers(req, res) {
+      var filterUser = _users["default"].filter(function (user) {
+        return user;
+      });
+
+      return res.status(200).send({
+        status: 200,
+        data: [filterUser]
       });
     }
   }]);
