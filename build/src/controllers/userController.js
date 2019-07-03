@@ -44,7 +44,8 @@ function () {
         firstName: req.body.firstname,
         lastName: req.body.lastname,
         email: req.body.email,
-        password: hash
+        password: hash,
+        is_admin: false
       }; // Create account if no errors
 
       _users["default"].push(user);
@@ -52,9 +53,50 @@ function () {
       var token = _auth["default"].createToken(user);
 
       return res.status(201).json({
-        status: 201,
-        message: 'Success: User created successfully',
-        token: token
+        status: 'success',
+        data: {
+          user_id: user.id,
+          is_admin: user.is_admin,
+          token: token
+        }
+      });
+    }
+  }, {
+    key: "userSignup",
+    value: function userSignup(req, res) {
+      var _req$body = req.body,
+          email = _req$body.email,
+          password = _req$body.password;
+
+      var foundUser = _users["default"].find(function (user) {
+        return user.email === email;
+      });
+
+      if (!foundUser) {
+        return res.status(400).send({
+          status: 'error',
+          error: 'No user in the database'
+        });
+      }
+
+      var comparePassword = _bcrypt["default"].compareSync(password, foundUser.password);
+
+      if (comparePassword) {
+        var token = _auth["default"].createToken(foundUser);
+
+        return res.status(200).json({
+          status: 'success',
+          data: {
+            user_id: foundUser.id,
+            is_admin: foundUser.is_admin,
+            token: token
+          }
+        });
+      }
+
+      return res.status(400).json({
+        status: 400,
+        error: 'Authentication Failed'
       });
     }
   }, {
