@@ -1,13 +1,17 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import userRoute from './routes/userRoute';
+import tripRoute from './routes/tripRoute';
 
+dotenv.config();
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(userRoute);
+app.use(tripRoute);
 
 app.get('/', (req, res) => {
   return res.send({
