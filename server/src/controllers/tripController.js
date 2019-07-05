@@ -58,7 +58,7 @@ class tripController {
     } catch {
       return res.status(401).send({
         status: 'error',
-        error: ''
+        error: 'Unauthorized'
       });
     }
   }

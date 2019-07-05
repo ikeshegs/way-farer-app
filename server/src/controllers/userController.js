@@ -67,10 +67,18 @@ class userController {
   }
 
   static getUsers(req, res) {
-    const filterUser = users.filter(user => user);
-    return res.status(200).send({
-      status: 'success',
-      data: filterUser
+    const decodedUser = req.user;
+
+    if (decodedUser.is_admin === true) {
+      const filterUser = users.filter(user => user);
+      return res.status(200).send({
+        status: 'success',
+        data: filterUser
+      });
+    }
+    return res.status(401).send({
+      status: 'error',
+      error: 'Unauthorized'
     });
   }
 }

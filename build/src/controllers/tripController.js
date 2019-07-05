@@ -99,6 +99,59 @@ function () {
 
       return createTrip;
     }()
+  }, {
+    key: "getTrips",
+    value: function () {
+      var _getTrips = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(req, res) {
+        var decodedUser, filterTrips;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                decodedUser = req.user;
+                _context2.prev = 1;
+
+                if (!decodedUser) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                filterTrips = _trips["default"].filter(function (trip) {
+                  return trip;
+                });
+                return _context2.abrupt("return", res.status(200).send({
+                  status: 'success',
+                  data: filterTrips
+                }));
+
+              case 5:
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](1);
+                return _context2.abrupt("return", res.status(401).send({
+                  status: 'error',
+                  error: 'Unauthorized'
+                }));
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 7]]);
+      }));
+
+      function getTrips(_x3, _x4) {
+        return _getTrips.apply(this, arguments);
+      }
+
+      return getTrips;
+    }()
   }]);
 
   return tripController;

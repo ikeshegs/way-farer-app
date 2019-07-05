@@ -1,6 +1,7 @@
 import express from 'express';
 import userValidator from '../middlewares/user';
 import userController from '../controllers/userController';
+import auth from '../helpers/auth';
 
 // Set Router
 const userRoute = express.Router();
@@ -17,6 +18,6 @@ userRoute.post(
   userController.userSignup
 );
 
-userRoute.get('/api/v1/getusers', userController.getUsers);
+userRoute.get('/api/v1/users', auth.verifyToken, userController.getUsers);
 
 export default userRoute;
