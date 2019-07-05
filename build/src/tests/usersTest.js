@@ -6,8 +6,6 @@ var _chaiHttp = _interopRequireDefault(require("chai-http"));
 
 var _index = _interopRequireDefault(require("../index"));
 
-var _cluster = require("cluster");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _chai["default"].use(_chaiHttp["default"]);

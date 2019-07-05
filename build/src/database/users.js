@@ -25,6 +25,13 @@ var users = [{
   lastname: 'Okoro',
   password: 'iykezadby',
   is_admin: true
+}, {
+  id: 4,
+  email: 'kindness@gmail.com',
+  firstname: 'Kindness',
+  lastname: 'Osaro',
+  password: '$2b$10$t/ek3QvOr5Hvs7YHp9kTneJuxn2cS1Cx5H295f.dXfASBJll6FGE2',
+  is_admin: true
 }];
 var _default = users;
 exports["default"] = _default;

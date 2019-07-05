@@ -7,7 +7,6 @@ class tripController {
 
     const createdOn = new Date();
     const decodedUser = req.user;
-    console.log('controller', decodedUser);
 
     if (decodedUser.is_admin === true) {
       try {

@@ -1,4 +1,6 @@
 import express from 'express';
+import 'regenerator-runtime/runtime';
+import 'core-js';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import userRoute from './routes/userRoute';

@@ -8,22 +8,10 @@ class tripValidator {
         error: 'Bus ID is required'
       });
     }
-    if (busId === '') {
-      return res.status(400).send({
-        status: 'error',
-        error: 'Bus ID field cannot be empty'
-      });
-    }
     if (typeof busId !== 'number') {
       return res.status(400).send({
         status: 'error',
         error: 'Bus ID must be a Number'
-      });
-    }
-    if (busId === ' ') {
-      return res.status(400).send({
-        status: 'error',
-        error: 'Bus ID cannot be a space'
       });
     }
 
@@ -36,13 +24,7 @@ class tripValidator {
     if (origin === '') {
       return res.status(400).send({
         status: 'error',
-        error: 'Bus Origin is cannot be empty'
-      });
-    }
-    if (typeof origin !== 'string') {
-      return res.status(400).send({
-        status: 'error',
-        error: 'Bus Origin must be in alphabets'
+        error: 'Bus Origin cannot be empty'
       });
     }
     if (origin === ' ') {
@@ -61,13 +43,7 @@ class tripValidator {
     if (destination === '') {
       return res.status(400).send({
         status: 'error',
-        error: 'Bus destination is cannot be empty'
-      });
-    }
-    if (typeof destination !== 'string') {
-      return res.status(400).send({
-        status: 'error',
-        error: 'Bus destination must be in alphabets'
+        error: 'Bus destination cannot be empty'
       });
     }
     if (destination === ' ') {
@@ -83,22 +59,10 @@ class tripValidator {
         error: 'Fare is required'
       });
     }
-    if (fare === '') {
-      return res.status(400).send({
-        status: 'error',
-        error: 'Fare field cannot be empty'
-      });
-    }
     if (typeof fare !== 'number') {
       return res.status(400).send({
         status: 'error',
         error: 'Fare must be a Number'
-      });
-    }
-    if (fare === ' ') {
-      return res.status(400).send({
-        status: 'error',
-        error: 'Fare cannot be a space'
       });
     }
     next();

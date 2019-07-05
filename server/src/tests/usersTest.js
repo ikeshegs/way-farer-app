@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
-import { getMaxListeners } from 'cluster';
 
 chai.use(chaiHttp);
 
