@@ -61,7 +61,7 @@ class userController {
       });
     }
     return res.status(400).json({
-      status: 400,
+      status: 'error',
       error: 'Authentication Failed'
     });
   }
@@ -69,8 +69,8 @@ class userController {
   static getUsers(req, res) {
     const filterUser = users.filter(user => user);
     return res.status(200).send({
-      status: 200,
-      data: [filterUser]
+      status: 'success',
+      data: filterUser
     });
   }
 }

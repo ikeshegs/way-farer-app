@@ -43,6 +43,25 @@ class tripController {
       error: 'Forbidden'
     });
   }
+
+  static async getTrips(req, res) {
+    const decodedUser = req.user;
+
+    try {
+      if (decodedUser) {
+        const filterTrips = trips.filter(trip => trip);
+        return res.status(200).send({
+          status: 'success',
+          data: filterTrips
+        });
+      }
+    } catch {
+      return res.status(401).send({
+        status: 'error',
+        error: ''
+      });
+    }
+  }
 }
 
 export default tripController;
