@@ -7,22 +7,22 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe(`All tests for create trip endpoint`, () => {
-  let userToken;
-  before(done => {
-    chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'kindness@gmail.com',
-        password: 'ansemiosaro'
-      })
-      .end((err, res) => {
-        const { token } = res.body.data;
-        userToken = token;
-        done(err);
-      });
-  });
   describe(`POST api/v1/trips`, () => {
+    let userToken;
+    before(done => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'kindness@gmail.com',
+          password: 'ansemiosaro'
+        })
+        .end((err, res) => {
+          const { token } = res.body.data;
+          userToken = token;
+          done(err);
+        });
+    });
     it('It should return status 201 for a successful trip created', done => {
       chai
         .request(app)
@@ -213,4 +213,70 @@ describe(`All tests for create trip endpoint`, () => {
         });
     });
   });
+
+  describe(`POST api/v1/trips`, () => {
+    let userToken;
+    before(done => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'frankEd@gmail.com',
+          password: 'EdohoFraNK'
+        })
+        .end((err, res) => {
+          const { token } = res.body.data;
+          userToken = token;
+          done(err);
+        });
+    });
+    it('It should return status 403 for Forbidden access', done => {
+      chai
+        .request(app)
+        .post('/api/v1/trips')
+        .set('Authorization', `Bearer ${userToken}`)
+        .send({
+          busId: 45,
+          origin: 'Ibadan',
+          destination: 'Lagos',
+          fare: 1200.0
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(403);
+          expect(res.body.error).to.equal('Forbidden');
+          done();
+        });
+    });
+  });
+
+  // describe(`POST api/v1/trips`, () => {
+  //   before(done => {
+  //     chai
+  //       .request(app)
+  //       .post('/api/v1/auth/signin')
+  //       .send({
+  //         email: 'frankE@gmail.com',
+  //         password: 'EdohoFraNK'
+  //       })
+  //       .end((err, res) => {
+  //         done(err);
+  //       });
+  //   });
+  //   it('It should return status 401 for Unauthorized access', done => {
+  //     chai
+  //       .request(app)
+  //       .post('/api/v1/trips')
+  //       .send({
+  //         busId: 45,
+  //         origin: 'Ibadan',
+  //         destination: 'Lagos',
+  //         fare: 1200.0
+  //       })
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(401);
+  //         expect(res.body.error).to.equal('Unauthorized');
+  //         done();
+  //       });
+  //   });
+  // });
 });
