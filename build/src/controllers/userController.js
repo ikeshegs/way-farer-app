@@ -95,20 +95,29 @@ function () {
       }
 
       return res.status(400).json({
-        status: 400,
+        status: 'error',
         error: 'Authentication Failed'
       });
     }
   }, {
     key: "getUsers",
     value: function getUsers(req, res) {
-      var filterUser = _users["default"].filter(function (user) {
-        return user;
-      });
+      var decodedUser = req.user;
 
-      return res.status(200).send({
-        status: 200,
-        data: [filterUser]
+      if (decodedUser.is_admin === true) {
+        var filterUser = _users["default"].filter(function (user) {
+          return user;
+        });
+
+        return res.status(200).send({
+          status: 'success',
+          data: filterUser
+        });
+      }
+
+      return res.status(401).send({
+        status: 'error',
+        error: 'Unauthorized'
       });
     }
   }]);

@@ -18,5 +18,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var tripRoute = _express["default"].Router();
 
 tripRoute.post('/api/v1/trips', _auth["default"].verifyToken, _trip["default"].createTripValidator, _tripController["default"].createTrip);
+tripRoute.get('/api/v1/trips', _auth["default"].verifyToken, _tripController["default"].getTrips);
 var _default = tripRoute;
 exports["default"] = _default;

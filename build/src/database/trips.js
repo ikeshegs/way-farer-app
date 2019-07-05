@@ -5,25 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var trips = [{
-  tripId: 1,
-  busId: 10,
+  trip_id: 1,
+  bus_id: 10,
   origin: 'Aba',
   destination: 'Mile 1',
-  tripDate: Date(),
+  trip_date: Date(),
   fare: 700.0
 }, {
-  tripId: 2,
-  busId: 3,
+  trip_id: 2,
+  bus_id: 3,
   origin: 'Enugu',
   destination: 'Owerri',
-  tripDate: Date(),
+  trip_date: Date(),
   fare: 700.0
 }, {
-  tripId: 3,
-  busId: 4,
+  trip_id: 3,
+  bus_id: 4,
   origin: 'Lagos',
   destination: 'Port Harcourt',
-  tripDate: Date(),
+  trip_date: Date(),
   fare: 7100.0
 }];
 var _default = trips;
