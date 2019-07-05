@@ -10,7 +10,6 @@ addons:
            secure: "JmrQXdeewFRthoZZQO15IkBY4zpnoalPMZaUchhLaASF8NNrOwsf651r6EBqQ4FPgYtIPwWNDP50lozwJUlLdco7woUexBh2tJ6I1fZcUjlZg9E9ZEmJpGAW6y5awY+RYkRfazeKcgp2nNg7o9+65+DIIQc0KefUwaaQUPt8yeTyxzapPwaw69L9ZZbyae6SjSIMFA/rA+X5m7T7kuKW0MO7MhaddWX1nH4pLFMmLntA1bNp9sP5hx0bXHWTMLmDU0z2izMfQN7RB1FrquV/oLLEe1mL4raYwi90eqI3MTugIYX1XcC+1D7UAxdjQdpE+Ulu5uX9+v6+8juvGY4UQoGrbwMa2rzaBs9gAELo6zHMBEwQRRsdFmm27O9REcbqz3+Ti2X8lt2+oHlEhbfSVGL9nS+1n0p3gTK1OP8rDYkFYbVLrdYpKgTorZi969qrgxbUiTmRxBgJmDhLnz+JddU4dxEELGQ+k7gV3VTBibKB2FqOssL6zNTmnhKMJDDbNPeiU9YW9i7iALGmzJHXQ9zw+m7efvJoTNxVtR5nuXbi8DohFsQWddZbzChRJ5JzfzzZihrCovIlCftKrqgpHLkGdS2A270UV+UV/2ip0M3WAF0ouAdAOrPT6QEVkDVWYQKqTZ50D+uZp8hzI8t5ovAQGYYSotEZykpBe8GWlpg="
 script: 
   - npm test
-  - ./node_modules/.bin/nyc --reporter=lcov ./node_modules/mocha/bin/mocha --require @babel/register
 
 before_script:
   - npm install codeclimate-test-reporter nyc -g
