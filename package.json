@@ -5,14 +5,17 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha build/src/tests/*.js --recursive --require @babel/register --timeout 50000 --exit || true",
-    "test-watch": "nodemon --exec \"npm test\"",
     "start": "node build/src/index.js",
     "dev-start": "nodemon --exec babel-node server/src/index.js",
     "build": "babel server --out-dir build",
     "serve": "node build/index.js",
     "clean": "rm -rf build && mkdir build",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
-    "generate-lcov": "nyc report --reporter=text-lcov >lcov.info"
+    "generate-lcov": "nyc report --reporter=text-lcov >lcov.info",
+    "coveralls": "npm run cover -- --report lcovonly && ./coverage/lcov.info | coveralls",
+    "coverage": "npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "cover": "nyc cover _mocha"
   },
   "repository": {
     "type": "git",
@@ -33,6 +36,7 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^9.0.0",
     "codeclimate-test-reporter": "^0.5.1",
+    "coveralls": "^3.0.4",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
