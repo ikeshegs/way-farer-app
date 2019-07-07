@@ -1,11 +1,21 @@
 import bcrypt from 'bcrypt';
 import auth from '../helpers/auth';
-import users from '../database/users';
+import pool from '../database/config/dbPooler';
 
 const salt = bcrypt.genSaltSync(10);
 
 class userController {
   static createUser(req, res) {
+    const existingUser = pool.query('SELECT * FROM users WHERE email=$1;', [
+      req.body.email
+    ]);
+    if (existingUser.rowCount) {
+      res.status(409).send({
+        status: 'error',
+        error: 'email already exist'
+      });
+    }
+
     const hash = bcrypt.hashSync(req.body.password, salt, (err, result) => {
       if (err) {
         return err;
@@ -14,16 +24,18 @@ class userController {
     });
 
     const user = {
-      id: users.length + 1,
-      firstName: req.body.firstname,
-      lastName: req.body.lastname,
+      first_name: req.body.firstname,
+      last_name: req.body.lastname,
       email: req.body.email,
-      password: hash,
-      is_admin: false
+      password: hash
     };
 
     // Create account if no errors
-    users.push(user);
+    pool.query(
+      'INSERT INTO users (first_name, last_name, password, email) VALUES ($1, $2, $3, $4);',
+      [user.first_name, user.last_name, user.password, user.email]
+    );
+
     const token = auth.createToken(user);
     return res.status(201).json({
       status: 'success',
