@@ -1,26 +1,26 @@
-const createUsers = `
+export const createUsers = `
 CREATE TABLE IF NOT EXISTS users (
-    user_id UUID PRIMARY KEY NOT NULL,
+    user_id UUID PRIMARY KEY NOT NULL UNIQUE,
     first_name VARCHAR (40) NOT NULL,
     last_name VARCHAR (40) NOT NULL,
     email VARCHAR (40) NOT NULL UNIQUE,
-    password VARCHAR (255) CHECK (password >= 8 && password <= 30),
-    is_admin BOOLEAN DEFAULT false
+    password VARCHAR (255) NOT NULL,
+    is_admin BOOLEAN NOT NULL
 )`;
 
-const createBuses = `
+export const createBuses = `
 CREATE TABLE IF NOT EXISTS buses (
     bus_id UUID PRIMARY KEY NOT NULL,
     number_plate VARCHAR (20) NOT NULL,
     manufacturer VARCHAR (30) NOT NULL,
     model VARCHAR (30) NOT NULL,
-    year INTEGER NOT NULL CHECK (year > 3 && year < 5),
+    year INTEGER NOT NULL,
     capacity INTEGER NOT NULL
 )`;
 
-const createTrips = `
+export const createTrips = `
 CREATE TABLE IF NOT EXISTS trips (
-    trip_id UUID PRIMARY KEY NOT NULL,
+    trip_id UUID PRIMARY KEY NOT NULL UNIQUE,
     bus_id UUID REFERENCES buses(bus_id) NOT NULL,
     origin VARCHAR (30) NOT NULL,
     destination VARCHAR (30) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS trips (
     status VARCHAR (10) DEFAULT 'active'
 )`;
 
-const createBookings = `
+export const createBookings = `
 CREATE TABLE IF NOT EXISTS bookings (
     booking_id UUID NOT NULL,
     user_id UUID REFERENCES users(user_id),
@@ -42,6 +42,3 @@ CREATE TABLE IF NOT EXISTS bookings (
     email VARCHAR (40) REFERENCES users(email),
     CONSTRAINT new_booking_id PRIMARY KEY(trip_id, user_id)
 )`;
-
-const createdQuery = `${createUsers}${createBuses}${createTrips}${createBookings}`;
-export default createdQuery;

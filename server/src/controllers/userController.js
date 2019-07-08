@@ -1,18 +1,19 @@
 import bcrypt from 'bcrypt';
+import uuid from 'uuid/v4';
 import auth from '../helpers/auth';
-import pool from '../database/config/dbPooler';
+import pool from '../database/usersDB';
 
 const salt = bcrypt.genSaltSync(10);
 
 class userController {
   static createUser(req, res) {
-    const existingUser = pool.query('SELECT * FROM users WHERE email=$1;', [
+    const existingUser = pool.query('SELECT * FROM users WHERE email = $1;', [
       req.body.email
     ]);
     if (existingUser.rowCount) {
       res.status(409).send({
         status: 'error',
-        error: 'email already exist'
+        error: 'Email already exist'
       });
     }
 
@@ -24,26 +25,46 @@ class userController {
     });
 
     const user = {
+      user_id: uuid(),
       first_name: req.body.firstname,
       last_name: req.body.lastname,
       email: req.body.email,
-      password: hash
+      password: hash,
+      is_admin: false
     };
 
     // Create account if no errors
-    pool.query(
-      'INSERT INTO users (first_name, last_name, password, email) VALUES ($1, $2, $3, $4);',
-      [user.first_name, user.last_name, user.password, user.email]
-    );
+    const query = {
+      text:
+        'INSERT INTO users (user_id, first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+      values: [
+        user.user_id,
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.password,
+        user.is_admin
+      ]
+    };
 
     const token = auth.createToken(user);
-    return res.status(201).json({
-      status: 'success',
-      data: {
-        user_id: user.id,
-        is_admin: user.is_admin,
-        token
+
+    pool.query(query, (error, data) => {
+      console.log('data', data);
+      if (data) {
+        return res.status(201).send({
+          status: 'success',
+          data: {
+            user_id: data.rows[0].user_id,
+            is_admin: data.rows[0].is_admin,
+            token
+          }
+        });
       }
+      return res.status(400).send({
+        status: 'error',
+        error
+      });
     });
   }
 

@@ -1,5 +1,5 @@
 // import auth from '../helpers/auth';
-import trips from '../database/trips';
+// import trips from '../database/trips';
 
 class tripController {
   static async createTrip(req, res) {

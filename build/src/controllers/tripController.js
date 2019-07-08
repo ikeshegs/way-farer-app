@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _trips = _interopRequireDefault(require("../database/trips"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -19,6 +15,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+// import auth from '../helpers/auth';
+// import trips from '../database/trips';
 var tripController =
 /*#__PURE__*/
 function () {
@@ -49,16 +47,14 @@ function () {
 
                 _context.prev = 4;
                 trip = {
-                  tripId: _trips["default"].length + 1,
+                  tripId: trips.length + 1,
                   busId: busId,
                   origin: origin,
                   destination: destination,
                   tripDate: createdOn,
                   fare: fare
                 };
-
-                _trips["default"].push(trip);
-
+                trips.push(trip);
                 return _context.abrupt("return", res.status(201).send({
                   status: 'success',
                   data: {
@@ -118,7 +114,7 @@ function () {
                   break;
                 }
 
-                filterTrips = _trips["default"].filter(function (trip) {
+                filterTrips = trips.filter(function (trip) {
                   return trip;
                 });
                 return _context2.abrupt("return", res.status(200).send({

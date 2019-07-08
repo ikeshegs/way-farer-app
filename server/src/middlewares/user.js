@@ -1,5 +1,3 @@
-import users from '../database/users';
-
 class userValidator {
   static signupValidator(req, res, next) {
     let { email, firstname, lastname, password } = req.body;
@@ -21,13 +19,6 @@ class userValidator {
       return res.status(400).send({
         status: 'error',
         error: 'Email cannot include space.'
-      });
-    }
-    const foundEmail = users.find(user => user.email === email);
-    if (foundEmail) {
-      return res.status(409).send({
-        status: 'error',
-        error: 'Email already exists!'
       });
     }
 
