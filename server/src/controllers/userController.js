@@ -7,7 +7,7 @@ const salt = bcrypt.genSaltSync(10);
 
 class userController {
   static createUser(req, res) {
-    const existingUser = pool.query('SELECT * FROM users WHERE email = $1;', [
+    /* const existingUser = pool.query('SELECT * FROM users WHERE email = $1;', [
       req.body.email
     ]);
     if (existingUser.rowCount) {
@@ -15,7 +15,7 @@ class userController {
         status: 'error',
         error: 'Email already exist'
       });
-    }
+    } */
 
     const hash = bcrypt.hashSync(req.body.password, salt, (err, result) => {
       if (err) {
@@ -50,7 +50,13 @@ class userController {
     const token = auth.createToken(user);
 
     pool.query(query, (error, data) => {
-      console.log('data', data);
+      if (error.routine === '_bt_check_unique') {
+        res.status(409).send({
+          status: 'error',
+          error: 'Email already exist'
+        });
+      }
+
       if (data) {
         return res.status(201).send({
           status: 'success',
@@ -61,10 +67,6 @@ class userController {
           }
         });
       }
-      return res.status(400).send({
-        status: 'error',
-        error
-      });
     });
   }
 

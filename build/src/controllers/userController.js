@@ -33,15 +33,15 @@ function () {
   _createClass(userController, null, [{
     key: "createUser",
     value: function createUser(req, res) {
-      var existingUser = _usersDB["default"].query('SELECT * FROM users WHERE email = $1;', [req.body.email]);
-
+      /* const existingUser = pool.query('SELECT * FROM users WHERE email = $1;', [
+        req.body.email
+      ]);
       if (existingUser.rowCount) {
         res.status(409).send({
           status: 'error',
           error: 'Email already exist'
         });
-      }
-
+      } */
       var hash = _bcrypt["default"].hashSync(req.body.password, salt, function (err, result) {
         if (err) {
           return err;
@@ -67,7 +67,12 @@ function () {
       var token = _auth["default"].createToken(user);
 
       _usersDB["default"].query(query, function (error, data) {
-        console.log('data', data);
+        if (error.routine === '_bt_check_unique') {
+          res.status(409).send({
+            status: 'error',
+            error: 'Email already exist'
+          });
+        }
 
         if (data) {
           return res.status(201).send({
@@ -79,11 +84,6 @@ function () {
             }
           });
         }
-
-        return res.status(400).send({
-          status: 'error',
-          error: error
-        });
       });
     }
   }, {
