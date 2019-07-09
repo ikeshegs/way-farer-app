@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import uuid from 'uuid/v4';
 import auth from '../helpers/auth';
-import pool from '../database/usersDB';
+import pool from '../database/db';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -94,7 +94,7 @@ class userController {
             }
           });
         }
-        return res.status(400).json({
+        return res.status(400).send({
           status: 'error',
           error: 'Invalid Credentials'
         });
@@ -106,10 +106,17 @@ class userController {
     const decodedUser = req.user;
 
     if (decodedUser.is_admin === true) {
-      const filterUser = users.filter(user => user);
-      return res.status(200).send({
-        status: 'success',
-        data: filterUser
+      const query = 'SELECT * FROM users';
+
+      pool.query(query, (error, data) => {
+        console.log('data', data);
+
+        if (data.rows.length !== 0) {
+          return res.status(200).send({
+            status: 'success',
+            data: [data.rows]
+          });
+        }
       });
     }
     return res.status(401).send({

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import userRoute from './routes/userRoute';
 import tripRoute from './routes/tripRoute';
+import busRoute from './routes/busRoute';
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(userRoute);
 app.use(tripRoute);
+app.use(busRoute);
 
 app.get('/', (req, res) => {
   return res.send({
