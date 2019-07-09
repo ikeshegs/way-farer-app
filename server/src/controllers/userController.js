@@ -7,16 +7,6 @@ const salt = bcrypt.genSaltSync(10);
 
 class userController {
   static createUser(req, res) {
-    /* const existingUser = pool.query('SELECT * FROM users WHERE email = $1;', [
-      req.body.email
-    ]);
-    if (existingUser.rowCount) {
-      res.status(409).send({
-        status: 'error',
-        error: 'Email already exist'
-      });
-    } */
-
     const hash = bcrypt.hashSync(req.body.password, salt, (err, result) => {
       if (err) {
         return err;
@@ -73,31 +63,42 @@ class userController {
   static userSignup(req, res) {
     const { email, password } = req.body;
 
-    const foundUser = users.find(user => user.email === email);
+    const query = {
+      text:
+        'SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
+      values: [email]
+    };
 
-    if (!foundUser) {
-      return res.status(400).send({
-        status: 'error',
-        error: 'No user in the database'
-      });
-    }
+    pool.query(query, (error, data) => {
+      if (data.rows.length === 0) {
+        return res.status(400).send({
+          status: 'error',
+          error: 'No user in the database'
+        });
+      }
 
-    const comparePassword = bcrypt.compareSync(password, foundUser.password);
+      if (data) {
+        const comparePassword = bcrypt.compareSync(
+          password,
+          data.rows[0].password
+        );
 
-    if (comparePassword) {
-      const token = auth.createToken(foundUser);
-      return res.status(200).json({
-        status: 'success',
-        data: {
-          user_id: foundUser.id,
-          is_admin: foundUser.is_admin,
-          token
+        if (comparePassword) {
+          const token = auth.createToken(data.rows[0]);
+          return res.status(200).send({
+            status: 'success',
+            data: {
+              user_id: data.rows[0].user_id,
+              is_admin: data.rows[0].is_admin,
+              token
+            }
+          });
         }
-      });
-    }
-    return res.status(400).json({
-      status: 'error',
-      error: 'Authentication Failed'
+        return res.status(400).json({
+          status: 'error',
+          error: 'Invalid Credentials'
+        });
+      }
     });
   }
 

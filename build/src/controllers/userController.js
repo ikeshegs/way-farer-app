@@ -33,15 +33,6 @@ function () {
   _createClass(userController, null, [{
     key: "createUser",
     value: function createUser(req, res) {
-      /* const existingUser = pool.query('SELECT * FROM users WHERE email = $1;', [
-        req.body.email
-      ]);
-      if (existingUser.rowCount) {
-        res.status(409).send({
-          status: 'error',
-          error: 'Email already exist'
-        });
-      } */
       var hash = _bcrypt["default"].hashSync(req.body.password, salt, function (err, result) {
         if (err) {
           return err;
@@ -92,35 +83,40 @@ function () {
       var _req$body = req.body,
           email = _req$body.email,
           password = _req$body.password;
-      var foundUser = users.find(function (user) {
-        return user.email === email;
-      });
+      var query = {
+        text: 'SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
+        values: [email]
+      };
 
-      if (!foundUser) {
-        return res.status(400).send({
-          status: 'error',
-          error: 'No user in the database'
-        });
-      }
+      _usersDB["default"].query(query, function (error, data) {
+        if (data.rows.length === 0) {
+          return res.status(400).send({
+            status: 'error',
+            error: 'No user in the database'
+          });
+        }
 
-      var comparePassword = _bcrypt["default"].compareSync(password, foundUser.password);
+        if (data) {
+          var comparePassword = _bcrypt["default"].compareSync(password, data.rows[0].password);
 
-      if (comparePassword) {
-        var token = _auth["default"].createToken(foundUser);
+          if (comparePassword) {
+            var token = _auth["default"].createToken(data.rows[0]);
 
-        return res.status(200).json({
-          status: 'success',
-          data: {
-            user_id: foundUser.id,
-            is_admin: foundUser.is_admin,
-            token: token
+            return res.status(200).send({
+              status: 'success',
+              data: {
+                user_id: data.rows[0].user_id,
+                is_admin: data.rows[0].is_admin,
+                token: token
+              }
+            });
           }
-        });
-      }
 
-      return res.status(400).json({
-        status: 'error',
-        error: 'Authentication Failed'
+          return res.status(400).json({
+            status: 'error',
+            error: 'Invalid Credentials'
+          });
+        }
       });
     }
   }, {
