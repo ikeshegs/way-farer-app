@@ -23,7 +23,6 @@ const verifyToken = (req, res, next) => {
         error: 'Forbidden'
       });
     }
-
     next();
   } else {
     // If header is undefined

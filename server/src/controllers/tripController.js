@@ -1,64 +1,76 @@
-// import auth from '../helpers/auth';
+import uuid from 'uuid/v4';
 import pool from '../database/db';
 
 class tripController {
-  static async createTrip(req, res) {
-    const { busId, origin, destination, fare } = req.body;
-
-    const createdOn = new Date();
+  static createTrip(req, res) {
     const decodedUser = req.user;
 
     if (decodedUser.is_admin === true) {
-      try {
-        const trip = {
-          tripId: trips.length + 1,
-          busId,
-          origin,
-          destination,
-          tripDate: createdOn,
-          fare
-        };
+      const { busId, origin, destination, tripDate, fare } = req.body;
+      const trip = {
+        trip_id: uuid(),
+        bus_id: busId,
+        origin,
+        destination,
+        trip_date: tripDate,
+        fare
+      };
 
-        trips.push(trip);
-        return res.status(201).send({
-          status: 'success',
-          data: {
-            trip_id: trip.tripId,
-            bus_id: trip.busId,
-            origin: trip.origin,
-            destination: trip.destination,
-            trip_date: trip.tripDate,
-            fare: trip.fare
-          }
-        });
-      } catch {
-        return res.status(401).send({
+      const query = {
+        text:
+          'INSERT INTO trips (trip_id, bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+        values: [
+          trip.trip_id,
+          trip.bus_id,
+          trip.origin,
+          trip.destination,
+          trip.trip_date,
+          trip.fare
+        ]
+      };
+
+      pool.query(query, (error, data) => {
+        if (error) {
+          return res.status(400).send({
+            status: 'error',
+            error
+          });
+        }
+
+        if (data) {
+          return res.status(201).send({
+            status: 'success',
+            data: {
+              trip_id: data.rows[0].trip_id,
+              bus_id: data.rows[0].bus_id,
+              origin: data.rows[0].origin,
+              destination: data.rows[0].destination,
+              trip_date: data.rows[0].trip_date,
+              fare: data.rows[0].fare
+            }
+          });
+        }
+        return res.status(400).send({
           status: 'error',
-          error: 'Unauthorized'
+          error: 'Unsuccessful'
         });
-      }
+      });
     }
-    return res.status(403).send({
-      status: 'error',
-      error: 'Forbidden'
-    });
   }
 
-  static async getTrips(req, res) {
+  static getTrips(req, res) {
     const decodedUser = req.user;
 
-    try {
-      if (decodedUser) {
-        const filterTrips = trips.filter(trip => trip);
-        return res.status(200).send({
-          status: 'success',
-          data: filterTrips
-        });
-      }
-    } catch {
-      return res.status(401).send({
-        status: 'error',
-        error: 'Unauthorized'
+    if (decodedUser) {
+      const query = 'SELECT * FROM trips';
+
+      pool.query(query, (error, data) => {
+        if (data.rows.length !== 0) {
+          return res.status(200).send({
+            status: 'success',
+            data: data.rows
+          });
+        }
       });
     }
   }

@@ -11,7 +11,7 @@ var _v = _interopRequireDefault(require("uuid/v4"));
 
 var _auth = _interopRequireDefault(require("../helpers/auth"));
 
-var _usersDB = _interopRequireDefault(require("../database/usersDB"));
+var _db = _interopRequireDefault(require("../database/db"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -57,7 +57,7 @@ function () {
 
       var token = _auth["default"].createToken(user);
 
-      _usersDB["default"].query(query, function (error, data) {
+      _db["default"].query(query, function (error, data) {
         if (error.routine === '_bt_check_unique') {
           res.status(409).send({
             status: 'error',
@@ -88,7 +88,7 @@ function () {
         values: [email]
       };
 
-      _usersDB["default"].query(query, function (error, data) {
+      _db["default"].query(query, function (error, data) {
         if (data.rows.length === 0) {
           return res.status(400).send({
             status: 'error',
@@ -112,7 +112,7 @@ function () {
             });
           }
 
-          return res.status(400).json({
+          return res.status(400).send({
             status: 'error',
             error: 'Invalid Credentials'
           });
@@ -125,19 +125,17 @@ function () {
       var decodedUser = req.user;
 
       if (decodedUser.is_admin === true) {
-        var filterUser = users.filter(function (user) {
-          return user;
-        });
-        return res.status(200).send({
-          status: 'success',
-          data: filterUser
+        var query = 'SELECT * FROM users';
+
+        _db["default"].query(query, function (error, data) {
+          if (data.rows.length !== 0) {
+            return res.status(200).send({
+              status: 'success',
+              data: data.rows
+            });
+          }
         });
       }
-
-      return res.status(401).send({
-        status: 'error',
-        error: 'Unauthorized'
-      });
     }
   }]);
 

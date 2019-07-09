@@ -8,10 +8,10 @@ class tripValidator {
         error: 'Bus ID is required'
       });
     }
-    if (typeof busId !== 'number') {
+    if (busId === '') {
       return res.status(400).send({
         status: 'error',
-        error: 'Bus ID must be a Number'
+        error: 'Bus ID cannot be empty'
       });
     }
 

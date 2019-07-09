@@ -109,20 +109,14 @@ class userController {
       const query = 'SELECT * FROM users';
 
       pool.query(query, (error, data) => {
-        console.log('data', data);
-
         if (data.rows.length !== 0) {
           return res.status(200).send({
             status: 'success',
-            data: [data.rows]
+            data: data.rows
           });
         }
       });
     }
-    return res.status(401).send({
-      status: 'error',
-      error: 'Unauthorized'
-    });
   }
 }
 

@@ -17,76 +17,73 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var tripController =
+var userController =
 /*#__PURE__*/
 function () {
-  function tripController() {
-    _classCallCheck(this, tripController);
+  function userController() {
+    _classCallCheck(this, userController);
   }
 
-  _createClass(tripController, null, [{
-    key: "createTrip",
-    value: function createTrip(req, res) {
+  _createClass(userController, null, [{
+    key: "createBus",
+    value: function createBus(req, res) {
       var decodedUser = req.user;
 
       if (decodedUser.is_admin === true) {
         var _req$body = req.body,
-            busId = _req$body.busId,
-            origin = _req$body.origin,
-            destination = _req$body.destination,
-            tripDate = _req$body.tripDate,
-            fare = _req$body.fare;
-        var trip = {
-          trip_id: (0, _v["default"])(),
-          bus_id: busId,
-          origin: origin,
-          destination: destination,
-          trip_date: tripDate,
-          fare: fare
-        };
+            numberPlate = _req$body.numberPlate,
+            manufacturer = _req$body.manufacturer,
+            model = _req$body.model,
+            year = _req$body.year,
+            capacity = _req$body.capacity;
+        var bus = {
+          bus_id: (0, _v["default"])(),
+          number_plate: numberPlate,
+          manufacturer: manufacturer,
+          model: model,
+          year: year,
+          capacity: capacity
+        }; // Create account if no errors
+
         var query = {
-          text: 'INSERT INTO trips (trip_id, bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5, $6) returning *',
-          values: [trip.trip_id, trip.bus_id, trip.origin, trip.destination, trip.trip_date, trip.fare]
+          text: 'INSERT INTO buses (bus_id, number_plate, manufacturer, model, year, capacity) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+          values: [bus.bus_id, bus.number_plate, bus.manufacturer, bus.model, bus.year, bus.capacity]
         };
 
         _db["default"].query(query, function (error, data) {
-          if (error) {
-            return res.status(400).send({
-              status: 'error',
-              error: error
-            });
-          }
-
           if (data) {
             return res.status(201).send({
               status: 'success',
               data: {
-                trip_id: data.rows[0].trip_id,
                 bus_id: data.rows[0].bus_id,
-                origin: data.rows[0].origin,
-                destination: data.rows[0].destination,
-                trip_date: data.rows[0].trip_date,
-                fare: data.rows[0].fare
+                message: "".concat(data.rows[0].manufacturer, " ").concat(data.rows[0].model, " created successfully")
               }
             });
           }
 
           return res.status(400).send({
             status: 'error',
-            error: 'Unsuccessful'
+            error: 'Error creating bus'
           });
         });
       }
     }
   }, {
-    key: "getTrips",
-    value: function getTrips(req, res) {
+    key: "getBuses",
+    value: function getBuses(req, res) {
       var decodedUser = req.user;
 
-      if (decodedUser) {
-        var query = 'SELECT * FROM trips';
+      if (decodedUser.is_admin === true) {
+        var query = 'SELECT * FROM buses';
 
         _db["default"].query(query, function (error, data) {
+          if (error) {
+            return res.status.send({
+              status: 'error',
+              error: error
+            });
+          }
+
           if (data.rows.length !== 0) {
             return res.status(200).send({
               status: 'success',
@@ -98,8 +95,8 @@ function () {
     }
   }]);
 
-  return tripController;
+  return userController;
 }();
 
-var _default = tripController;
+var _default = userController;
 exports["default"] = _default;

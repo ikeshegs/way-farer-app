@@ -1,6 +1,5 @@
 import uuid from 'uuid/v4';
 import pool from '../database/db';
-// import auth from '../helpers/auth';
 
 class userController {
   static createBus(req, res) {
@@ -57,20 +56,21 @@ class userController {
       const query = 'SELECT * FROM buses';
 
       pool.query(query, (error, data) => {
-        console.log('data', data);
+        if (error) {
+          return res.status.send({
+            status: 'error',
+            error
+          });
+        }
 
         if (data.rows.length !== 0) {
           return res.status(200).send({
             status: 'success',
-            data: [data.rows]
+            data: data.rows
           });
         }
       });
     }
-    return res.status(401).send({
-      status: 'error',
-      error: 'Unauthorized'
-    });
   }
 }
 
