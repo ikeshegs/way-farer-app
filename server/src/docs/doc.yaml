@@ -1,0 +1,304 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Way Farer App
+  description: This is a documentation for Way Farer App
+  contact: {}
+host: https://my-way-farer-app.herokuapp.com
+basePath: /api/v1
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /auth/signup:
+    post:
+      description: This endpoint authenticates a user, when they create an account and returns a JWT Token
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/auth/signup
+      tags:
+      - Users
+      operationId: AuthSignupPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: firstname
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: lastname
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: password
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        201:
+          description: ''
+          headers: {}
+  /auth/signin:
+    post:
+      description: This endpoint authenticates the user on login and returns a JWT Token
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/auth/signin
+      tags:
+      - Users
+      operationId: AuthSigninPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: password
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /users:
+    get:
+      description: This endpoint displays the list of all users
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/users
+      tags:
+      - Users
+      operationId: UsersGet
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /bus:
+    post:
+      description: This endpoint creates a new bus, and returns an object in an array
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/bus
+      tags:
+      - Buses
+      operationId: MessagesPost
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: numberPlate
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: manufacturer
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: model
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: year
+        in: formData
+        required: true
+        type: number
+        description: ''
+      - name: capacity
+        in: formData
+        required: true
+        type: number
+        description: ''
+      responses:
+        201:
+          description: ''
+          headers: {}
+    get:
+      description: This endpoint gets all buses and returns an object in an array
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/bus
+      tags:
+      - Buses
+      operationId: BusesGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /trips:
+    post:
+      description: This endpoint creates a trip, and returns an object in an array
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/trips
+      tags:
+      - Trips
+      operationId: TripPost
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: busId
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: origin
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: destination
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: tripDate
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: fare
+        in: formData
+        required: true
+        type: number
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+    get:
+      description: This endpoint gets all trips, and returns an object in an array
+      summary: my-way-farer-app.herokuapp.com/api/v1/trips
+      tags:
+      - Trips
+      operationId: MessagesSentGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+definitions:
+  https://my-way-farer-app.herokuapp.com/api/v1/auth/signup:
+    title: signUp
+    example:
+      firstname: Chika
+      lastname: Biodun
+      email: chikab@test.com
+      password: biodunchi
+    type: object
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - firstname
+    - lastname
+    - email
+    - password
+  https://my-way-farer-app.herokuapp.com/api/v1/auth/signin:
+    title: signIn
+    example:
+      email: chikab@test.com
+      password: biodunchi
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+  https://my-way-farer-app.herokuapp.com/api/v1/bus:
+    title: createBus
+    example:
+      numberPlate: gh57bn
+      manufacturer: Toyota
+      model: Hiace
+      year: 2014
+      capacity: 50
+    type: object
+    properties:
+      numberPlate:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      year:
+        type: integer
+        format: int32
+      capacity:
+        type: integer
+        format: int32
+    required:
+    - numberPlate
+    - manufacturer
+    - model
+    - fare
+    - capacity
+  https://my-way-farer-app.herokuapp.com/api/v1/trips:
+    title: createTrip
+    example:
+      busId: bf503a19-aefd-4697-bf2a-8119328f7ca6
+      origin: Owerri
+      destination: Lagos
+      tripDate: 20-08-2019
+      fare: 5000
+    type: object
+    properties:
+      numberPlate:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      tripDate:
+        type: date
+      fare`:
+        type: integer
+        format: int32
+    required:
+    - busId
+    - origin
+    - destination
+    - tripDate
+    - fare
+tags:
+- name: Buses
+  description: All buses routes are authenticated using JSONWebToken
+- name: Users
+  description: All users routes are authenticated using JSONWebToken
+- name: Trips
+  description: All trips routes are authenticated using JSONWebToken

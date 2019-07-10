@@ -3,6 +3,8 @@ import 'regenerator-runtime/runtime';
 import 'core-js';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+
+// Routes
 import swaggerRoute from './routes/swaggerRoute';
 import userRoute from './routes/userRoute';
 import tripRoute from './routes/tripRoute';
@@ -22,7 +24,7 @@ app.use(busRoute);
 app.get('/', (req, res) => {
   return res
     .status(200)
-    .send('Welcome to WayFarer app. A public bus transport booking app. 😀');
+    .send('Welcome to WayFarer App. A public bus transport booking app. 😀');
 });
 
 const PORT = process.env.PORT || 3000;
