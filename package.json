@@ -64,6 +64,9 @@
     "nyc": "^14.1.1",
     "pg": "^7.11.0",
     "regenerator-runtime": "^0.13.2",
-    "uuid": "^3.3.2"
+    "swagger-jsdoc": "^3.3.0",
+    "swagger-ui-express": "^4.0.7",
+    "uuid": "^3.3.2",
+    "yamljs": "^0.3.0"
   }
 }

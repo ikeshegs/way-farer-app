@@ -15,6 +15,8 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 
 var _bodyParser = _interopRequireDefault(require("body-parser"));
 
+var _swaggerRoute = _interopRequireDefault(require("./routes/swaggerRoute"));
+
 var _userRoute = _interopRequireDefault(require("./routes/userRoute"));
 
 var _tripRoute = _interopRequireDefault(require("./routes/tripRoute"));
@@ -23,6 +25,7 @@ var _busRoute = _interopRequireDefault(require("./routes/busRoute"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+// Routes
 _dotenv["default"].config();
 
 var app = (0, _express["default"])();
@@ -30,14 +33,12 @@ app.use(_bodyParser["default"].json());
 app.use(_bodyParser["default"].urlencoded({
   extended: true
 }));
+app.use(_swaggerRoute["default"]);
 app.use(_userRoute["default"]);
 app.use(_tripRoute["default"]);
 app.use(_busRoute["default"]);
 app.get('/', function (req, res) {
-  return res.send({
-    status: 200,
-    message: 'Welcome to WayFarer app. A public bus transport booking app.'
-  });
+  return res.status(200).send('Welcome to WayFarer App. A public bus transport booking app. 😀');
 });
 var PORT = process.env.PORT || 3000;
 app.listen(PORT);
