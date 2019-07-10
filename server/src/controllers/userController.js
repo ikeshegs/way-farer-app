@@ -40,13 +40,6 @@ class userController {
     const token = auth.createToken(user);
 
     pool.query(query, (error, data) => {
-      if (error.routine === '_bt_check_unique') {
-        res.status(409).send({
-          status: 'error',
-          error: 'Email already exist'
-        });
-      }
-
       if (data) {
         return res.status(201).send({
           status: 'success',
@@ -55,6 +48,13 @@ class userController {
             is_admin: data.rows[0].is_admin,
             token
           }
+        });
+      }
+
+      if (error.routine === '_bt_check_unique') {
+        res.status(409).send({
+          status: 'error',
+          error: 'Email already exist'
         });
       }
     });

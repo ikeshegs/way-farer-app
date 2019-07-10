@@ -58,13 +58,6 @@ function () {
       var token = _auth["default"].createToken(user);
 
       _db["default"].query(query, function (error, data) {
-        if (error.routine === '_bt_check_unique') {
-          res.status(409).send({
-            status: 'error',
-            error: 'Email already exist'
-          });
-        }
-
         if (data) {
           return res.status(201).send({
             status: 'success',
@@ -73,6 +66,13 @@ function () {
               is_admin: data.rows[0].is_admin,
               token: token
             }
+          });
+        }
+
+        if (error.routine === '_bt_check_unique') {
+          res.status(409).send({
+            status: 'error',
+            error: 'Email already exist'
           });
         }
       });
