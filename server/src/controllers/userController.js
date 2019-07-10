@@ -20,7 +20,7 @@ class userController {
       last_name: req.body.lastname,
       email: req.body.email,
       password: hash,
-      is_admin: false
+      is_admin: true
     };
 
     // Create account if no errors
