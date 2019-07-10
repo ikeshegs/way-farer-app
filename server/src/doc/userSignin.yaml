@@ -1,0 +1,29 @@
+paths:
+  /auth/signin/:          
+    post:                 
+      tags:               
+        - User            
+      summary: Login a user
+      produces:
+      - application/json
+      parameters:         
+      - in: body          
+        name: sign in     
+        description: It enables a user to login into his/her account
+        required: false  
+        schema:           
+          $ref: '#/definitions/signIn' 
+      responses:         
+        200:
+          description: An object with user details
+definitions:       
+  signUp:
+    type: object
+    properties:
+      user:
+        type: object
+        properties:
+          email:
+            type: string
+          password:
+            type: string
