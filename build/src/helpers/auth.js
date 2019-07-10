@@ -5,18 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
-
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
-var _jwt_config = _interopRequireDefault(require("../config/jwt_config"));
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+// import JWT_KEY from '../config/jwt_config';
 _dotenv["default"].config();
 
 var createToken = function createToken(payload) {
-  return _jsonwebtoken["default"].sign(payload, _jwt_config["default"], {
+  return _jsonwebtoken["default"].sign(payload, process.env.JWT_KEY, {
     expiresIn: '1h'
   });
 }; // eslint-disable-next-line consistent-return
@@ -31,7 +30,7 @@ var verifyToken = function verifyToken(req, res, next) {
     req.token = token;
 
     try {
-      var result = _jsonwebtoken["default"].verify(token, _jwt_config["default"]);
+      var result = _jsonwebtoken["default"].verify(token, process.env.JWT_KEY);
 
       req.user = result;
     } catch (e) {
