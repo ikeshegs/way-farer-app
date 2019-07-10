@@ -47,7 +47,7 @@ function () {
         last_name: req.body.lastname,
         email: req.body.email,
         password: hash,
-        is_admin: true
+        is_admin: false
       }; // Create account if no errors
 
       var query = {
