@@ -12,6 +12,6 @@ tripRoute.post(
   tripController.createTrip
 );
 
-// tripRoute.get('/api/v1/trips', auth.verifyToken, tripController.getTrips);
+tripRoute.get('/api/v1/trips', auth.verifyToken, tripController.getTrips);
 
 export default tripRoute;
