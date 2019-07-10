@@ -15,7 +15,6 @@ describe("All tests for signup endpoint", function () {
   describe("POST api/v1/auth/signup", function () {
     it('It should return status 201 for a successful signup', function (done) {
       _chai["default"].request(_index["default"]).post('/api/v1/auth/signup').send({
-        id: 10,
         email: 'ikeshjjhegs@gmail.com',
         firstname: 'Ikechukwu',
         lastname: 'Okoro',

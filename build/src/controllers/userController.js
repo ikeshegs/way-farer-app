@@ -7,9 +7,11 @@ exports["default"] = void 0;
 
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 
+var _v = _interopRequireDefault(require("uuid/v4"));
+
 var _auth = _interopRequireDefault(require("../helpers/auth"));
 
-var _users = _interopRequireDefault(require("../database/users"));
+var _db = _interopRequireDefault(require("../database/db"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -40,24 +42,38 @@ function () {
       });
 
       var user = {
-        id: _users["default"].length + 1,
-        firstName: req.body.firstname,
-        lastName: req.body.lastname,
+        user_id: (0, _v["default"])(),
+        first_name: req.body.firstname,
+        last_name: req.body.lastname,
         email: req.body.email,
         password: hash,
         is_admin: false
       }; // Create account if no errors
 
-      _users["default"].push(user);
+      var query = {
+        text: 'INSERT INTO users (user_id, first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+        values: [user.user_id, user.first_name, user.last_name, user.email, user.password, user.is_admin]
+      };
 
       var token = _auth["default"].createToken(user);
 
-      return res.status(201).json({
-        status: 'success',
-        data: {
-          user_id: user.id,
-          is_admin: user.is_admin,
-          token: token
+      _db["default"].query(query, function (error, data) {
+        if (error.routine === '_bt_check_unique') {
+          res.status(409).send({
+            status: 'error',
+            error: 'Email already exist'
+          });
+        }
+
+        if (data) {
+          return res.status(201).send({
+            status: 'success',
+            data: {
+              user_id: data.rows[0].user_id,
+              is_admin: data.rows[0].is_admin,
+              token: token
+            }
+          });
         }
       });
     }
@@ -67,36 +83,40 @@ function () {
       var _req$body = req.body,
           email = _req$body.email,
           password = _req$body.password;
+      var query = {
+        text: 'SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
+        values: [email]
+      };
 
-      var foundUser = _users["default"].find(function (user) {
-        return user.email === email;
-      });
+      _db["default"].query(query, function (error, data) {
+        if (data.rows.length === 0) {
+          return res.status(400).send({
+            status: 'error',
+            error: 'No user in the database'
+          });
+        }
 
-      if (!foundUser) {
-        return res.status(400).send({
-          status: 'error',
-          error: 'No user in the database'
-        });
-      }
+        if (data) {
+          var comparePassword = _bcrypt["default"].compareSync(password, data.rows[0].password);
 
-      var comparePassword = _bcrypt["default"].compareSync(password, foundUser.password);
+          if (comparePassword) {
+            var token = _auth["default"].createToken(data.rows[0]);
 
-      if (comparePassword) {
-        var token = _auth["default"].createToken(foundUser);
-
-        return res.status(200).json({
-          status: 'success',
-          data: {
-            user_id: foundUser.id,
-            is_admin: foundUser.is_admin,
-            token: token
+            return res.status(200).send({
+              status: 'success',
+              data: {
+                user_id: data.rows[0].user_id,
+                is_admin: data.rows[0].is_admin,
+                token: token
+              }
+            });
           }
-        });
-      }
 
-      return res.status(400).json({
-        status: 'error',
-        error: 'Authentication Failed'
+          return res.status(400).send({
+            status: 'error',
+            error: 'Invalid Credentials'
+          });
+        }
       });
     }
   }, {
@@ -105,20 +125,17 @@ function () {
       var decodedUser = req.user;
 
       if (decodedUser.is_admin === true) {
-        var filterUser = _users["default"].filter(function (user) {
-          return user;
-        });
+        var query = 'SELECT * FROM users';
 
-        return res.status(200).send({
-          status: 'success',
-          data: filterUser
+        _db["default"].query(query, function (error, data) {
+          if (data.rows.length !== 0) {
+            return res.status(200).send({
+              status: 'success',
+              data: data.rows
+            });
+          }
         });
       }
-
-      return res.status(401).send({
-        status: 'error',
-        error: 'Unauthorized'
-      });
     }
   }]);
 

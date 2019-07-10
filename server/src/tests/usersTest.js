@@ -13,7 +13,6 @@ describe(`All tests for signup endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          id: 10,
           email: 'ikeshjjhegs@gmail.com',
           firstname: 'Ikechukwu',
           lastname: 'Okoro',

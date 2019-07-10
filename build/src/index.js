@@ -19,6 +19,8 @@ var _userRoute = _interopRequireDefault(require("./routes/userRoute"));
 
 var _tripRoute = _interopRequireDefault(require("./routes/tripRoute"));
 
+var _busRoute = _interopRequireDefault(require("./routes/busRoute"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _dotenv["default"].config();
@@ -30,6 +32,7 @@ app.use(_bodyParser["default"].urlencoded({
 }));
 app.use(_userRoute["default"]);
 app.use(_tripRoute["default"]);
+app.use(_busRoute["default"]);
 app.get('/', function (req, res) {
   return res.send({
     status: 200,

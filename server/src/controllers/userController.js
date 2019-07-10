@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
+import uuid from 'uuid/v4';
 import auth from '../helpers/auth';
-import users from '../database/users';
+import pool from '../database/db';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -14,23 +15,47 @@ class userController {
     });
 
     const user = {
-      id: users.length + 1,
-      firstName: req.body.firstname,
-      lastName: req.body.lastname,
+      user_id: uuid(),
+      first_name: req.body.firstname,
+      last_name: req.body.lastname,
       email: req.body.email,
       password: hash,
       is_admin: false
     };
 
     // Create account if no errors
-    users.push(user);
+    const query = {
+      text:
+        'INSERT INTO users (user_id, first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+      values: [
+        user.user_id,
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.password,
+        user.is_admin
+      ]
+    };
+
     const token = auth.createToken(user);
-    return res.status(201).json({
-      status: 'success',
-      data: {
-        user_id: user.id,
-        is_admin: user.is_admin,
-        token
+
+    pool.query(query, (error, data) => {
+      if (error.routine === '_bt_check_unique') {
+        res.status(409).send({
+          status: 'error',
+          error: 'Email already exist'
+        });
+      }
+
+      if (data) {
+        return res.status(201).send({
+          status: 'success',
+          data: {
+            user_id: data.rows[0].user_id,
+            is_admin: data.rows[0].is_admin,
+            token
+          }
+        });
       }
     });
   }
@@ -38,31 +63,42 @@ class userController {
   static userSignup(req, res) {
     const { email, password } = req.body;
 
-    const foundUser = users.find(user => user.email === email);
+    const query = {
+      text:
+        'SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
+      values: [email]
+    };
 
-    if (!foundUser) {
-      return res.status(400).send({
-        status: 'error',
-        error: 'No user in the database'
-      });
-    }
+    pool.query(query, (error, data) => {
+      if (data.rows.length === 0) {
+        return res.status(400).send({
+          status: 'error',
+          error: 'No user in the database'
+        });
+      }
 
-    const comparePassword = bcrypt.compareSync(password, foundUser.password);
+      if (data) {
+        const comparePassword = bcrypt.compareSync(
+          password,
+          data.rows[0].password
+        );
 
-    if (comparePassword) {
-      const token = auth.createToken(foundUser);
-      return res.status(200).json({
-        status: 'success',
-        data: {
-          user_id: foundUser.id,
-          is_admin: foundUser.is_admin,
-          token
+        if (comparePassword) {
+          const token = auth.createToken(data.rows[0]);
+          return res.status(200).send({
+            status: 'success',
+            data: {
+              user_id: data.rows[0].user_id,
+              is_admin: data.rows[0].is_admin,
+              token
+            }
+          });
         }
-      });
-    }
-    return res.status(400).json({
-      status: 'error',
-      error: 'Authentication Failed'
+        return res.status(400).send({
+          status: 'error',
+          error: 'Invalid Credentials'
+        });
+      }
     });
   }
 
@@ -70,16 +106,17 @@ class userController {
     const decodedUser = req.user;
 
     if (decodedUser.is_admin === true) {
-      const filterUser = users.filter(user => user);
-      return res.status(200).send({
-        status: 'success',
-        data: filterUser
+      const query = 'SELECT * FROM users';
+
+      pool.query(query, (error, data) => {
+        if (data.rows.length !== 0) {
+          return res.status(200).send({
+            status: 'success',
+            data: data.rows
+          });
+        }
       });
     }
-    return res.status(401).send({
-      status: 'error',
-      error: 'Unauthorized'
-    });
   }
 }
 
