@@ -1,7 +1,6 @@
-import uuid from 'uuid/v4';
 import pool from '../database/db';
 
-class userController {
+class busController {
   static createBus(req, res) {
     const decodedUser = req.user;
 
@@ -9,7 +8,6 @@ class userController {
       const { numberPlate, manufacturer, model, year, capacity } = req.body;
 
       const bus = {
-        bus_id: uuid(),
         number_plate: numberPlate,
         manufacturer,
         model,
@@ -20,9 +18,8 @@ class userController {
       // Create account if no errors
       const query = {
         text:
-          'INSERT INTO buses (bus_id, number_plate, manufacturer, model, year, capacity) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+          'INSERT INTO buses (number_plate, manufacturer, model, year, capacity) VALUES ($1, $2, $3, $4, $5) returning *',
         values: [
-          bus.bus_id,
           bus.number_plate,
           bus.manufacturer,
           bus.model,
@@ -74,4 +71,4 @@ class userController {
   }
 }
 
-export default userController;
+export default busController;

@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 
-var _v = _interopRequireDefault(require("uuid/v4"));
-
 var _auth = _interopRequireDefault(require("../helpers/auth"));
 
 var _db = _interopRequireDefault(require("../database/db"));
@@ -42,7 +40,6 @@ function () {
       });
 
       var user = {
-        user_id: (0, _v["default"])(),
         first_name: req.body.firstname,
         last_name: req.body.lastname,
         email: req.body.email,
@@ -51,8 +48,8 @@ function () {
       }; // Create account if no errors
 
       var query = {
-        text: 'INSERT INTO users (user_id, first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5, $6) returning *',
-        values: [user.user_id, user.first_name, user.last_name, user.email, user.password, user.is_admin]
+        text: 'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5) returning *',
+        values: [user.first_name, user.last_name, user.email, user.password, user.is_admin]
       };
 
       var token = _auth["default"].createToken(user);

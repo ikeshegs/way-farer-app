@@ -68,17 +68,15 @@ Test locally by executing "npm test" on your terminal
 I will update soon
 ```
 ### Built with 
-1. HTML
-2. CSS
-3. [NodeJS](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine
-4. [Express](https://expressjs.com/) - Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
-5. [ES6](http://es6-features.org/) - ECMA Script programming language
-6. [Code Climate](https://codeclimate.com/) - Used to test code maintainability
-7. [Coveralls](https://coveralls.io/) - Used to coverage history and statistics
-8. [Travis CI](https://travis-ci.org/) - Used for Continuous Integration
-9. [Mocha](https://mochajs.org/) - Used for code testing
-10. [Chai](https://www.chaijs.com/) - Is an assertion library used for testing in any JavaScript testing framework
-11. [Heroku](https://www.heroku.com/) - A cloud application platform used for app deployment
+1. [NodeJS](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine
+2. [Express](https://expressjs.com/) - Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+3. [ES6](http://es6-features.org/) - ECMA Script programming language
+4. [Code Climate](https://codeclimate.com/) - Used to test code maintainability
+5. [Coveralls](https://coveralls.io/) - Used to coverage history and statistics
+6. [Travis CI](https://travis-ci.org/) - Used for Continuous Integration
+7. [Mocha](https://mochajs.org/) - Used for code testing
+8.  [Chai](https://www.chaijs.com/) - Is an assertion library used for testing in any JavaScript testing framework
+9.  [Heroku](https://www.heroku.com/) - A cloud application platform used for app deployment
 
 ### Author 
 * Ikechukwu Okoro

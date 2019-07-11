@@ -9,6 +9,7 @@ import swaggerRoute from './routes/swaggerRoute';
 import userRoute from './routes/userRoute';
 import tripRoute from './routes/tripRoute';
 import busRoute from './routes/busRoute';
+import bookRoute from './routes/bookRoute';
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ app.use(swaggerRoute);
 app.use(userRoute);
 app.use(tripRoute);
 app.use(busRoute);
+app.use(bookRoute);
 
 app.get('/', (req, res) => {
   return res

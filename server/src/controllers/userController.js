@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import uuid from 'uuid/v4';
 import auth from '../helpers/auth';
 import pool from '../database/db';
 
@@ -15,7 +14,6 @@ class userController {
     });
 
     const user = {
-      user_id: uuid(),
       first_name: req.body.firstname,
       last_name: req.body.lastname,
       email: req.body.email,
@@ -26,9 +24,8 @@ class userController {
     // Create account if no errors
     const query = {
       text:
-        'INSERT INTO users (user_id, first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+        'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5) returning *',
       values: [
-        user.user_id,
         user.first_name,
         user.last_name,
         user.email,

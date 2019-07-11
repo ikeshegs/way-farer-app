@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _v = _interopRequireDefault(require("uuid/v4"));
-
 var _db = _interopRequireDefault(require("../database/db"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -37,7 +35,6 @@ function () {
             tripDate = _req$body.tripDate,
             fare = _req$body.fare;
         var trip = {
-          trip_id: (0, _v["default"])(),
           bus_id: busId,
           origin: origin,
           destination: destination,
@@ -45,8 +42,8 @@ function () {
           fare: fare
         };
         var query = {
-          text: 'INSERT INTO trips (trip_id, bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5, $6) returning *',
-          values: [trip.trip_id, trip.bus_id, trip.origin, trip.destination, trip.trip_date, trip.fare]
+          text: 'INSERT INTO trips (bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5) returning *',
+          values: [trip.bus_id, trip.origin, trip.destination, trip.trip_date, trip.fare]
         };
 
         _db["default"].query(query, function (error, data) {
