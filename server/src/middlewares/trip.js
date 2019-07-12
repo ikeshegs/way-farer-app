@@ -1,17 +1,24 @@
+/* eslint-disable camelcase */
 class tripValidator {
   static createTripValidator(req, res, next) {
-    const { busId, origin, destination, fare } = req.body;
+    const { bus_id, origin, destination, trip_date, fare } = req.body;
 
-    if (busId === undefined) {
+    if (bus_id === undefined) {
       return res.status(400).send({
         status: 'error',
         error: 'Bus ID is required'
       });
     }
-    if (busId === '') {
+    if (bus_id === '') {
       return res.status(400).send({
         status: 'error',
         error: 'Bus ID cannot be empty'
+      });
+    }
+    if (typeof bus_id !== 'number') {
+      return res.status(400).send({
+        status: 'error',
+        error: 'Bus ID must be a Number'
       });
     }
 
@@ -50,6 +57,20 @@ class tripValidator {
       return res.status(400).send({
         status: 'error',
         error: 'Bus destination cannot be a space'
+      });
+    }
+
+    // TRIP DATE CHECK
+    if (typeof trip_date !== 'string') {
+      return res.status(400).send({
+        status: 'error',
+        error: 'Trip Date must be a number.'
+      });
+    }
+    if (typeof trip_date === 'undefined') {
+      return res.status(400).send({
+        status: 'error',
+        error: 'Trip Date field is required.'
       });
     }
 

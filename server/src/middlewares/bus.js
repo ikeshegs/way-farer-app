@@ -1,27 +1,21 @@
+/* eslint-disable camelcase */
 class busValidator {
   static createBusValidator(req, res, next) {
-    const { numberPlate, manufacturer, model, year, capacity } = req.body;
+    const { number_plate, manufacturer, model, year, capacity } = req.body;
 
     // Email Validation
-    if (numberPlate === undefined) {
+    if (number_plate === undefined) {
       return res.status(400).send({
         status: 'error',
         error: 'Number Plate field is required'
       });
     }
-    if (numberPlate === '') {
+    if (number_plate === '') {
       return res.status(400).send({
         status: 'error',
         error: 'Number Plate cannot be empty.'
       });
     }
-    //   email = email.toLowerCase().trim();
-    //   if (email.length < 5 || email.length > 30) {
-    //     return res.status(400).send({
-    //       status: 'error',
-    //       error: 'Email should be 5 to 30 characters long'
-    //     });
-    //   }
 
     if (manufacturer === undefined) {
       return res.status(400).send({
@@ -41,13 +35,13 @@ class busValidator {
         error: 'Manufacturer must be an alphabet'
       });
     }
-    /* const validManufacturersCharacters = /^[a-zA-Z]+$/;
+    const validManufacturersCharacters = /^[a-zA-Z]+$/;
     if (!validManufacturersCharacters.test(manufacturer)) {
       return res.status(400).send({
         status: 'error',
-        error: 'Manufacturer accepts only alphabets'
+        error: 'Manufacturer accepts only alphabetical characters'
       });
-    } */
+    }
 
     if (model === undefined) {
       return res.status(400).send({

@@ -13,11 +13,10 @@ describe(`All tests for signup endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'ikeshjjhegs@gmail.com',
-          firstname: 'Ikechukwu',
-          lastname: 'Okoro',
-          password: 'shegsjhbejk',
-          is_admin: false
+          email: 'zzzzzzz@gmail.com',
+          first_name: 'Ikechukwu',
+          last_name: 'Okoro',
+          password: 'shegsjhbejk'
         })
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -32,8 +31,8 @@ describe(`All tests for signup endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'shegshjjh@gmail.com',
-          lastname: 'Okoro',
+          email: 'shegshjjh@ghjs.com',
+          last_name: 'Okoro',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -48,8 +47,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikesheg@gmail.com',
-          firstname: ['Ikechukwu'],
-          lastname: 'Okoro',
+          first_name: ['Ikechukwu'],
+          last_name: 'Okoro',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -64,8 +63,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikesheglkjhgs@gmail.com',
-          firstname: '',
-          lastname: 'Okoro',
+          first_name: '',
+          last_name: 'Okoro',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -80,8 +79,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikelggjkhhjshegs@gmail.com',
-          firstname: 'Ikec#ukwu',
-          lastname: 'Okoro',
+          first_name: 'Ikec#ukwu',
+          last_name: 'Okoro',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -98,7 +97,7 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikeshkhjhegs@gmail.com',
-          firstname: 'Ikechukwu',
+          first_name: 'Ikechukwu',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -113,8 +112,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikeghjkjbjkshegs@gmail.com',
-          firstname: 'Ikechukwu',
-          lastname: ['Okoro'],
+          first_name: 'Ikechukwu',
+          last_name: ['Okoro'],
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -129,8 +128,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikeskvjhjhegs@gmail.com',
-          firstname: 'Ikechukwu',
-          lastname: '',
+          first_name: 'Ikechukwu',
+          last_name: '',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -145,8 +144,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikekvhvhjshegs@gmail.com',
-          firstname: 'Ikechukwu',
-          lastname: 'Oko00ro',
+          first_name: 'Ikechukwu',
+          last_name: 'Oko00ro',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -162,8 +161,8 @@ describe(`All tests for signup endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstname: 'Ikechukwu',
-          lastname: 'Okoro',
+          first_name: 'Ikechukwu',
+          last_name: 'Okoro',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -178,8 +177,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: '',
-          firstname: 'Ikechukwu',
-          lastname: 'Okoro',
+          first_name: 'Ikechukwu',
+          last_name: 'Okoro',
           password: 'shegsjhbejk'
         })
         .end((err, res) => {
@@ -196,8 +195,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'ikesjhjhskjdgghegs@gmail.com',
-          firstname: 'Ikechukwu',
-          lastname: 'Okoro'
+          first_name: 'Ikechukwu',
+          last_name: 'Okoro'
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -211,8 +210,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'fgsdfikeshegs@gmail.com',
-          firstname: 'Ikechukwu',
-          lastname: 'Okoro',
+          first_name: 'Ikechukwu',
+          last_name: 'Okoro',
           password: ''
         })
         .end((err, res) => {
@@ -227,8 +226,8 @@ describe(`All tests for signup endpoint`, () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'fgsfgsdfgikeshegs@gmail.com',
-          firstname: 'Ikechukwu',
-          lastname: 'Okoro',
+          first_name: 'Ikechukwu',
+          last_name: 'Okoro',
           password: ' '
         })
         .end((err, res) => {
@@ -324,7 +323,7 @@ describe(`All tests for signin endpoint`, () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.error).to.equal('Authentication Failed');
+          expect(res.body.error).to.equal('Invalid Credentials');
           done();
         });
     });
@@ -396,8 +395,8 @@ describe(`All tests for get users endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signin')
         .send({
-          email: 'kindness@gmail.com',
-          password: 'ansemiosaro'
+          email: 'ikeshegs@test.com',
+          password: 'C00ljoe.'
         })
         .end((err, res) => {
           const { token } = res.body.data;
@@ -412,10 +411,10 @@ describe(`All tests for get users endpoint`, () => {
         .set('Authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.data[0]).to.have.property('id');
+          expect(res.body.data[0]).to.have.property('user_id');
           expect(res.body.data[0]).to.have.property('email');
-          expect(res.body.data[0]).to.have.property('firstname');
-          expect(res.body.data[0]).to.have.property('lastname');
+          expect(res.body.data[0]).to.have.property('first_name');
+          expect(res.body.data[0]).to.have.property('last_name');
           expect(res.body.data[0]).to.have.property('password');
           expect(res.body.data[0]).to.have.property('is_admin');
           done();
@@ -430,8 +429,8 @@ describe(`All tests for get users endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signin')
         .send({
-          email: 'frankEd@gmail.com',
-          password: 'EdohoFraNK'
+          email: 'rachael@test.com',
+          password: 'rachyfran.'
         })
         .end((err, res) => {
           const { token } = res.body.data;
@@ -463,7 +462,6 @@ describe(`All tests for get users endpoint`, () => {
           password: 'EdohoFraNK'
         })
         .end((err, res) => {
-          userToken = 'token';
           done(err);
         });
     });
@@ -479,38 +477,4 @@ describe(`All tests for get users endpoint`, () => {
         });
     });
   });
-
-  // describe(`GET api/v1/trips`, () => {
-  //   let userToken;
-  //   before(done => {
-  //     chai
-  //       .request(app)
-  //       .post('/api/v1/auth/signin')
-  //       .send({
-  //         email: 'frankE@gmail.com',
-  //         password: 'EdohoFraNK'
-  //       })
-  //       .end((err, res) => {
-  //         userToken = 'token';
-  //         done(err);
-  //       });
-  //   });
-  //   it('The GET request should return status 403 for Forbidden access', done => {
-  //     chai
-  //       .request(app)
-  //       .get('/api/v1/trips')
-  //       .set('Authorization', `Bearer ${userToken}`)
-  //       .send({
-  //         busId: 45,
-  //         origin: 'Ibadan',
-  //         destination: 'Lagos',
-  //         fare: 1200.0
-  //       })
-  //       .end((err, res) => {
-  //         expect(res).to.have.status(403);
-  //         expect(res.body.error).to.equal('Forbidden');
-  //         done();
-  //       });
-  //   });
-  // });
 });

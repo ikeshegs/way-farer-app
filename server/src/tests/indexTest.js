@@ -14,7 +14,7 @@ describe(`Test for the Homepage`, () => {
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.message).to.equal(
-          'Welcome to WayFarer app. A public bus transport booking app.'
+          'Welcome to WayFarer app. A public bus transport booking app. 😀'
         );
         done();
       });

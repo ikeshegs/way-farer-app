@@ -29,13 +29,13 @@ function () {
 
       if (decodedUser.is_admin === true) {
         var _req$body = req.body,
-            numberPlate = _req$body.numberPlate,
+            number_plate = _req$body.number_plate,
             manufacturer = _req$body.manufacturer,
             model = _req$body.model,
             year = _req$body.year,
             capacity = _req$body.capacity;
         var bus = {
-          number_plate: numberPlate,
+          number_plate: number_plate,
           manufacturer: manufacturer,
           model: model,
           year: year,

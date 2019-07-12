@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import pool from '../database/db';
 
 class busController {
@@ -5,10 +6,10 @@ class busController {
     const decodedUser = req.user;
 
     if (decodedUser.is_admin === true) {
-      const { numberPlate, manufacturer, model, year, capacity } = req.body;
+      const { number_plate, manufacturer, model, year, capacity } = req.body;
 
       const bus = {
-        number_plate: numberPlate,
+        number_plate,
         manufacturer,
         model,
         year,

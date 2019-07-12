@@ -11,6 +11,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/* eslint-disable camelcase */
 var userValidator =
 /*#__PURE__*/
 function () {
@@ -23,8 +24,8 @@ function () {
     value: function signupValidator(req, res, next) {
       var _req$body = req.body,
           email = _req$body.email,
-          firstname = _req$body.firstname,
-          lastname = _req$body.lastname,
+          first_name = _req$body.first_name,
+          last_name = _req$body.last_name,
           password = _req$body.password; // Email Validation
 
       if (email === undefined) {
@@ -67,21 +68,21 @@ function () {
       } // First name validation
 
 
-      if (firstname === undefined) {
+      if (first_name === undefined) {
         return res.status(400).send({
           status: 'error',
           error: 'Firstname field is required'
         });
       }
 
-      if (firstname === '') {
+      if (first_name === '') {
         return res.status(400).send({
           status: 'error',
           error: 'Firstname field cannot be empty'
         });
       }
 
-      if (typeof firstname !== 'string') {
+      if (typeof first_name !== 'string') {
         return res.status(400).send({
           status: 'error',
           error: 'Firstname must be an alphabet'
@@ -90,7 +91,7 @@ function () {
 
       var validFirstNameCharacters = /^[a-zA-Z]+$/;
 
-      if (!validFirstNameCharacters.test(firstname)) {
+      if (!validFirstNameCharacters.test(first_name)) {
         return res.status(400).send({
           status: 'error',
           error: 'Firstname accepts only alphabets'
@@ -98,21 +99,21 @@ function () {
       } // Last name validation
 
 
-      if (lastname === undefined) {
+      if (last_name === undefined) {
         return res.status(400).send({
           status: 'error',
           error: 'Lastname field is required'
         });
       }
 
-      if (lastname === '') {
+      if (last_name === '') {
         return res.status(400).send({
           status: 'error',
           error: 'Lastname field cannot be empty'
         });
       }
 
-      if (typeof lastname !== 'string') {
+      if (typeof last_name !== 'string') {
         return res.status(400).send({
           status: 'error',
           error: 'Lastname must be a string'
@@ -121,7 +122,7 @@ function () {
 
       var validLastNameCharacters = /^[a-zA-Z]+$/;
 
-      if (!validLastNameCharacters.test(lastname)) {
+      if (!validLastNameCharacters.test(last_name)) {
         return res.status(400).send({
           status: 'error',
           error: 'Lastname accepts only alphabets'

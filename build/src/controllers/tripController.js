@@ -29,16 +29,16 @@ function () {
 
       if (decodedUser.is_admin === true) {
         var _req$body = req.body,
-            busId = _req$body.busId,
+            bus_id = _req$body.bus_id,
             origin = _req$body.origin,
             destination = _req$body.destination,
-            tripDate = _req$body.tripDate,
+            trip_date = _req$body.trip_date,
             fare = _req$body.fare;
         var trip = {
-          bus_id: busId,
+          bus_id: bus_id,
           origin: origin,
           destination: destination,
-          trip_date: tripDate,
+          trip_date: trip_date,
           fare: fare
         };
         var query = {

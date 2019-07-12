@@ -40,8 +40,8 @@ function () {
       });
 
       var user = {
-        first_name: req.body.firstname,
-        last_name: req.body.lastname,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
         email: req.body.email,
         password: hash,
         is_admin: false

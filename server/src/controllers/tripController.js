@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import pool from '../database/db';
 
 class tripController {
@@ -5,12 +6,12 @@ class tripController {
     const decodedUser = req.user;
 
     if (decodedUser.is_admin === true) {
-      const { busId, origin, destination, tripDate, fare } = req.body;
+      const { bus_id, origin, destination, trip_date, fare } = req.body;
       const trip = {
-        bus_id: busId,
+        bus_id,
         origin,
         destination,
-        trip_date: tripDate,
+        trip_date,
         fare
       };
 

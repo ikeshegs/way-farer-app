@@ -11,6 +11,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/* eslint-disable camelcase */
 var tripValidator =
 /*#__PURE__*/
 function () {
@@ -22,22 +23,30 @@ function () {
     key: "createTripValidator",
     value: function createTripValidator(req, res, next) {
       var _req$body = req.body,
-          busId = _req$body.busId,
+          bus_id = _req$body.bus_id,
           origin = _req$body.origin,
           destination = _req$body.destination,
+          trip_date = _req$body.trip_date,
           fare = _req$body.fare;
 
-      if (busId === undefined) {
+      if (bus_id === undefined) {
         return res.status(400).send({
           status: 'error',
           error: 'Bus ID is required'
         });
       }
 
-      if (busId === '') {
+      if (bus_id === '') {
         return res.status(400).send({
           status: 'error',
           error: 'Bus ID cannot be empty'
+        });
+      }
+
+      if (typeof bus_id !== 'number') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Bus ID must be a Number'
         });
       }
 
@@ -80,6 +89,21 @@ function () {
         return res.status(400).send({
           status: 'error',
           error: 'Bus destination cannot be a space'
+        });
+      } // TRIP DATE CHECK
+
+
+      if (typeof trip_date !== 'string') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Trip Date must be a number.'
+        });
+      }
+
+      if (typeof trip_date === 'undefined') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Trip Date field is required.'
         });
       }
 
