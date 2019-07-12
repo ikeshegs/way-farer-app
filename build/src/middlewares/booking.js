@@ -24,6 +24,8 @@ function () {
     value: function createBookingValidator(req, res, next) {
       var _req$body = req.body,
           trip_id = _req$body.trip_id,
+          bus_id = _req$body.bus_id,
+          trip_date = _req$body.trip_date,
           seat_number = _req$body.seat_number;
 
       if (typeof trip_id === 'undefined') {
@@ -45,7 +47,45 @@ function () {
           status: 'error',
           error: 'Trip ID must be a number.'
         });
+      } // BUS ID CHECK
+
+
+      if (typeof bus_id === 'undefined') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Bus ID field is required'
+        });
       }
+
+      if (bus_id === '') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Bus ID field cannot be empty'
+        });
+      }
+
+      if (typeof bus_id !== 'number') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Bus ID must be a number.'
+        });
+      } // TRIP DATE CHECK
+
+
+      if (typeof trip_date !== 'string') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Trip Date must be a number.'
+        });
+      }
+
+      if (typeof trip_date === 'undefined') {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Trip Date field is required.'
+        });
+      } // SEAT NUMBER CHECK
+
 
       if (typeof seat_number !== 'number') {
         return res.status(400).send({

@@ -1,6 +1,6 @@
 export const createUsers = `
 CREATE TABLE IF NOT EXISTS users (
-    user_id SERIAL PRIMARY KEY NOT NULL,
+    user_id SERIAL PRIMARY KEY,
     first_name VARCHAR (40) NOT NULL,
     last_name VARCHAR (40) NOT NULL,
     email VARCHAR (40) NOT NULL UNIQUE,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 export const createBuses = `
 CREATE TABLE IF NOT EXISTS buses (
-    bus_id SERIAL PRIMARY KEY NOT NULL,
+    bus_id SERIAL PRIMARY KEY,
     number_plate VARCHAR (20) NOT NULL,
     manufacturer VARCHAR (30) NOT NULL,
     model VARCHAR (30) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS buses (
 
 export const createTrips = `
 CREATE TABLE IF NOT EXISTS trips (
-    trip_id SERIAL PRIMARY KEY NOT NULL,
+    trip_id SERIAL PRIMARY KEY,
     bus_id SERIAL REFERENCES buses(bus_id) NOT NULL,
     origin VARCHAR (30) NOT NULL,
     destination VARCHAR (30) NOT NULL,
@@ -31,10 +31,14 @@ CREATE TABLE IF NOT EXISTS trips (
 
 export const createBookings = `
 CREATE TABLE IF NOT EXISTS bookings (
-    booking_id SERIAL NOT NULL,
+    booking_id SERIAL,
     user_id SERIAL REFERENCES users(user_id),
     trip_id SERIAL REFERENCES trips(trip_id),
-    created_on DATE NOT NULL,
+    bus_id SERIAL NOT NULL,
+    trip_date DATE NOT NULL,
     seat_number INT,
-    CONSTRAINT new_booking_id PRIMARY KEY(trip_id, user_id)
+    first_name VARCHAR (30) NOT NULL,
+    last_name VARCHAR (30) NOT NULL,
+    email VARCHAR (30) NOT NULL,
+    created_on DATE NOT NULL
 )`;
