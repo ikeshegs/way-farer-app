@@ -47,29 +47,29 @@ class busController {
     }
   }
 
-  static getBuses(req, res) {
-    const decodedUser = req.user;
+  // static getBuses(req, res) {
+  //   const decodedUser = req.user;
 
-    if (decodedUser.is_admin === true) {
-      const query = 'SELECT * FROM buses';
+  //   if (decodedUser.is_admin === true) {
+  //     const query = 'SELECT * FROM buses';
 
-      pool.query(query, (error, data) => {
-        if (error) {
-          return res.status.send({
-            status: 'error',
-            error
-          });
-        }
+  //     pool.query(query, (error, data) => {
+  //       if (error) {
+  //         return res.status.send({
+  //           status: 'error',
+  //           error
+  //         });
+  //       }
 
-        if (data.rows.length !== 0) {
-          return res.status(200).send({
-            status: 'success',
-            data: data.rows
-          });
-        }
-      });
-    }
-  }
+  //       if (data.rows.length !== 0) {
+  //         return res.status(200).send({
+  //           status: 'success',
+  //           data: data.rows
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 }
 
 export default busController;

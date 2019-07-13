@@ -99,22 +99,22 @@ class userController {
     });
   }
 
-  static getUsers(req, res) {
-    const decodedUser = req.user;
+  // static getUsers(req, res) {
+  //   const decodedUser = req.user;
 
-    if (decodedUser.is_admin === true) {
-      const query = 'SELECT * FROM users';
+  //   if (decodedUser.is_admin === true) {
+  //     const query = 'SELECT * FROM users';
 
-      pool.query(query, (error, data) => {
-        if (data.rows.length !== 0) {
-          return res.status(200).send({
-            status: 'success',
-            data: data.rows
-          });
-        }
-      });
-    }
-  }
+  //     pool.query(query, (error, data) => {
+  //       if (data.rows.length !== 0) {
+  //         return res.status(200).send({
+  //           status: 'success',
+  //           data: data.rows
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 }
 
 export default userController;

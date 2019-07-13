@@ -64,32 +64,27 @@ function () {
           });
         });
       }
-    }
-  }, {
-    key: "getBuses",
-    value: function getBuses(req, res) {
-      var decodedUser = req.user;
+    } // static getBuses(req, res) {
+    //   const decodedUser = req.user;
+    //   if (decodedUser.is_admin === true) {
+    //     const query = 'SELECT * FROM buses';
+    //     pool.query(query, (error, data) => {
+    //       if (error) {
+    //         return res.status.send({
+    //           status: 'error',
+    //           error
+    //         });
+    //       }
+    //       if (data.rows.length !== 0) {
+    //         return res.status(200).send({
+    //           status: 'success',
+    //           data: data.rows
+    //         });
+    //       }
+    //     });
+    //   }
+    // }
 
-      if (decodedUser.is_admin === true) {
-        var query = 'SELECT * FROM buses';
-
-        _db["default"].query(query, function (error, data) {
-          if (error) {
-            return res.status.send({
-              status: 'error',
-              error: error
-            });
-          }
-
-          if (data.rows.length !== 0) {
-            return res.status(200).send({
-              status: 'success',
-              data: data.rows
-            });
-          }
-        });
-      }
-    }
   }]);
 
   return busController;

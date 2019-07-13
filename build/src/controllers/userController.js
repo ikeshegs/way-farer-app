@@ -115,25 +115,21 @@ function () {
           });
         }
       });
-    }
-  }, {
-    key: "getUsers",
-    value: function getUsers(req, res) {
-      var decodedUser = req.user;
+    } // static getUsers(req, res) {
+    //   const decodedUser = req.user;
+    //   if (decodedUser.is_admin === true) {
+    //     const query = 'SELECT * FROM users';
+    //     pool.query(query, (error, data) => {
+    //       if (data.rows.length !== 0) {
+    //         return res.status(200).send({
+    //           status: 'success',
+    //           data: data.rows
+    //         });
+    //       }
+    //     });
+    //   }
+    // }
 
-      if (decodedUser.is_admin === true) {
-        var query = 'SELECT * FROM users';
-
-        _db["default"].query(query, function (error, data) {
-          if (data.rows.length !== 0) {
-            return res.status(200).send({
-              status: 'success',
-              data: data.rows
-            });
-          }
-        });
-      }
-    }
   }]);
 
   return userController;

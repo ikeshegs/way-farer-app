@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS bookings (
     trip_id SERIAL REFERENCES trips(trip_id),
     bus_id SERIAL NOT NULL,
     trip_date DATE NOT NULL,
-    seat_number INT,
+    seat_number SERIAL,
     first_name VARCHAR (30) NOT NULL,
     last_name VARCHAR (30) NOT NULL,
     email VARCHAR (30) NOT NULL,
