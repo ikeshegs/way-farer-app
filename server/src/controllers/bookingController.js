@@ -61,13 +61,11 @@ class bookingController {
       case true:
         const adminQuery = 'SELECT * from bookings';
 
-        pool.query(adminQuery, (error, result) => {
-          if (result) {
-            return res.status(200).send({
-              status: 'success',
-              data: result.rows
-            });
-          }
+        pool.query(adminQuery, (error, data) => {
+          return res.status(200).send({
+            status: 'success',
+            data: data.rows
+          });
         });
         break;
       case false:

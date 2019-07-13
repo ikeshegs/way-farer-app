@@ -74,13 +74,11 @@ function () {
         case true:
           var adminQuery = 'SELECT * from bookings';
 
-          _db["default"].query(adminQuery, function (error, result) {
-            if (result) {
-              return res.status(200).send({
-                status: 'success',
-                data: result.rows
-              });
-            }
+          _db["default"].query(adminQuery, function (error, data) {
+            return res.status(200).send({
+              status: 'success',
+              data: data.rows
+            });
           });
 
           break;
