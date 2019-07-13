@@ -13,4 +13,10 @@ bookRoute.post(
   bookingController.createBooking
 );
 
+bookRoute.get(
+  '/api/v1/bookings',
+  auth.verifyToken,
+  bookingController.getBooking
+);
+
 export default bookRoute;
