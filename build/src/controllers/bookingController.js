@@ -105,6 +105,36 @@ function () {
           });
       }
     }
+  }, {
+    key: "deleteBooking",
+    value: function deleteBooking(req, res) {
+      var decodedUser = req.user;
+
+      if (decodedUser) {
+        if (Number.isNaN(req.params.bookingId)) {
+          return res.status(400).send({
+            status: 'error',
+            error: 'Invalid Booking ID'
+          });
+        }
+
+        var deleteQuery = {
+          text: 'DELETE FROM bookings WHERE booking_id = $1',
+          values: [req.params.bookingId]
+        };
+
+        _db["default"].query(deleteQuery, function (error, data) {
+          if (data.rows.length === 0) {
+            return res.status(200).send({
+              success: 'success',
+              data: {
+                message: 'Booking deleted successfully'
+              }
+            });
+          }
+        });
+      }
+    }
   }]);
 
   return bookingController;
