@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable camelcase */
 import pool from '../database/db';
 
@@ -50,6 +51,43 @@ class bookingController {
           });
         }
       });
+    }
+  }
+
+  static getBooking(req, res) {
+    const decodedUser = req.user;
+
+    switch (decodedUser.is_admin) {
+      case true:
+        const adminQuery = 'SELECT * from bookings';
+
+        pool.query(adminQuery, (error, result) => {
+          if (result) {
+            return res.status(200).send({
+              status: 'success',
+              data: result.rows
+            });
+          }
+        });
+        break;
+      case false:
+        const nonAdminQuery = {
+          text: 'SELECT * FROM bookings WHERE user_id = $1',
+          values: [decodedUser.user_id]
+        };
+
+        pool.query(nonAdminQuery, (error, data) => {
+          return res.status(200).send({
+            status: 'success',
+            data: data.rows
+          });
+        });
+        break;
+      default:
+        return res.status(200).send({
+          status: 'error',
+          error: 'Not Allowed'
+        });
     }
   }
 }

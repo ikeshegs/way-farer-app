@@ -65,6 +65,48 @@ function () {
         });
       }
     }
+  }, {
+    key: "getBooking",
+    value: function getBooking(req, res) {
+      var decodedUser = req.user;
+
+      switch (decodedUser.is_admin) {
+        case true:
+          var adminQuery = 'SELECT * from bookings';
+
+          _db["default"].query(adminQuery, function (error, result) {
+            if (result) {
+              return res.status(200).send({
+                status: 'success',
+                data: result.rows
+              });
+            }
+          });
+
+          break;
+
+        case false:
+          var nonAdminQuery = {
+            text: 'SELECT * FROM bookings WHERE user_id = $1',
+            values: [decodedUser.user_id]
+          };
+
+          _db["default"].query(nonAdminQuery, function (error, data) {
+            return res.status(200).send({
+              status: 'success',
+              data: data.rows
+            });
+          });
+
+          break;
+
+        default:
+          return res.status(200).send({
+            status: 'error',
+            error: 'Not Allowed'
+          });
+      }
+    }
   }]);
 
   return bookingController;
