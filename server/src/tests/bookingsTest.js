@@ -47,10 +47,10 @@ describe('All tests for bookings endpoint', () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 3,
+          bus_id: 3,
           origin: 'Aba',
           destination: 'Owerri',
-          tripDate: '2019-07-29',
+          trip_date: '2019-07-29',
           fare: 5000.0
         })
         .end((err, res) => {
@@ -64,10 +64,7 @@ describe('All tests for bookings endpoint', () => {
         .post('/api/v1/bookings')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          trip_id: 1,
-          bus_id: 2,
-          trip_date: '2019-08-30',
-          seat_number: 15
+          trip_id: 1
         })
         .end((err, res) => {
           expect(res.body.data).to.have.property('booking_id');

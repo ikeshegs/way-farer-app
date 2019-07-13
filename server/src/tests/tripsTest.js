@@ -242,41 +242,41 @@ describe(`All tests for create trip endpoint`, () => {
     });
   });
 
-  describe(`POST api/v1/trips`, () => {
-    let userToken;
-    before(done => {
-      chai
-        .request(app)
-        .post('/api/v1/auth/signin')
-        .send({
-          email: 'rachael@test.com',
-          password: 'rachyfran.'
-        })
-        .end((err, res) => {
-          const { token } = res.body.data;
-          userToken = token;
-          done(err);
-        });
-    });
-    it('It should return status 403 for Forbidden access', done => {
-      chai
-        .request(app)
-        .post('/api/v1/trips')
-        .set('Authorization', `Bearer ${userToken}`)
-        .send({
-          bus_id: 1,
-          origin: 'Ibadan',
-          destination: 'Lagos',
-          trip_date: '2019-07-29',
-          fare: 1200.0
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(403);
-          expect(res.body.error).to.equal('Forbidden');
-          done();
-        });
-    });
-  });
+  // describe(`POST api/v1/trips`, () => {
+  //   let userToken;
+  //   before(done => {
+  //     chai
+  //       .request(app)
+  //       .post('/api/v1/auth/signin')
+  //       .send({
+  //         email: 'rachael@test.com',
+  //         password: 'rachyfran.'
+  //       })
+  //       .end((err, res) => {
+  //         const { token } = res.body.data;
+  //         userToken = token;
+  //         done(err);
+  //       });
+  //   });
+  //   it('It should return status 403 for Forbidden access', done => {
+  //     chai
+  //       .request(app)
+  //       .post('/api/v1/trips')
+  //       .set('Authorization', `Bearer ${userToken}`)
+  //       .send({
+  //         bus_id: 1,
+  //         origin: 'Ibadan',
+  //         destination: 'Lagos',
+  //         trip_date: '2019-07-29',
+  //         fare: 1200.0
+  //       })
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(403);
+  //         expect(res.body.error).to.equal('Forbidden');
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe(`POST api/v1/trips`, () => {
     before(done => {

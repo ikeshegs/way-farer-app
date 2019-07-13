@@ -37,10 +37,10 @@ describe('All tests for bookings endpoint', function () {
     });
     before(function (done) {
       _chai["default"].request(_index["default"]).post('/api/v1/trips').set('Authorization', "Bearer ".concat(userToken)).send({
-        busId: 3,
+        bus_id: 3,
         origin: 'Aba',
         destination: 'Owerri',
-        tripDate: '2019-07-29',
+        trip_date: '2019-07-29',
         fare: 5000.0
       }).end(function (err, res) {
         done(err);
@@ -48,10 +48,7 @@ describe('All tests for bookings endpoint', function () {
     });
     it('It should return status 201 for a successful booking', function (done) {
       _chai["default"].request(_index["default"]).post('/api/v1/bookings').set('Authorization', "Bearer ".concat(userToken)).send({
-        trip_id: 1,
-        bus_id: 2,
-        trip_date: '2019-08-30',
-        seat_number: 15
+        trip_id: 1
       }).end(function (err, res) {
         expect(res.body.data).to.have.property('booking_id');
         expect(res.body.data).to.have.property('bus_id');

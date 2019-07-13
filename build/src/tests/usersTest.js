@@ -287,69 +287,92 @@ describe("All tests for signin endpoint", function () {
       });
     });
   });
-});
-describe("All tests for get users endpoint", function () {
-  describe("GET api/v1/users", function () {
-    var userToken;
-    before(function (done) {
-      _chai["default"].request(_index["default"]).post('/api/v1/auth/signin').send({
-        email: 'ikeshegs@test.com',
-        password: 'C00ljoe.'
-      }).end(function (err, res) {
-        var token = res.body.data.token;
-        userToken = token;
-        done(err);
-      });
-    });
-    it('The GET request should return status 200 for admin successfully viewing users', function (done) {
-      _chai["default"].request(_index["default"]).get('/api/v1/users').set('Authorization', "Bearer ".concat(userToken)).end(function (err, res) {
-        expect(res).to.have.status(200);
-        expect(res.body.data[0]).to.have.property('user_id');
-        expect(res.body.data[0]).to.have.property('email');
-        expect(res.body.data[0]).to.have.property('first_name');
-        expect(res.body.data[0]).to.have.property('last_name');
-        expect(res.body.data[0]).to.have.property('password');
-        expect(res.body.data[0]).to.have.property('is_admin');
-        done();
-      });
-    });
-  });
-  describe("GET api/v1/users", function () {
-    var userToken;
-    before(function (done) {
-      _chai["default"].request(_index["default"]).post('/api/v1/auth/signin').send({
-        email: 'rachael@test.com',
-        password: 'rachyfran.'
-      }).end(function (err, res) {
-        var token = res.body.data.token;
-        userToken = token;
-        done(err);
-      });
-    });
-    it('The GET request should return status 401 for user cannot view other users', function (done) {
-      _chai["default"].request(_index["default"]).get('/api/v1/users').set('Authorization', "Bearer ".concat(userToken)).end(function (err, res) {
-        expect(res).to.have.status(401);
-        expect(res.body.error).to.equal('Unauthorized');
-        done();
-      });
-    });
-  });
-  describe("GET api/v1/users", function () {
-    var userToken;
-    before(function (done) {
-      _chai["default"].request(_index["default"]).post('/api/v1/auth/signin').send({
-        email: 'frankEd@gmail.com',
-        password: 'EdohoFraNK'
-      }).end(function (err, res) {
-        done(err);
-      });
-    });
-    it('The GET request should return status 403 for Forbidden access', function (done) {
-      _chai["default"].request(_index["default"]).get('/api/v1/users').set('Authorization', "Bearer ".concat(userToken)).end(function (err, res) {
-        expect(res).to.have.status(403);
-        expect(res.body.error).to.equal('Forbidden');
-        done();
-      });
-    });
-  });
-});
+}); // describe(`All tests for get users endpoint`, () => {
+//   describe(`GET api/v1/users`, () => {
+//     let userToken;
+//     before(done => {
+//       chai
+//         .request(app)
+//         .post('/api/v1/auth/signin')
+//         .send({
+//           email: 'ikeshegs@test.com',
+//           password: 'C00ljoe.'
+//         })
+//         .end((err, res) => {
+//           const { token } = res.body.data;
+//           userToken = token;
+//           done(err);
+//         });
+//     });
+//     it('The GET request should return status 200 for admin successfully viewing users', done => {
+//       chai
+//         .request(app)
+//         .get('/api/v1/users')
+//         .set('Authorization', `Bearer ${userToken}`)
+//         .end((err, res) => {
+//           expect(res).to.have.status(200);
+//           expect(res.body.data[0]).to.have.property('user_id');
+//           expect(res.body.data[0]).to.have.property('email');
+//           expect(res.body.data[0]).to.have.property('first_name');
+//           expect(res.body.data[0]).to.have.property('last_name');
+//           expect(res.body.data[0]).to.have.property('password');
+//           expect(res.body.data[0]).to.have.property('is_admin');
+//           done();
+//         });
+//     });
+//   });
+//   describe(`GET api/v1/users`, () => {
+//     let userToken;
+//     before(done => {
+//       chai
+//         .request(app)
+//         .post('/api/v1/auth/signin')
+//         .send({
+//           email: 'rachael@test.com',
+//           password: 'rachyfran.'
+//         })
+//         .end((err, res) => {
+//           const { token } = res.body.data;
+//           userToken = token;
+//           done(err);
+//         });
+//     });
+//     it('The GET request should return status 401 for user cannot view other users', done => {
+//       chai
+//         .request(app)
+//         .get('/api/v1/users')
+//         .set('Authorization', `Bearer ${userToken}`)
+//         .end((err, res) => {
+//           expect(res).to.have.status(401);
+//           expect(res.body.error).to.equal('Unauthorized');
+//           done();
+//         });
+//     });
+//   });
+//   describe(`GET api/v1/users`, () => {
+//     let userToken;
+//     before(done => {
+//       chai
+//         .request(app)
+//         .post('/api/v1/auth/signin')
+//         .send({
+//           email: 'frankEd@gmail.com',
+//           password: 'EdohoFraNK'
+//         })
+//         .end((err, res) => {
+//           done(err);
+//         });
+//     });
+//     it('The GET request should return status 403 for Forbidden access', done => {
+//       chai
+//         .request(app)
+//         .get('/api/v1/users')
+//         .set('Authorization', `Bearer ${userToken}`)
+//         .end((err, res) => {
+//           expect(res).to.have.status(403);
+//           expect(res.body.error).to.equal('Forbidden');
+//           done();
+//         });
+//     });
+//   });
+// });
