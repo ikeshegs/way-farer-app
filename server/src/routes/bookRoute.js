@@ -19,4 +19,10 @@ bookRoute.get(
   bookingController.getBooking
 );
 
+bookRoute.delete(
+  '/api/v1/bookings/:bookingId',
+  auth.verifyToken,
+  bookingController.deleteBooking
+);
+
 export default bookRoute;
