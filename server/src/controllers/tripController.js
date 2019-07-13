@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+/* eslint-disable camelcase */
 import pool from '../database/db';
 
 class tripController {
@@ -6,21 +6,19 @@ class tripController {
     const decodedUser = req.user;
 
     if (decodedUser.is_admin === true) {
-      const { busId, origin, destination, tripDate, fare } = req.body;
+      const { bus_id, origin, destination, trip_date, fare } = req.body;
       const trip = {
-        trip_id: uuid(),
-        bus_id: busId,
+        bus_id,
         origin,
         destination,
-        trip_date: tripDate,
+        trip_date,
         fare
       };
 
       const query = {
         text:
-          'INSERT INTO trips (trip_id, bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+          'INSERT INTO trips (bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5) returning *',
         values: [
-          trip.trip_id,
           trip.bus_id,
           trip.origin,
           trip.destination,

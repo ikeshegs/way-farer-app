@@ -23,6 +23,8 @@ var _tripRoute = _interopRequireDefault(require("./routes/tripRoute"));
 
 var _busRoute = _interopRequireDefault(require("./routes/busRoute"));
 
+var _bookRoute = _interopRequireDefault(require("./routes/bookRoute"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // Routes
@@ -37,8 +39,12 @@ app.use(_swaggerRoute["default"]);
 app.use(_userRoute["default"]);
 app.use(_tripRoute["default"]);
 app.use(_busRoute["default"]);
+app.use(_bookRoute["default"]);
 app.get('/', function (req, res) {
-  return res.status(200).send('Welcome to WayFarer App. A public bus transport booking app. 😀');
+  return res.send({
+    status: 200,
+    message: 'Welcome to WayFarer app. A public bus transport booking app. 😀'
+  });
 });
 var PORT = process.env.PORT || 3000;
 app.listen(PORT);

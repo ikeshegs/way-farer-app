@@ -11,6 +11,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/* eslint-disable camelcase */
 var busValidator =
 /*#__PURE__*/
 function () {
@@ -22,32 +23,25 @@ function () {
     key: "createBusValidator",
     value: function createBusValidator(req, res, next) {
       var _req$body = req.body,
-          numberPlate = _req$body.numberPlate,
+          number_plate = _req$body.number_plate,
           manufacturer = _req$body.manufacturer,
           model = _req$body.model,
           year = _req$body.year,
           capacity = _req$body.capacity; // Email Validation
 
-      if (numberPlate === undefined) {
+      if (number_plate === undefined) {
         return res.status(400).send({
           status: 'error',
           error: 'Number Plate field is required'
         });
       }
 
-      if (numberPlate === '') {
+      if (number_plate === '') {
         return res.status(400).send({
           status: 'error',
           error: 'Number Plate cannot be empty.'
         });
-      } //   email = email.toLowerCase().trim();
-      //   if (email.length < 5 || email.length > 30) {
-      //     return res.status(400).send({
-      //       status: 'error',
-      //       error: 'Email should be 5 to 30 characters long'
-      //     });
-      //   }
-
+      }
 
       if (manufacturer === undefined) {
         return res.status(400).send({
@@ -69,14 +63,15 @@ function () {
           error: 'Manufacturer must be an alphabet'
         });
       }
-      /* const validManufacturersCharacters = /^[a-zA-Z]+$/;
+
+      var validManufacturersCharacters = /^[a-zA-Z]+$/;
+
       if (!validManufacturersCharacters.test(manufacturer)) {
         return res.status(400).send({
           status: 'error',
-          error: 'Manufacturer accepts only alphabets'
+          error: 'Manufacturer accepts only alphabetical characters'
         });
-      } */
-
+      }
 
       if (model === undefined) {
         return res.status(400).send({

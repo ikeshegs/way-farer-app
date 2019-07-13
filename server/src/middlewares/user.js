@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 class userValidator {
   static signupValidator(req, res, next) {
-    let { email, firstname, lastname, password } = req.body;
+    let { email, first_name, last_name, password } = req.body;
 
     // Email Validation
     if (email === undefined) {
@@ -38,26 +39,26 @@ class userValidator {
     }
 
     // First name validation
-    if (firstname === undefined) {
+    if (first_name === undefined) {
       return res.status(400).send({
         status: 'error',
         error: 'Firstname field is required'
       });
     }
-    if (firstname === '') {
+    if (first_name === '') {
       return res.status(400).send({
         status: 'error',
         error: 'Firstname field cannot be empty'
       });
     }
-    if (typeof firstname !== 'string') {
+    if (typeof first_name !== 'string') {
       return res.status(400).send({
         status: 'error',
         error: 'Firstname must be an alphabet'
       });
     }
     const validFirstNameCharacters = /^[a-zA-Z]+$/;
-    if (!validFirstNameCharacters.test(firstname)) {
+    if (!validFirstNameCharacters.test(first_name)) {
       return res.status(400).send({
         status: 'error',
         error: 'Firstname accepts only alphabets'
@@ -65,26 +66,26 @@ class userValidator {
     }
 
     // Last name validation
-    if (lastname === undefined) {
+    if (last_name === undefined) {
       return res.status(400).send({
         status: 'error',
         error: 'Lastname field is required'
       });
     }
-    if (lastname === '') {
+    if (last_name === '') {
       return res.status(400).send({
         status: 'error',
         error: 'Lastname field cannot be empty'
       });
     }
-    if (typeof lastname !== 'string') {
+    if (typeof last_name !== 'string') {
       return res.status(400).send({
         status: 'error',
         error: 'Lastname must be a string'
       });
     }
     const validLastNameCharacters = /^[a-zA-Z]+$/;
-    if (!validLastNameCharacters.test(lastname)) {
+    if (!validLastNameCharacters.test(last_name)) {
       return res.status(400).send({
         status: 'error',
         error: 'Lastname accepts only alphabets'

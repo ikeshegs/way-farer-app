@@ -1,16 +1,15 @@
-import uuid from 'uuid/v4';
+/* eslint-disable camelcase */
 import pool from '../database/db';
 
-class userController {
+class busController {
   static createBus(req, res) {
     const decodedUser = req.user;
 
     if (decodedUser.is_admin === true) {
-      const { numberPlate, manufacturer, model, year, capacity } = req.body;
+      const { number_plate, manufacturer, model, year, capacity } = req.body;
 
       const bus = {
-        bus_id: uuid(),
-        number_plate: numberPlate,
+        number_plate,
         manufacturer,
         model,
         year,
@@ -20,9 +19,8 @@ class userController {
       // Create account if no errors
       const query = {
         text:
-          'INSERT INTO buses (bus_id, number_plate, manufacturer, model, year, capacity) VALUES ($1, $2, $3, $4, $5, $6) returning *',
+          'INSERT INTO buses (number_plate, manufacturer, model, year, capacity) VALUES ($1, $2, $3, $4, $5) returning *',
         values: [
-          bus.bus_id,
           bus.number_plate,
           bus.manufacturer,
           bus.model,
@@ -49,29 +47,29 @@ class userController {
     }
   }
 
-  static getBuses(req, res) {
-    const decodedUser = req.user;
+  // static getBuses(req, res) {
+  //   const decodedUser = req.user;
 
-    if (decodedUser.is_admin === true) {
-      const query = 'SELECT * FROM buses';
+  //   if (decodedUser.is_admin === true) {
+  //     const query = 'SELECT * FROM buses';
 
-      pool.query(query, (error, data) => {
-        if (error) {
-          return res.status.send({
-            status: 'error',
-            error
-          });
-        }
+  //     pool.query(query, (error, data) => {
+  //       if (error) {
+  //         return res.status.send({
+  //           status: 'error',
+  //           error
+  //         });
+  //       }
 
-        if (data.rows.length !== 0) {
-          return res.status(200).send({
-            status: 'success',
-            data: data.rows
-          });
-        }
-      });
-    }
-  }
+  //       if (data.rows.length !== 0) {
+  //         return res.status(200).send({
+  //           status: 'success',
+  //           data: data.rows
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 }
 
-export default userController;
+export default busController;

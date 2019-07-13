@@ -9,17 +9,34 @@ const { expect } = chai;
 describe(`All tests for create trip endpoint`, () => {
   describe(`POST api/v1/trips`, () => {
     let userToken;
+
     before(done => {
       chai
         .request(app)
         .post('/api/v1/auth/signin')
         .send({
-          email: 'kindness@gmail.com',
-          password: 'ansemiosaro'
+          email: 'ikeshegs@test.com',
+          password: 'C00ljoe.'
         })
         .end((err, res) => {
           const { token } = res.body.data;
           userToken = token;
+          done(err);
+        });
+    });
+    before(done => {
+      chai
+        .request(app)
+        .post('/api/v1/bus')
+        .set('Authorization', `Bearer ${userToken}`)
+        .send({
+          number_plate: 'ab765jkt',
+          manufacturer: 'Toyota',
+          model: 'Coastal',
+          year: 2017,
+          capacity: 30
+        })
+        .end((err, res) => {
           done(err);
         });
     });
@@ -29,9 +46,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 1,
           origin: 'Ibadan',
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -53,6 +71,7 @@ describe(`All tests for create trip endpoint`, () => {
         .send({
           origin: 'Ibadan',
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -67,9 +86,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: '45',
+          bus_id: 'hg',
           origin: 'Ibadan',
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -85,8 +105,9 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -101,9 +122,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: '',
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -118,9 +140,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: ' ',
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -135,8 +158,9 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: 'Ibadan',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -151,9 +175,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: 'Ibadan',
           destination: '',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -168,9 +193,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: 'Ibadan',
           destination: ' ',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -185,9 +211,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: 'Ibadan',
-          destination: 'Lagos'
+          destination: 'Lagos',
+          trip_date: '2019-07-29'
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -201,9 +228,10 @@ describe(`All tests for create trip endpoint`, () => {
         .post('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: 'Ibadan',
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: '1200.00'
         })
         .end((err, res) => {
@@ -214,49 +242,50 @@ describe(`All tests for create trip endpoint`, () => {
     });
   });
 
-  describe(`POST api/v1/trips`, () => {
-    let userToken;
-    before(done => {
-      chai
-        .request(app)
-        .post('/api/v1/auth/signin')
-        .send({
-          email: 'frankEd@gmail.com',
-          password: 'EdohoFraNK'
-        })
-        .end((err, res) => {
-          const { token } = res.body.data;
-          userToken = token;
-          done(err);
-        });
-    });
-    it('It should return status 403 for Forbidden access', done => {
-      chai
-        .request(app)
-        .post('/api/v1/trips')
-        .set('Authorization', `Bearer ${userToken}`)
-        .send({
-          busId: 45,
-          origin: 'Ibadan',
-          destination: 'Lagos',
-          fare: 1200.0
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(403);
-          expect(res.body.error).to.equal('Forbidden');
-          done();
-        });
-    });
-  });
+  // describe(`POST api/v1/trips`, () => {
+  //   let userToken;
+  //   before(done => {
+  //     chai
+  //       .request(app)
+  //       .post('/api/v1/auth/signin')
+  //       .send({
+  //         email: 'rachael@test.com',
+  //         password: 'rachyfran.'
+  //       })
+  //       .end((err, res) => {
+  //         const { token } = res.body.data;
+  //         userToken = token;
+  //         done(err);
+  //       });
+  //   });
+  //   it('It should return status 403 for Forbidden access', done => {
+  //     chai
+  //       .request(app)
+  //       .post('/api/v1/trips')
+  //       .set('Authorization', `Bearer ${userToken}`)
+  //       .send({
+  //         bus_id: 1,
+  //         origin: 'Ibadan',
+  //         destination: 'Lagos',
+  //         trip_date: '2019-07-29',
+  //         fare: 1200.0
+  //       })
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(403);
+  //         expect(res.body.error).to.equal('Forbidden');
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe(`POST api/v1/trips`, () => {
     before(done => {
       chai
         .request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v1/trips')
         .send({
-          email: 'frankE@gmail.com',
-          password: 'EdohoFraNK'
+          email: 'rachael@test.com',
+          password: 'rachyfran.'
         })
         .end((err, res) => {
           done(err);
@@ -267,9 +296,10 @@ describe(`All tests for create trip endpoint`, () => {
         .request(app)
         .post('/api/v1/trips')
         .send({
-          busId: 45,
+          bus_id: 45,
           origin: 'Ibadan',
           destination: 'Lagos',
+          trip_date: '2019-07-29',
           fare: 1200.0
         })
         .end((err, res) => {
@@ -289,8 +319,8 @@ describe(`All tests for get trip endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signin')
         .send({
-          email: 'kindness@gmail.com',
-          password: 'ansemiosaro'
+          email: 'ikeshegs@test.com',
+          password: 'C00ljoe.'
         })
         .end((err, res) => {
           const { token } = res.body.data;
@@ -317,47 +347,13 @@ describe(`All tests for get trip endpoint`, () => {
   });
 
   describe(`GET api/v1/trips`, () => {
-    let userToken;
     before(done => {
       chai
         .request(app)
         .post('/api/v1/auth/signin')
         .send({
-          email: 'frankEd@gmail.com',
-          password: 'EdohoFraNK'
-        })
-        .end((err, res) => {
-          const { token } = res.body.data;
-          userToken = token;
-          done(err);
-        });
-    });
-    it('The GET request should return status 200 for user successfully viewing trip', done => {
-      chai
-        .request(app)
-        .get('/api/v1/trips')
-        .set('Authorization', `Bearer ${userToken}`)
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.body.data[0]).to.have.property('bus_id');
-          expect(res.body.data[0]).to.have.property('trip_id');
-          expect(res.body.data[0]).to.have.property('origin');
-          expect(res.body.data[0]).to.have.property('destination');
-          expect(res.body.data[0]).to.have.property('fare');
-          expect(res.body.data[0]).to.have.property('trip_date');
-          done();
-        });
-    });
-  });
-
-  describe(`GET api/v1/trips`, () => {
-    before(done => {
-      chai
-        .request(app)
-        .post('/api/v1/auth/signin')
-        .send({
-          email: 'frankEd@gmail.com',
-          password: 'EdohoFraNK'
+          email: 'rachael@test.com',
+          password: 'rachyfran.'
         })
         .end((err, res) => {
           done(err);
@@ -366,13 +362,7 @@ describe(`All tests for get trip endpoint`, () => {
     it('The GET request should return status 401 for Unauthorized access', done => {
       chai
         .request(app)
-        .post('/api/v1/trips')
-        .send({
-          busId: 45,
-          origin: 'Ibadan',
-          destination: 'Lagos',
-          fare: 1200.0
-        })
+        .get('/api/v1/trips')
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.error).to.equal('Unauthorized');
@@ -388,8 +378,8 @@ describe(`All tests for get trip endpoint`, () => {
         .request(app)
         .post('/api/v1/auth/signin')
         .send({
-          email: 'frankE@gmail.com',
-          password: 'EdohoFraNK'
+          email: 'rachael@test.com',
+          password: 'rachyfran.'
         })
         .end((err, res) => {
           userToken = 'token';
@@ -401,12 +391,6 @@ describe(`All tests for get trip endpoint`, () => {
         .request(app)
         .get('/api/v1/trips')
         .set('Authorization', `Bearer ${userToken}`)
-        .send({
-          busId: 45,
-          origin: 'Ibadan',
-          destination: 'Lagos',
-          fare: 1200.0
-        })
         .end((err, res) => {
           expect(res).to.have.status(403);
           expect(res.body.error).to.equal('Forbidden');
