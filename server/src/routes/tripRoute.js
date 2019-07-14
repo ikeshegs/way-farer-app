@@ -14,4 +14,10 @@ tripRoute.post(
 
 tripRoute.get('/api/v1/trips', auth.verifyToken, tripController.getTrips);
 
+tripRoute.patch(
+  '/api/v1/trips/:tripId',
+  auth.verifyToken,
+  tripController.patchTrip
+);
+
 export default tripRoute;

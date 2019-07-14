@@ -93,6 +93,36 @@ function () {
         });
       }
     }
+  }, {
+    key: "patchTrip",
+    value: function patchTrip(req, res) {
+      var decodedUser = req.user;
+
+      if (decodedUser.is_admin === true) {
+        if (Number.isNaN(req.params.tripId)) {
+          return res.status(400).send({
+            status: 'error',
+            error: 'Invalid Booking ID'
+          });
+        }
+
+        var patchQuery = {
+          text: "UPDATE trips SET status = 'cancelled' WHERE trip_id = $1",
+          values: [req.params.tripId]
+        };
+
+        _db["default"].query(patchQuery, function (error, data) {
+          if (data) {
+            return res.status(200).send({
+              success: 'success',
+              data: {
+                message: 'Trip cancelled successfully'
+              }
+            });
+          }
+        });
+      }
+    }
   }]);
 
   return tripController;
