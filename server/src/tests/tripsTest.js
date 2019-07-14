@@ -399,3 +399,65 @@ describe(`All tests for get trip endpoint`, () => {
     });
   });
 });
+
+describe('Test for cancelling trip', done => {
+  let userToken;
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'ikeshegs@test.com',
+        password: 'C00ljoe.'
+      })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        userToken = token;
+        done(err);
+      });
+  });
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/v1/bus')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        number_plate: 'ab765jkt',
+        manufacturer: 'Toyota',
+        model: 'Coastal',
+        year: 2017,
+        capacity: 30
+      })
+      .end((err, res) => {
+        done(err);
+      });
+  });
+  before(done => {
+    chai
+      .request(app)
+      .post('/api/v1/trips')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        bus_id: 1,
+        origin: 'Aba',
+        destination: 'Arochukwu',
+        trip_date: '2019-09-02',
+        fare: 1500.0
+      })
+      .end((err, res) => {
+        done(err);
+      });
+  });
+  it('The GET request should return status 200 for admin successfully cancelling trip', done => {
+    chai
+      .request(app)
+      .patch('/api/v1/trips/1')
+      .set('Authorization', `Bearer ${userToken}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.data).to.have.property('message');
+        expect(res.body.data.message).to.equal('Trip cancelled successfully');
+        done();
+      });
+  });
+});
