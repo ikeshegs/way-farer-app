@@ -302,3 +302,46 @@ describe("All tests for get trip endpoint", function () {
     });
   });
 });
+describe('Test for cancelling trip', function (done) {
+  var userToken;
+  before(function (done) {
+    _chai["default"].request(_index["default"]).post('/api/v1/auth/signin').send({
+      email: 'ikeshegs@test.com',
+      password: 'C00ljoe.'
+    }).end(function (err, res) {
+      var token = res.body.data.token;
+      userToken = token;
+      done(err);
+    });
+  });
+  before(function (done) {
+    _chai["default"].request(_index["default"]).post('/api/v1/bus').set('Authorization', "Bearer ".concat(userToken)).send({
+      number_plate: 'ab765jkt',
+      manufacturer: 'Toyota',
+      model: 'Coastal',
+      year: 2017,
+      capacity: 30
+    }).end(function (err, res) {
+      done(err);
+    });
+  });
+  before(function (done) {
+    _chai["default"].request(_index["default"]).post('/api/v1/trips').set('Authorization', "Bearer ".concat(userToken)).send({
+      bus_id: 1,
+      origin: 'Aba',
+      destination: 'Arochukwu',
+      trip_date: '2019-09-02',
+      fare: 1500.0
+    }).end(function (err, res) {
+      done(err);
+    });
+  });
+  it('The GET request should return status 200 for admin successfully cancelling trip', function (done) {
+    _chai["default"].request(_index["default"]).patch('/api/v1/trips/1').set('Authorization', "Bearer ".concat(userToken)).end(function (err, res) {
+      expect(res).to.have.status(200);
+      expect(res.body.data).to.have.property('message');
+      expect(res.body.data.message).to.equal('Trip cancelled successfully');
+      done();
+    });
+  });
+});

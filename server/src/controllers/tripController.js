@@ -72,6 +72,34 @@ class tripController {
       });
     }
   }
+
+  static patchTrip(req, res) {
+    const decodedUser = req.user;
+
+    if (decodedUser.is_admin === true) {
+      if (Number.isNaN(req.params.tripId)) {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Invalid Booking ID'
+        });
+      }
+      const patchQuery = {
+        text: "UPDATE trips SET status = 'cancelled' WHERE trip_id = $1",
+        values: [req.params.tripId]
+      };
+
+      pool.query(patchQuery, (error, data) => {
+        if (data) {
+          return res.status(200).send({
+            success: 'success',
+            data: {
+              message: 'Trip cancelled successfully'
+            }
+          });
+        }
+      });
+    }
+  }
 }
 
 export default tripController;
