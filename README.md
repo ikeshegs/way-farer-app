@@ -10,10 +10,11 @@ WayFarer is a public bus transportation booking App.
 - Users can sign up.
 - Users can sign in.
 - Admin can create trips.
-- Admin can create a new bus.
-- Admin can view all buses.
-- Admin can view all users.
-- Admin and Users can view all trips
+- Users can view all available trips.
+- Users can create a new booking.
+- Users can view all their bookings.
+- Users can delete their booking.
+- Admin can cancel a trip.
 
 ### Prerequisites
 1. Internet connection
