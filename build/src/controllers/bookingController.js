@@ -49,7 +49,7 @@ function () {
               return res.status(201).send({
                 status: 'success',
                 data: {
-                  booking_id: bookingData.rows[0].booking_id,
+                  id: bookingData.rows[0].booking_id,
                   user_id: bookingData.rows[0].user_id,
                   trip_id: bookingData.rows[0].trip_id,
                   bus_id: bookingData.rows[0].bus_id,
@@ -77,7 +77,7 @@ function () {
           _db["default"].query(adminQuery, function (error, data) {
             return res.status(200).send({
               status: 'success',
-              data: data.rows
+              data: [data.rows]
             });
           });
 
@@ -92,7 +92,7 @@ function () {
           _db["default"].query(nonAdminQuery, function (error, data) {
             return res.status(200).send({
               status: 'success',
-              data: data.rows
+              data: [data.rows]
             });
           });
 
@@ -126,7 +126,7 @@ function () {
         _db["default"].query(deleteQuery, function (error, data) {
           if (data.rows.length === 0) {
             return res.status(200).send({
-              success: 'success',
+              status: 'success',
               data: {
                 message: 'Booking deleted successfully'
               }

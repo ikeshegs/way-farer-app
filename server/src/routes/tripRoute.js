@@ -6,18 +6,14 @@ import tripValidator from '../middlewares/trip';
 const tripRoute = express.Router();
 
 tripRoute.post(
-  '/api/v1/trips',
+  '/trips',
   auth.verifyToken,
   tripValidator.createTripValidator,
   tripController.createTrip
 );
 
-tripRoute.get('/api/v1/trips', auth.verifyToken, tripController.getTrips);
+tripRoute.get('/trips', auth.verifyToken, tripController.getTrips);
 
-tripRoute.patch(
-  '/api/v1/trips/:tripId',
-  auth.verifyToken,
-  tripController.patchTrip
-);
+tripRoute.patch('/trips/:tripId', auth.verifyToken, tripController.patchTrip);
 
 export default tripRoute;

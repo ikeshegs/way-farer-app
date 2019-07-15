@@ -58,7 +58,7 @@ function () {
             return res.status(201).send({
               status: 'success',
               data: {
-                trip_id: data.rows[0].trip_id,
+                id: data.rows[0].trip_id,
                 bus_id: data.rows[0].bus_id,
                 origin: data.rows[0].origin,
                 destination: data.rows[0].destination,
@@ -114,7 +114,7 @@ function () {
         _db["default"].query(patchQuery, function (error, data) {
           if (data) {
             return res.status(200).send({
-              success: 'success',
+              status: 'success',
               data: {
                 message: 'Trip cancelled successfully'
               }

@@ -7,13 +7,13 @@ import auth from '../helpers/auth';
 const userRoute = express.Router();
 
 userRoute.post(
-  '/api/v1/auth/signup',
+  '/auth/signup',
   userValidator.signupValidator,
   userController.createUser
 );
 
 userRoute.post(
-  '/api/v1/auth/signin',
+  '/auth/signin',
   userValidator.loginValidator,
   userController.userSignup
 );

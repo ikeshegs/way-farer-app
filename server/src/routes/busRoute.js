@@ -6,7 +6,7 @@ import busValidator from '../middlewares/bus';
 const busRoute = express.Router();
 
 busRoute.post(
-  '/api/v1/bus',
+  '/bus',
   auth.verifyToken,
   busValidator.createBusValidator,
   busController.createBus
