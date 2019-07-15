@@ -64,7 +64,7 @@ class bookingController {
         pool.query(adminQuery, (error, data) => {
           return res.status(200).send({
             status: 'success',
-            data: data.rows
+            data: [data.rows]
           });
         });
         break;
@@ -77,7 +77,7 @@ class bookingController {
         pool.query(nonAdminQuery, (error, data) => {
           return res.status(200).send({
             status: 'success',
-            data: data.rows
+            data: [data.rows]
           });
         });
         break;

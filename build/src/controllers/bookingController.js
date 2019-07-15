@@ -77,7 +77,7 @@ function () {
           _db["default"].query(adminQuery, function (error, data) {
             return res.status(200).send({
               status: 'success',
-              data: data.rows
+              data: [data.rows]
             });
           });
 
@@ -92,7 +92,7 @@ function () {
           _db["default"].query(nonAdminQuery, function (error, data) {
             return res.status(200).send({
               status: 'success',
-              data: data.rows
+              data: [data.rows]
             });
           });
 
