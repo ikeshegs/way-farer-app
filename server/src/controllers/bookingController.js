@@ -19,34 +19,44 @@ class bookingController {
 
       pool.query(tripQuery, (error, data) => {
         if (data) {
-          const bookingQuery = {
-            text:
-              'INSERT INTO bookings (user_id, trip_id, bus_id, trip_date, first_name, last_name, email, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning *',
-            values: [
-              decodedUser.user_id,
-              booking.trip_id,
-              data.rows[0].bus_id,
-              data.rows[0].trip_date,
-              decodedUser.first_name,
-              decodedUser.last_name,
-              decodedUser.email,
-              booking.created_on
-            ]
+          const seatNumberQuery = {
+            text: 'SELECT FROM bookings where trip_id = $1',
+            values: [booking.trip_id]
           };
-          pool.query(bookingQuery, (bookingError, bookingData) => {
-            return res.status(201).send({
-              status: 'success',
-              data: {
-                id: bookingData.rows[0].booking_id,
-                user_id: bookingData.rows[0].user_id,
-                trip_id: bookingData.rows[0].trip_id,
-                bus_id: bookingData.rows[0].bus_id,
-                trip_date: bookingData.rows[0].trip_date,
-                seat_number: bookingData.rows[0].seat_number,
-                first_name: bookingData.rows[0].first_name,
-                last_name: bookingData.rows[0].last_name,
-                email: bookingData.rows[0].email
-              }
+          pool.query(seatNumberQuery, (seatNumberError, seatNumberData) => {
+            let seatNumber = seatNumberData.rowCount;
+            seatNumber += 1;
+
+            const bookingQuery = {
+              text:
+                'INSERT INTO bookings (user_id, trip_id, bus_id, trip_date, seat_number, first_name, last_name, email, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *',
+              values: [
+                decodedUser.user_id,
+                booking.trip_id,
+                data.rows[0].bus_id,
+                data.rows[0].trip_date,
+                seatNumber,
+                decodedUser.first_name,
+                decodedUser.last_name,
+                decodedUser.email,
+                booking.created_on
+              ]
+            };
+            pool.query(bookingQuery, (bookingError, bookingData) => {
+              return res.status(201).send({
+                status: 'success',
+                data: {
+                  id: bookingData.rows[0].booking_id,
+                  user_id: bookingData.rows[0].user_id,
+                  trip_id: bookingData.rows[0].trip_id,
+                  bus_id: bookingData.rows[0].bus_id,
+                  trip_date: bookingData.rows[0].trip_date,
+                  seat_number: bookingData.rows[0].seat_number,
+                  first_name: bookingData.rows[0].first_name,
+                  last_name: bookingData.rows[0].last_name,
+                  email: bookingData.rows[0].email
+                }
+              });
             });
           });
         }
