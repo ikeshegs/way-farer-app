@@ -93,6 +93,7 @@ class tripController {
           return res.status(200).send({
             success: 'success',
             data: {
+              key: req.params.tripId,
               message: 'Trip cancelled successfully'
             }
           });

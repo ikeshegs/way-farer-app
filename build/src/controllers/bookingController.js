@@ -128,6 +128,7 @@ function () {
             return res.status(200).send({
               success: 'success',
               data: {
+                key: req.params.bookingId,
                 message: 'Booking deleted successfully'
               }
             });
