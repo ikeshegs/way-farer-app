@@ -91,9 +91,8 @@ class tripController {
       pool.query(patchQuery, (error, data) => {
         if (data) {
           return res.status(200).send({
-            success: 'success',
+            status: 'success',
             data: {
-              status: 'success',
               message: 'Trip cancelled successfully'
             }
           });

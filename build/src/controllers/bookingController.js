@@ -126,9 +126,8 @@ function () {
         _db["default"].query(deleteQuery, function (error, data) {
           if (data.rows.length === 0) {
             return res.status(200).send({
-              success: 'success',
+              status: 'success',
               data: {
-                status: 'success',
                 message: 'Booking deleted successfully'
               }
             });
