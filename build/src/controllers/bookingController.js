@@ -49,7 +49,7 @@ function () {
               return res.status(201).send({
                 status: 'success',
                 data: {
-                  booking_id: bookingData.rows[0].booking_id,
+                  id: bookingData.rows[0].booking_id,
                   user_id: bookingData.rows[0].user_id,
                   trip_id: bookingData.rows[0].trip_id,
                   bus_id: bookingData.rows[0].bus_id,
