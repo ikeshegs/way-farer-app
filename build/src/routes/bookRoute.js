@@ -21,5 +21,6 @@ var bookRoute = _express["default"].Router();
 bookRoute.post('/bookings', _auth["default"].verifyToken, _booking["default"].createBookingValidator, _bookingController["default"].createBooking);
 bookRoute.get('/bookings', _auth["default"].verifyToken, _bookingController["default"].getBooking);
 bookRoute["delete"]('/bookings/:bookingId', _auth["default"].verifyToken, _bookingController["default"].deleteBooking);
+bookRoute.patch('/bookings/:bookingId', _auth["default"].verifyToken, _bookingController["default"].changeSeatNumber);
 var _default = bookRoute;
 exports["default"] = _default;

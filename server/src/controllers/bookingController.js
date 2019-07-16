@@ -126,6 +126,63 @@ class bookingController {
       });
     }
   }
+
+  static changeSeatNumber(req, res) {
+    const decodedUser = req.user;
+    const { seat_number } = req.body;
+
+    if (decodedUser) {
+      if (Number.isNaN(req.params.bookingId)) {
+        return res.status(400).send({
+          status: 'error',
+          error: 'Invalid Booking ID'
+        });
+      }
+
+      const changeSeatQuery = {
+        text: 'SELECT * FROM bookings WHERE booking_id = $1',
+        values: [req.params.bookingId]
+      };
+
+      pool.query(changeSeatQuery, (error, data) => {
+        if (data) {
+          const checkSeatQuery = {
+            text: 'SELECT * FROM bookings WHERE trip_id = $1',
+            values: [data.rows[0].trip_id]
+          };
+
+          pool.query(checkSeatQuery, (seatError, seatData) => {
+            const filteredData = seatData.rows.filter(
+              seatNumber => seatNumber.seat_number === seat_number
+            );
+
+            if (filteredData.length > 0) {
+              return res.status(409).send({
+                status: 'error',
+                error: 'Seat Number has been taken'
+              });
+            }
+
+            const changeSeatNumberQuery = {
+              text: `UPDATE bookings SET seat_number = ${seat_number} WHERE booking_id = $1`,
+              values: [req.params.bookingId]
+            };
+
+            pool.query(changeSeatNumberQuery, (newError, newData) => {
+              if (newData) {
+                return res.status(200).send({
+                  status: 'success',
+                  data: {
+                    message: 'Seat Number changed successfully'
+                  }
+                });
+              }
+            });
+          });
+        }
+      });
+    }
+  }
 }
 
 export default bookingController;

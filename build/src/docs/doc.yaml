@@ -126,6 +126,28 @@ paths:
         200:
           description: ""
           headers: {}
+    patch:
+      description: This endpoint changes the seat number for a user on a trip
+      summary: https://my-way-farer-app.herokuapp.com/bookings/<:bookingId>
+      tags:
+      - Bookings
+      operationId: SeatNumberPatch
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: seat_number
+        in: formData
+        required: true
+        type: integer
+        description: ''
+      responses:
+        200:
+          description: ""
+          headers: {}
+        409:
+          description: ""
+          headers: {}
   /trips:
     post:
       description: This endpoint creates a trip, and returns an object in an array
@@ -181,7 +203,7 @@ paths:
           description: ''
           headers: {}
     patch:
-      description: This endpoint gets all trips, and returns an object in an array
+      description: This endpoint cancels a trip, and returns an object in an array
       summary: my-way-farer-app.herokuapp.com/trips/<:tripId>
       tags:
       - Trips

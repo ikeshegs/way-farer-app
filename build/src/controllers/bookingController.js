@@ -144,6 +144,64 @@ function () {
         });
       }
     }
+  }, {
+    key: "changeSeatNumber",
+    value: function changeSeatNumber(req, res) {
+      var decodedUser = req.user;
+      var seat_number = req.body.seat_number;
+
+      if (decodedUser) {
+        if (Number.isNaN(req.params.bookingId)) {
+          return res.status(400).send({
+            status: 'error',
+            error: 'Invalid Booking ID'
+          });
+        }
+
+        var changeSeatQuery = {
+          text: 'SELECT * FROM bookings WHERE booking_id = $1',
+          values: [req.params.bookingId]
+        };
+
+        _db["default"].query(changeSeatQuery, function (error, data) {
+          if (data) {
+            var checkSeatQuery = {
+              text: 'SELECT * FROM bookings WHERE trip_id = $1',
+              values: [data.rows[0].trip_id]
+            };
+
+            _db["default"].query(checkSeatQuery, function (seatError, seatData) {
+              var filteredData = seatData.rows.filter(function (seatNumber) {
+                return seatNumber.seat_number === seat_number;
+              });
+
+              if (filteredData.length > 0) {
+                return res.status(409).send({
+                  status: 'error',
+                  error: 'Seat Number has been taken'
+                });
+              }
+
+              var changeSeatNumberQuery = {
+                text: "UPDATE bookings SET seat_number = ".concat(seat_number, " WHERE booking_id = $1"),
+                values: [req.params.bookingId]
+              };
+
+              _db["default"].query(changeSeatNumberQuery, function (newError, newData) {
+                if (newData) {
+                  return res.status(200).send({
+                    status: 'success',
+                    data: {
+                      message: 'Seat Number changed successfully'
+                    }
+                  });
+                }
+              });
+            });
+          }
+        });
+      }
+    }
   }]);
 
   return bookingController;
