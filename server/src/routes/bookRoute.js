@@ -21,4 +21,10 @@ bookRoute.delete(
   bookingController.deleteBooking
 );
 
+bookRoute.patch(
+  '/bookings/:bookingId',
+  auth.verifyToken,
+  bookingController.changeSeatNumber
+);
+
 export default bookRoute;

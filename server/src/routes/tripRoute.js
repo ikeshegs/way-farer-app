@@ -16,4 +16,6 @@ tripRoute.get('/trips', auth.verifyToken, tripController.getTrips);
 
 tripRoute.patch('/trips/:tripId', auth.verifyToken, tripController.patchTrip);
 
+tripRoute.get('/trips/tripdest/', auth.verifyToken, tripController.destTrip);
+
 export default tripRoute;

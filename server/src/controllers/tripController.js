@@ -100,6 +100,16 @@ class tripController {
       });
     }
   }
+
+  static destTrip(req, res) {
+    const decodedUser = req.user;
+
+    if (decodedUser) {
+      const filterdestination = {
+        text: 'SELECT * FROM trips WHERE destination = $1'
+      };
+    }
+  }
 }
 
 export default tripController;

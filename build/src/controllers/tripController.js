@@ -123,6 +123,17 @@ function () {
         });
       }
     }
+  }, {
+    key: "destTrip",
+    value: function destTrip(req, res) {
+      var decodedUser = req.user;
+
+      if (decodedUser) {
+        var filterdestination = {
+          text: 'SELECT * FROM trips WHERE destination = $1'
+        };
+      }
+    }
   }]);
 
   return tripController;
