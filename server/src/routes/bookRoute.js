@@ -7,22 +7,26 @@ import bookingController from '../controllers/bookingController';
 const bookRoute = express.Router();
 
 bookRoute.post(
-  '/bookings',
+  '/api/v1/bookings',
   auth.verifyToken,
   bookingValidator.createBookingValidator,
   bookingController.createBooking
 );
 
-bookRoute.get('/bookings', auth.verifyToken, bookingController.getBooking);
+bookRoute.get(
+  '/api/v1/bookings',
+  auth.verifyToken,
+  bookingController.getBooking
+);
 
 bookRoute.delete(
-  '/bookings/:bookingId',
+  '/api/v1/bookings/:bookingId',
   auth.verifyToken,
   bookingController.deleteBooking
 );
 
 bookRoute.patch(
-  '/bookings/:bookingId',
+  '/api/v1/bookings/:bookingId',
   auth.verifyToken,
   bookingController.changeSeatNumber
 );
