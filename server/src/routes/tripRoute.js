@@ -12,10 +12,18 @@ tripRoute.post(
   tripController.createTrip
 );
 
-tripRoute.get('/trips', auth.verifyToken, tripController.getTrips);
+tripRoute.get('/api/v1/trips', auth.verifyToken, tripController.getTrips);
 
-tripRoute.patch('/trips/:tripId', auth.verifyToken, tripController.patchTrip);
+tripRoute.patch(
+  '/api/v1/trips/:tripId',
+  auth.verifyToken,
+  tripController.patchTrip
+);
 
-tripRoute.get('/trips/tripdest/', auth.verifyToken, tripController.destTrip);
+tripRoute.get(
+  '/api/v1/trips/tripdest/',
+  auth.verifyToken,
+  tripController.destTrip
+);
 
 export default tripRoute;
