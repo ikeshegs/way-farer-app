@@ -6,7 +6,7 @@ import tripValidator from '../middlewares/trip';
 const tripRoute = express.Router();
 
 tripRoute.post(
-  '/trips',
+  '/api/v1/trips',
   auth.verifyToken,
   tripValidator.createTripValidator,
   tripController.createTrip
