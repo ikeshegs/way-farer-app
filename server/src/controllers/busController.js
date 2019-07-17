@@ -34,7 +34,7 @@ class busController {
           return res.status(201).send({
             status: 'success',
             data: {
-              bus_id: data.rows[0].bus_id,
+              bus_id: data.rows[0].id,
               message: `${data.rows[0].manufacturer} ${data.rows[0].model} created successfully`
             }
           });

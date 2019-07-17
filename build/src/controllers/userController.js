@@ -59,7 +59,7 @@ function () {
           return res.status(201).send({
             status: 'success',
             data: {
-              user_id: data.rows[0].user_id,
+              user_id: data.rows[0].id,
               is_admin: data.rows[0].is_admin,
               token: token
             }
@@ -75,19 +75,19 @@ function () {
       });
     }
   }, {
-    key: "userSignup",
-    value: function userSignup(req, res) {
+    key: "userSignin",
+    value: function userSignin(req, res) {
       var _req$body = req.body,
           email = _req$body.email,
           password = _req$body.password;
       var query = {
-        text: 'SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
+        text: 'SELECT id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
         values: [email]
       };
 
       _db["default"].query(query, function (error, data) {
         if (data.rows.length === 0) {
-          return res.status(400).send({
+          return res.status(404).send({
             status: 'error',
             error: 'No user in the database'
           });
@@ -102,7 +102,7 @@ function () {
             return res.status(200).send({
               status: 'success',
               data: {
-                user_id: data.rows[0].user_id,
+                user_id: data.rows[0].id,
                 is_admin: data.rows[0].is_admin,
                 token: token
               }

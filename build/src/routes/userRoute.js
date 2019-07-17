@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var userRoute = _express["default"].Router();
 
 userRoute.post('/auth/signup', _user["default"].signupValidator, _userController["default"].createUser);
-userRoute.post('/auth/signin', _user["default"].loginValidator, _userController["default"].userSignup); // userRoute.get('/api/v1/users', auth.verifyToken, userController.getUsers);
+userRoute.post('/auth/signin', _user["default"].loginValidator, _userController["default"].userSignin); // userRoute.get('/api/v1/users', auth.verifyToken, userController.getUsers);
 
 var _default = userRoute;
 exports["default"] = _default;

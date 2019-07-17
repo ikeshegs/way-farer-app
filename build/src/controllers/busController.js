@@ -52,7 +52,7 @@ function () {
             return res.status(201).send({
               status: 'success',
               data: {
-                bus_id: data.rows[0].bus_id,
+                bus_id: data.rows[0].id,
                 message: "".concat(data.rows[0].manufacturer, " ").concat(data.rows[0].model, " created successfully")
               }
             });

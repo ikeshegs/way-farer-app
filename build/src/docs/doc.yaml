@@ -4,11 +4,10 @@ info:
   title: Way Farer App
   description: This is a documentation for Way Farer App
   contact: {}
-host: https://my-way-farer-app.herokuapp.com
+host: my-way-farer-app.herokuapp.com
 basePath: /
 schemes:
 - https
-- http
 consumes:
 - application/json
 produces:
@@ -17,7 +16,7 @@ paths:
   /auth/signup:
     post:
       description: This endpoint authenticates a user, when they create an account and returns a JWT Token
-      summary: https://my-way-farer-app.herokuapp.com/auth/signup
+      summary: It creates a new user account
       tags:
       - Users
       operationId: AuthSignupPost
@@ -27,12 +26,12 @@ paths:
       consumes:
       - application/x-www-form-urlencoded
       parameters:
-      - name: firstname
+      - name: first_name
         in: formData
         required: true
         type: string
         description: ''
-      - name: lastname
+      - name: last_name
         in: formData
         required: true
         type: string
@@ -49,12 +48,18 @@ paths:
         description: ''
       responses:
         201:
-          description: ''
+          description: 'User created successfully'
+          headers: {}
+        400:
+          description: 'Error from validation'
+          headers: {}
+        409:
+          description: 'User already exists'
           headers: {}
   /auth/signin:
     post:
       description: This endpoint authenticates the user on login and returns a JWT Token
-      summary: https://my-way-farer-app.herokuapp.com/auth/signin
+      summary: It signs in a user 
       tags:
       - Users
       operationId: AuthSigninPost
@@ -76,12 +81,18 @@ paths:
         description: ''
       responses:
         200:
-          description: ''
+          description: 'Signin Successful'
+          headers: {}
+        404:
+          description: 'No user in the database'
+          headers: {}
+        400:
+          description: 'Invalid credentials'
           headers: {}
   /bookings:
     post:
       description: This endpoint creates a new booking, and returns an object in an array
-      summary: https://my-way-farer-app.herokuapp.com/bookings
+      summary: It creates a new booking
       tags:
       - Bookings
       operationId: BookingsPost
@@ -96,11 +107,11 @@ paths:
         description: ''
       responses:
         201:
-          description: ''
+          description: 'Booking created successfully'
           headers: {}
     get:
       description: This endpoint gets all bookings and returns an object in an array
-      summary: https://my-way-farer-app.herokuapp.com/bookings
+      summary: It displays a users bookings
       tags:
       - Bookings
       operationId: BookingsGet
@@ -110,11 +121,11 @@ paths:
       parameters: []
       responses:
         200:
-          description: ''
+          description: 'All bookings successfully retrieved'
           headers: {}
-    delete:
+    delete/bookingId:
       description: This endpoint deletes a booking and returns an object in an array
-      summary: https://my-way-farer-app.herokuapp.com/bookings/<:bookingId>
+      summary: A user can delete their booking
       tags:
       - Bookings
       operationId: BookingsDelete
@@ -124,11 +135,11 @@ paths:
       parameters: []
       responses:
         200:
-          description: ""
+          description: 'Trip deleted successfully'
           headers: {}
-    patch:
+    patch/bookingId:
       description: This endpoint changes the seat number for a user on a trip
-      summary: https://my-way-farer-app.herokuapp.com/bookings/<:bookingId>
+      summary: A user can change their seat number
       tags:
       - Bookings
       operationId: SeatNumberPatch
@@ -143,15 +154,15 @@ paths:
         description: ''
       responses:
         200:
-          description: ""
+          description: 'Seat Number changed successfully'
           headers: {}
         409:
-          description: ""
+          description: 'Seat Number has been taken'
           headers: {}
   /trips:
     post:
       description: This endpoint creates a trip, and returns an object in an array
-      summary: https://my-way-farer-app.herokuapp.com/trips
+      summary: Admin can create a trip
       tags:
       - Trips
       operationId: TripPost
@@ -159,7 +170,7 @@ paths:
       produces:
       - application/json
       parameters:
-      - name: busId
+      - name: bus_id
         in: formData
         required: true
         type: string
@@ -174,7 +185,7 @@ paths:
         required: true
         type: string
         description: ''
-      - name: tripDate
+      - name: trip_date
         in: formData
         required: true
         type: string
@@ -186,11 +197,14 @@ paths:
         description: ''
       responses:
         200:
-          description: ''
+          description: 'Trip created successfully'
+          headers: {}
+        400:
+          description: 'Form inputs error'
           headers: {}
     get:
       description: This endpoint gets all trips, and returns an object in an array
-      summary: my-way-farer-app.herokuapp.com/trips
+      summary: Users can view all trips`
       tags:
       - Trips
       operationId: TripsGet
@@ -200,11 +214,11 @@ paths:
       parameters: []
       responses:
         200:
-          description: ''
+          description: 'All trips retrieved successfully'
           headers: {}
-    patch:
+    patch/tripId:
       description: This endpoint cancels a trip, and returns an object in an array
-      summary: my-way-farer-app.herokuapp.com/trips/<:tripId>
+      summary: Admin can cancel a trip
       tags:
       - Trips
       operationId: TripsPatch
@@ -214,36 +228,26 @@ paths:
       parameters: []
       responses:
         200:
-          description: ''
+          description: 'Trip cancelled successfully'
           headers: {}
 definitions:
-  https://my-way-farer-app.herokuapp.com/auth/signup:
-    title: signUp
-    example:
-      firstname: Chika
-      lastname: Biodun
-      email: chikab@test.com
-      password: biodunchi
+  signUp:
     type: object
     properties:
-      firstname:
+      first_name:
         type: string
-      lastname:
+      last_name:
         type: string
       email:
         type: string
       password:
         type: string
     required:
-    - firstname
-    - lastname
+    - first_name
+    - last_name
     - email
     - password
-  https://my-way-farer-app.herokuapp.com/auth/signin:
-    title: signIn
-    example:
-      email: chikab@test.com
-      password: biodunchi
+  signIn:
     type: object
     properties:
       email:
@@ -253,10 +257,7 @@ definitions:
     required:
     - email
     - password
-  https://my-way-farer-app.herokuapp.com/bookings:
-    title: createBooking
-    example:
-      trip_id: 1
+  bookings:
     type: object
     properties:
       trip_id:
@@ -264,32 +265,25 @@ definitions:
         format: int32
     required:
     - trip_id
-  https://my-way-farer-app.herokuapp.com/trips:
-    title: createTrip
-    example:
-      busId: bf503a19-aefd-4697-bf2a-8119328f7ca6
-      origin: Owerri
-      destination: Lagos
-      tripDate: 20-08-2019
-      fare: 5000
+  trips:
     type: object
     properties:
-      numberPlate:
+      bus_id:
         type: string
       manufacturer:
         type: string
       model:
         type: string
-      tripDate:
+      trip_date:
         type: date
       fare`:
         type: integer
         format: int32
     required:
-    - busId
+    - bus_id
     - origin
     - destination
-    - tripDate
+    - trip_date
     - fare
 tags:
 - name: Bookings

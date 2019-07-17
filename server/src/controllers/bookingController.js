@@ -13,14 +13,14 @@ class bookingController {
       };
 
       const tripQuery = {
-        text: 'SELECT bus_id, trip_date FROM trips WHERE trip_id = $1',
+        text: 'SELECT bus_id, trip_date FROM trips WHERE id = $1',
         values: [booking.trip_id]
       };
 
       pool.query(tripQuery, (error, data) => {
         if (data) {
           const seatNumberQuery = {
-            text: 'SELECT FROM bookings where trip_id = $1',
+            text: 'SELECT * FROM bookings where trip_id = $1',
             values: [booking.trip_id]
           };
           pool.query(seatNumberQuery, (seatNumberError, seatNumberData) => {
@@ -31,7 +31,7 @@ class bookingController {
               text:
                 'INSERT INTO bookings (user_id, trip_id, bus_id, trip_date, seat_number, first_name, last_name, email, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *',
               values: [
-                decodedUser.user_id,
+                decodedUser.id,
                 booking.trip_id,
                 data.rows[0].bus_id,
                 data.rows[0].trip_date,
@@ -46,7 +46,7 @@ class bookingController {
               return res.status(201).send({
                 status: 'success',
                 data: {
-                  id: bookingData.rows[0].booking_id,
+                  id: bookingData.rows[0].id,
                   user_id: bookingData.rows[0].user_id,
                   trip_id: bookingData.rows[0].trip_id,
                   bus_id: bookingData.rows[0].bus_id,
@@ -110,7 +110,7 @@ class bookingController {
         });
       }
       const deleteQuery = {
-        text: 'DELETE FROM bookings WHERE booking_id = $1',
+        text: 'DELETE FROM bookings WHERE id = $1',
         values: [req.params.bookingId]
       };
 
@@ -140,7 +140,7 @@ class bookingController {
       }
 
       const changeSeatQuery = {
-        text: 'SELECT * FROM bookings WHERE booking_id = $1',
+        text: 'SELECT * FROM bookings WHERE id = $1',
         values: [req.params.bookingId]
       };
 
@@ -164,7 +164,7 @@ class bookingController {
             }
 
             const changeSeatNumberQuery = {
-              text: `UPDATE bookings SET seat_number = ${seat_number} WHERE booking_id = $1`,
+              text: `UPDATE bookings SET seat_number = ${seat_number} WHERE id = $1`,
               values: [req.params.bookingId]
             };
 

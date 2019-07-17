@@ -41,7 +41,7 @@ class userController {
         return res.status(201).send({
           status: 'success',
           data: {
-            user_id: data.rows[0].user_id,
+            user_id: data.rows[0].id,
             is_admin: data.rows[0].is_admin,
             token
           }
@@ -57,18 +57,18 @@ class userController {
     });
   }
 
-  static userSignup(req, res) {
+  static userSignin(req, res) {
     const { email, password } = req.body;
 
     const query = {
       text:
-        'SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
+        'SELECT id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
       values: [email]
     };
 
     pool.query(query, (error, data) => {
       if (data.rows.length === 0) {
-        return res.status(400).send({
+        return res.status(404).send({
           status: 'error',
           error: 'No user in the database'
         });
@@ -85,7 +85,7 @@ class userController {
           return res.status(200).send({
             status: 'success',
             data: {
-              user_id: data.rows[0].user_id,
+              user_id: data.rows[0].id,
               is_admin: data.rows[0].is_admin,
               token
             }
