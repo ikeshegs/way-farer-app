@@ -15,7 +15,7 @@ userRoute.post(
 userRoute.post(
   '/auth/signin',
   userValidator.loginValidator,
-  userController.userSignup
+  userController.userSignin
 );
 
 // userRoute.get('/api/v1/users', auth.verifyToken, userController.getUsers);

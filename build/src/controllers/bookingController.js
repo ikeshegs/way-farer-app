@@ -34,14 +34,14 @@ function () {
           created_on: new Date()
         };
         var tripQuery = {
-          text: 'SELECT bus_id, trip_date FROM trips WHERE trip_id = $1',
+          text: 'SELECT bus_id, trip_date FROM trips WHERE id = $1',
           values: [booking.trip_id]
         };
 
         _db["default"].query(tripQuery, function (error, data) {
           if (data) {
             var seatNumberQuery = {
-              text: 'SELECT FROM bookings where trip_id = $1',
+              text: 'SELECT * FROM bookings where trip_id = $1',
               values: [booking.trip_id]
             };
 
@@ -50,14 +50,14 @@ function () {
               seatNumber += 1;
               var bookingQuery = {
                 text: 'INSERT INTO bookings (user_id, trip_id, bus_id, trip_date, seat_number, first_name, last_name, email, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *',
-                values: [decodedUser.user_id, booking.trip_id, data.rows[0].bus_id, data.rows[0].trip_date, seatNumber, decodedUser.first_name, decodedUser.last_name, decodedUser.email, booking.created_on]
+                values: [decodedUser.id, booking.trip_id, data.rows[0].bus_id, data.rows[0].trip_date, seatNumber, decodedUser.first_name, decodedUser.last_name, decodedUser.email, booking.created_on]
               };
 
               _db["default"].query(bookingQuery, function (bookingError, bookingData) {
                 return res.status(201).send({
                   status: 'success',
                   data: {
-                    id: bookingData.rows[0].booking_id,
+                    id: bookingData.rows[0].id,
                     user_id: bookingData.rows[0].user_id,
                     trip_id: bookingData.rows[0].trip_id,
                     bus_id: bookingData.rows[0].bus_id,
@@ -128,7 +128,7 @@ function () {
         }
 
         var deleteQuery = {
-          text: 'DELETE FROM bookings WHERE booking_id = $1',
+          text: 'DELETE FROM bookings WHERE id = $1',
           values: [req.params.bookingId]
         };
 
@@ -159,7 +159,7 @@ function () {
         }
 
         var changeSeatQuery = {
-          text: 'SELECT * FROM bookings WHERE booking_id = $1',
+          text: 'SELECT * FROM bookings WHERE id = $1',
           values: [req.params.bookingId]
         };
 
@@ -183,7 +183,7 @@ function () {
               }
 
               var changeSeatNumberQuery = {
-                text: "UPDATE bookings SET seat_number = ".concat(seat_number, " WHERE booking_id = $1"),
+                text: "UPDATE bookings SET seat_number = ".concat(seat_number, " WHERE id = $1"),
                 values: [req.params.bookingId]
               };
 

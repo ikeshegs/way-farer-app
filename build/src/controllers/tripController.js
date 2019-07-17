@@ -58,7 +58,7 @@ function () {
             return res.status(201).send({
               status: 'success',
               data: {
-                id: data.rows[0].trip_id,
+                id: data.rows[0].id,
                 bus_id: data.rows[0].bus_id,
                 origin: data.rows[0].origin,
                 destination: data.rows[0].destination,
@@ -107,7 +107,7 @@ function () {
         }
 
         var patchQuery = {
-          text: "UPDATE trips SET status = 'cancelled' WHERE trip_id = $1",
+          text: "UPDATE trips SET status = 'cancelled' WHERE id = $1",
           values: [req.params.tripId]
         };
 
