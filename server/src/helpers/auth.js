@@ -1,11 +1,17 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-// import JWT_KEY from '../config/jwt_config';
 
 dotenv.config();
 
-const createToken = payload =>
-  jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1h' });
+const createToken = payload => {
+  const userDetails = {
+    id: payload.id,
+    isAdmin: payload.is_admin
+  }
+  jwt.sign(userDetails, process.env.JWT_KEY, {
+    expiresIn: '1h'
+  });
+}
 
 // eslint-disable-next-line consistent-return
 const verifyToken = (req, res, next) => {
@@ -16,7 +22,11 @@ const verifyToken = (req, res, next) => {
     const token = bearer[1];
     req.token = token;
     try {
-      const result = jwt.verify(token, process.env.JWT_KEY);
+      const userDetails = {
+        id: token.id,
+        isAdmin: token.is_admin
+      }
+      const result = jwt.verify(userDetails, process.env.JWT_KEY);
       req.user = result;
     } catch (e) {
       return res.status(403).json({
@@ -34,4 +44,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-export default { createToken, verifyToken };
+export default {
+  createToken,
+  verifyToken
+};

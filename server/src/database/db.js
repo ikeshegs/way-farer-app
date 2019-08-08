@@ -1,4 +1,6 @@
-import { Pool } from 'pg';
+import {
+  Pool
+} from 'pg';
 import dotenv from 'dotenv';
 import {
   createUsers,
@@ -13,8 +15,7 @@ dotenv.config();
 const createTables = createUsers + createBuses + createTrips + createBookings;
 
 const pool = new Pool({
-  connectionString:
-    process.env.DB_URL ||
+  connectionString: process.env.DB_URL ||
     process.env.PROD_DATABASE_URL ||
     process.env.TEST_DATABASE_URL
 });
