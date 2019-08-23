@@ -12,6 +12,6 @@ busRoute.post(
   busController.createBus
 );
 
-// busRoute.get('/api/v1/bus', auth.verifyToken, busController.getBuses);
+busRoute.get('/api/v1/bus', auth.verifyToken, busController.getBuses);
 
 export default busRoute;

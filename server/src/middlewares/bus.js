@@ -1,7 +1,13 @@
 /* eslint-disable camelcase */
 class busValidator {
   static createBusValidator(req, res, next) {
-    const { number_plate, manufacturer, model, year, capacity } = req.body;
+    const {
+      number_plate,
+      manufacturer,
+      model,
+      year,
+      capacity
+    } = req.body;
 
     // Email Validation
     if (number_plate === undefined) {
@@ -35,7 +41,7 @@ class busValidator {
         error: 'Manufacturer must be an alphabet'
       });
     }
-    const validManufacturersCharacters = /^[a-zA-Z]+$/;
+    const validManufacturersCharacters = /^[a-zA-Z]/;
     if (!validManufacturersCharacters.test(manufacturer)) {
       return res.status(400).send({
         status: 'error',

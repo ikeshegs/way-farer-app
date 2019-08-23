@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var busRoute = _express["default"].Router();
 
-busRoute.post('/api/v1/bus', _auth["default"].verifyToken, _bus["default"].createBusValidator, _busController["default"].createBus); // busRoute.get('/api/v1/bus', auth.verifyToken, busController.getBuses);
-
+busRoute.post('/api/v1/bus', _auth["default"].verifyToken, _bus["default"].createBusValidator, _busController["default"].createBus);
+busRoute.get('/api/v1/bus', _auth["default"].verifyToken, _busController["default"].getBuses);
 var _default = busRoute;
 exports["default"] = _default;

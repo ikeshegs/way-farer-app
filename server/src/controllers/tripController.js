@@ -5,8 +5,14 @@ class tripController {
   static createTrip(req, res) {
     const decodedUser = req.user;
 
-    if (decodedUser.is_admin === true) {
-      const { bus_id, origin, destination, trip_date, fare } = req.body;
+    if (decodedUser.isAdmin === true) {
+      const {
+        bus_id,
+        origin,
+        destination,
+        trip_date,
+        fare
+      } = req.body;
       const trip = {
         bus_id,
         origin,
@@ -16,8 +22,7 @@ class tripController {
       };
 
       const query = {
-        text:
-          'INSERT INTO trips (bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5) returning *',
+        text: 'INSERT INTO trips (bus_id, origin, destination, trip_date, fare) VALUES ($1, $2, $3, $4, $5) returning *',
         values: [
           trip.bus_id,
           trip.origin,
@@ -29,14 +34,14 @@ class tripController {
 
       pool.query(query, (error, data) => {
         if (error) {
-          return res.status(400).send({
+          return res.status(400).json({
             status: 'error',
             error
           });
         }
 
         if (data) {
-          return res.status(201).send({
+          return res.status(201).json({
             status: 'success',
             data: {
               id: data.rows[0].id,
@@ -48,7 +53,7 @@ class tripController {
             }
           });
         }
-        return res.status(400).send({
+        return res.status(400).json({
           status: 'error',
           error: 'Unsuccessful'
         });
@@ -64,7 +69,7 @@ class tripController {
 
       pool.query(query, (error, data) => {
         if (data.rows.length !== 0) {
-          return res.status(200).send({
+          return res.status(200).json({
             status: 'success',
             data: data.rows
           });
@@ -76,40 +81,57 @@ class tripController {
   static patchTrip(req, res) {
     const decodedUser = req.user;
 
-    if (decodedUser.is_admin === true) {
+    if (decodedUser.isAdmin === true) {
       if (Number.isNaN(req.params.tripId)) {
-        return res.status(400).send({
+        return res.status(400).json({
           status: 'error',
           error: 'Invalid Booking ID'
         });
       }
-      const patchQuery = {
-        text: "UPDATE trips SET status = 'cancelled' WHERE id = $1",
+
+      // Check if trip has already been cancelled
+      const checkTrip = {
+        text: "SELECT status FROM trips WHERE id = $1",
         values: [req.params.tripId]
       };
 
-      pool.query(patchQuery, (error, data) => {
-        if (data) {
-          return res.status(200).send({
-            status: 'success',
-            data: {
-              message: 'Trip cancelled successfully'
-            }
-          });
+      pool.query(checkTrip, (error, data) => {
+        if (data.rows[0].status === 'cancelled') {
+          return res.status(409).json({
+            status: 'error',
+            error: 'Trip has already been cancelled'
+          })
         }
-      });
+
+        // Update Trip status to 'Cancelled'
+        const patchQuery = {
+          text: "UPDATE trips SET status = 'cancelled' WHERE id = $1",
+          values: [req.params.tripId]
+        };
+
+        pool.query(patchQuery, (error, newData) => {
+          if (newData) {
+            return res.status(200).json({
+              status: 'success',
+              data: {
+                message: 'Trip cancelled successfully'
+              }
+            });
+          }
+        });
+      })
     }
   }
 
-  static destTrip(req, res) {
-    const decodedUser = req.user;
+  // static destTrip(req, res) {
+  //   const decodedUser = req.user;
 
-    if (decodedUser) {
-      const filterdestination = {
-        text: 'SELECT * FROM trips WHERE destination = $1'
-      };
-    }
-  }
+  //   if (decodedUser) {
+  //     const filterdestination = {
+  //       text: 'SELECT * FROM trips WHERE destination = $1'
+  //     };
+  //   }
+  // }
 }
 
 export default tripController;

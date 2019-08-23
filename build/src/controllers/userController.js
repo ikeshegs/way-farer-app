@@ -47,13 +47,12 @@ function () {
         is_admin: req.body.is_admin || false
       }; // Create account if no errors
 
-      var query = {
+      var userQuery = {
         text: 'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5) returning *',
         values: [user.first_name, user.last_name, user.email, user.password, user.is_admin]
-      }; // const token = auth.createToken(user);
-      // console.log('token', token)
+      };
 
-      _db["default"].query(query, function (error, data) {
+      _db["default"].query(userQuery, function (error, data) {
         // Create user Signup Token
         var token = _auth["default"].createToken(data.rows[0]);
 
@@ -123,7 +122,7 @@ function () {
     value: function getUsers(req, res) {
       var decodedUser = req.user;
 
-      if (decodedUser.is_admin === true) {
+      if (decodedUser.isAdmin === true) {
         var query = 'SELECT * FROM users';
 
         _db["default"].query(query, function (error, data) {

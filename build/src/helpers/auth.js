@@ -32,28 +32,22 @@ var createToken = function createToken(payload) {
 
 
 var verifyToken = function verifyToken(req, res, next) {
-  var header = req.headers.authorization || req.query.token || req.body.token;
+  var header = req.headers.authorization;
 
   if (typeof header !== 'undefined') {
     var bearer = header.split(' ');
     var token = bearer[1];
-    req.token = token;
 
-    try {
-      var userDetails = {
-        id: token.id,
-        isAdmin: token.is_admin
-      };
-
-      var result = _jsonwebtoken["default"].verify(userDetails, process.env.JWT_KEY);
-
-      req.user = result;
-    } catch (e) {
-      return res.status(403).json({
-        status: 'error',
-        error: 'Forbidden'
-      });
-    }
+    _jsonwebtoken["default"].verify(token, process.env.JWT_KEY, function (err, result) {
+      if (err) {
+        res.status(403).json({
+          status: 'error',
+          error: 'Forbidden'
+        });
+      } else {
+        req.user = result;
+      }
+    });
 
     next();
   } else {

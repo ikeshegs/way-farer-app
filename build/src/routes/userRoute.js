@@ -11,13 +11,15 @@ var _user = _interopRequireDefault(require("../middlewares/user"));
 
 var _userController = _interopRequireDefault(require("../controllers/userController"));
 
+var _auth = _interopRequireDefault(require("../helpers/auth"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // Set Router
 var userRoute = _express["default"].Router();
 
 userRoute.post('/api/v1/auth/signup', _user["default"].signupValidator, _userController["default"].createUser);
-userRoute.post('/api/v1/auth/signin', _user["default"].loginValidator, _userController["default"].userSignin); // userRoute.get('/api/v1/users', auth.verifyToken, userController.getUsers);
-
+userRoute.post('/api/v1/auth/signin', _user["default"].loginValidator, _userController["default"].userSignin);
+userRoute.get('/api/v1/users', _auth["default"].verifyToken, _userController["default"].getUsers);
 var _default = userRoute;
 exports["default"] = _default;

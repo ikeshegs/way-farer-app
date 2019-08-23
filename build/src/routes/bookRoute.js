@@ -21,6 +21,6 @@ var bookRoute = _express["default"].Router();
 bookRoute.post('/api/v1/bookings', _auth["default"].verifyToken, _booking["default"].createBookingValidator, _bookingController["default"].createBooking);
 bookRoute.get('/api/v1/bookings', _auth["default"].verifyToken, _bookingController["default"].getBooking);
 bookRoute["delete"]('/api/v1/bookings/:bookingId', _auth["default"].verifyToken, _bookingController["default"].deleteBooking);
-bookRoute.patch('/api/v1/bookings/:bookingId', _auth["default"].verifyToken, _bookingController["default"].changeSeatNumber);
+bookRoute.put('/api/v1/bookings/:bookingId', _auth["default"].verifyToken, _bookingController["default"].changeSeatNumber);
 var _default = bookRoute;
 exports["default"] = _default;

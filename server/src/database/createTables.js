@@ -37,8 +37,5 @@ CREATE TABLE IF NOT EXISTS bookings (
     bus_id SERIAL NOT NULL,
     trip_date DATE NOT NULL,
     seat_number INTEGER,
-    first_name VARCHAR (30) NOT NULL,
-    last_name VARCHAR (30) NOT NULL,
-    email VARCHAR (30) NOT NULL,
     created_on DATE NOT NULL
 )`;

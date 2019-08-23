@@ -19,7 +19,11 @@ var tripRoute = _express["default"].Router();
 
 tripRoute.post('/api/v1/trips', _auth["default"].verifyToken, _trip["default"].createTripValidator, _tripController["default"].createTrip);
 tripRoute.get('/api/v1/trips', _auth["default"].verifyToken, _tripController["default"].getTrips);
-tripRoute.patch('/api/v1/trips/:tripId', _auth["default"].verifyToken, _tripController["default"].patchTrip);
-tripRoute.get('/api/v1/trips/tripdest/', _auth["default"].verifyToken, _tripController["default"].destTrip);
+tripRoute.put('/api/v1/trips/:tripId', _auth["default"].verifyToken, _tripController["default"].patchTrip); // tripRoute.get(
+//   '/api/v1/trips/tripdest/',
+//   auth.verifyToken,
+//   tripController.destTrip
+// );
+
 var _default = tripRoute;
 exports["default"] = _default;

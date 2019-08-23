@@ -21,9 +21,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(swaggerRoute);
 app.use(userRoute);
-app.use('api/v1', tripRoute);
-app.use('api/v1', busRoute);
-app.use('api/v1', bookRoute);
+app.use(tripRoute);
+app.use(busRoute);
+app.use(bookRoute);
 
 app.get('/', (req, res) => {
   return res.send({

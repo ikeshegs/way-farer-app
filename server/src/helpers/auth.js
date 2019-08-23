@@ -8,12 +8,10 @@ const createToken = payload => {
   if (payload === undefined) {
     return;
   }
-
   const userDetails = {
     id: payload.id,
     isAdmin: payload.is_admin
   }
-
   const token = jwt.sign(userDetails, process.env.JWT_KEY, {
     expiresIn: '24h'
   });
@@ -22,25 +20,22 @@ const createToken = payload => {
 
 // eslint-disable-next-line consistent-return
 const verifyToken = (req, res, next) => {
-  const header = req.headers.authorization || req.query.token || req.body.token;
+  const header = req.headers.authorization;
 
   if (typeof header !== 'undefined') {
     const bearer = header.split(' ');
     const token = bearer[1];
-    req.token = token;
-    try {
-      const userDetails = {
-        id: token.id,
-        isAdmin: token.is_admin
+
+    jwt.verify(token, process.env.JWT_KEY, (err, result) => {
+      if (err) {
+        res.status(403).json({
+          status: 'error',
+          error: 'Forbidden'
+        });
+      } else {
+        req.user = result
       }
-      const result = jwt.verify(userDetails, process.env.JWT_KEY);
-      req.user = result;
-    } catch (e) {
-      return res.status(403).json({
-        status: 'error',
-        error: 'Forbidden'
-      });
-    }
+    })
     next();
   } else {
     // If header is undefined

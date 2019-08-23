@@ -64,7 +64,7 @@ function () {
         });
       }
 
-      var validManufacturersCharacters = /^[a-zA-Z]+$/;
+      var validManufacturersCharacters = /^[a-zA-Z]/;
 
       if (!validManufacturersCharacters.test(manufacturer)) {
         return res.status(400).send({

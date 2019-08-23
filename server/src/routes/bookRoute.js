@@ -25,7 +25,7 @@ bookRoute.delete(
   bookingController.deleteBooking
 );
 
-bookRoute.patch(
+bookRoute.put(
   '/api/v1/bookings/:bookingId',
   auth.verifyToken,
   bookingController.changeSeatNumber

@@ -10,5 +10,5 @@ var createBuses = "\nCREATE TABLE IF NOT EXISTS buses (\n    id SERIAL PRIMARY K
 exports.createBuses = createBuses;
 var createTrips = "\nCREATE TABLE IF NOT EXISTS trips (\n    id SERIAL PRIMARY KEY,\n    bus_id SERIAL REFERENCES buses(id) NOT NULL,\n    origin VARCHAR (30) NOT NULL,\n    destination VARCHAR (30) NOT NULL,\n    trip_date DATE NOT NULL,\n    fare NUMERIC NOT NULL,\n    status VARCHAR (10) DEFAULT 'active'\n)";
 exports.createTrips = createTrips;
-var createBookings = "\nCREATE TABLE IF NOT EXISTS bookings (\n    id SERIAL,\n    user_id SERIAL REFERENCES users(id),\n    trip_id SERIAL REFERENCES trips(id),\n    bus_id SERIAL NOT NULL,\n    trip_date DATE NOT NULL,\n    seat_number INTEGER,\n    first_name VARCHAR (30) NOT NULL,\n    last_name VARCHAR (30) NOT NULL,\n    email VARCHAR (30) NOT NULL,\n    created_on DATE NOT NULL\n)";
+var createBookings = "\nCREATE TABLE IF NOT EXISTS bookings (\n    id SERIAL,\n    user_id SERIAL REFERENCES users(id),\n    trip_id SERIAL REFERENCES trips(id),\n    bus_id SERIAL NOT NULL,\n    trip_date DATE NOT NULL,\n    seat_number INTEGER,\n    created_on DATE NOT NULL\n)";
 exports.createBookings = createBookings;

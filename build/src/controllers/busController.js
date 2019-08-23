@@ -27,7 +27,7 @@ function () {
     value: function createBus(req, res) {
       var decodedUser = req.user;
 
-      if (decodedUser.is_admin === true) {
+      if (decodedUser.isAdmin === true) {
         var _req$body = req.body,
             number_plate = _req$body.number_plate,
             manufacturer = _req$body.manufacturer,
@@ -49,7 +49,7 @@ function () {
 
         _db["default"].query(query, function (error, data) {
           if (data) {
-            return res.status(201).send({
+            return res.status(201).json({
               status: 'success',
               data: {
                 bus_id: data.rows[0].id,
@@ -58,33 +58,38 @@ function () {
             });
           }
 
-          return res.status(400).send({
+          return res.status(400).json({
             status: 'error',
             error: 'Error creating bus'
           });
         });
       }
-    } // static getBuses(req, res) {
-    //   const decodedUser = req.user;
-    //   if (decodedUser.is_admin === true) {
-    //     const query = 'SELECT * FROM buses';
-    //     pool.query(query, (error, data) => {
-    //       if (error) {
-    //         return res.status.send({
-    //           status: 'error',
-    //           error
-    //         });
-    //       }
-    //       if (data.rows.length !== 0) {
-    //         return res.status(200).send({
-    //           status: 'success',
-    //           data: data.rows
-    //         });
-    //       }
-    //     });
-    //   }
-    // }
+    }
+  }, {
+    key: "getBuses",
+    value: function getBuses(req, res) {
+      var decodedUser = req.user;
 
+      if (decodedUser.isAdmin === true) {
+        var query = 'SELECT * FROM buses';
+
+        _db["default"].query(query, function (error, data) {
+          if (error) {
+            return res.status.json({
+              status: 'error',
+              error: error
+            });
+          }
+
+          if (data.rows.length !== 0) {
+            return res.status(200).json({
+              status: 'success',
+              data: data.rows
+            });
+          }
+        });
+      }
+    }
   }]);
 
   return busController;

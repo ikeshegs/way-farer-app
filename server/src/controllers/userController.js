@@ -22,7 +22,7 @@ class userController {
     };
 
     // Create account if no errors
-    const query = {
+    const userQuery = {
       text: 'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5) returning *',
       values: [
         user.first_name,
@@ -33,10 +33,7 @@ class userController {
       ]
     };
 
-    // const token = auth.createToken(user);
-    // console.log('token', token)
-
-    pool.query(query, (error, data) => {
+    pool.query(userQuery, (error, data) => {
       // Create user Signup Token
       const token = auth.createToken(data.rows[0]);
 
@@ -107,7 +104,7 @@ class userController {
   static getUsers(req, res) {
     const decodedUser = req.user;
 
-    if (decodedUser.is_admin === true) {
+    if (decodedUser.isAdmin === true) {
       const query = 'SELECT * FROM users';
 
       pool.query(query, (error, data) => {
