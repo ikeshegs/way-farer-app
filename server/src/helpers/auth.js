@@ -4,13 +4,20 @@ import jwt from 'jsonwebtoken';
 dotenv.config();
 
 const createToken = payload => {
+
+  if (payload === undefined) {
+    return;
+  }
+
   const userDetails = {
     id: payload.id,
     isAdmin: payload.is_admin
   }
-  jwt.sign(userDetails, process.env.JWT_KEY, {
-    expiresIn: '1h'
+
+  const token = jwt.sign(userDetails, process.env.JWT_KEY, {
+    expiresIn: '24h'
   });
+  return token;
 }
 
 // eslint-disable-next-line consistent-return

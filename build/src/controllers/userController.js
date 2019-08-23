@@ -44,19 +44,21 @@ function () {
         last_name: req.body.last_name,
         email: req.body.email,
         password: hash,
-        is_admin: false
+        is_admin: req.body.is_admin || false
       }; // Create account if no errors
 
       var query = {
         text: 'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5) returning *',
         values: [user.first_name, user.last_name, user.email, user.password, user.is_admin]
-      };
-
-      var token = _auth["default"].createToken(user);
+      }; // const token = auth.createToken(user);
+      // console.log('token', token)
 
       _db["default"].query(query, function (error, data) {
+        // Create user Signup Token
+        var token = _auth["default"].createToken(data.rows[0]);
+
         if (data) {
-          return res.status(201).send({
+          return res.status(201).json({
             status: 'success',
             data: {
               user_id: data.rows[0].id,
@@ -67,7 +69,7 @@ function () {
         }
 
         if (error.routine === '_bt_check_unique') {
-          res.status(409).send({
+          res.status(409).json({
             status: 'error',
             error: 'Email already exist'
           });
@@ -87,7 +89,7 @@ function () {
 
       _db["default"].query(query, function (error, data) {
         if (data.rows.length === 0) {
-          return res.status(404).send({
+          return res.status(404).json({
             status: 'error',
             error: 'No user in the database'
           });
@@ -99,7 +101,7 @@ function () {
           if (comparePassword) {
             var token = _auth["default"].createToken(data.rows[0]);
 
-            return res.status(200).send({
+            return res.status(200).json({
               status: 'success',
               data: {
                 user_id: data.rows[0].id,
@@ -109,27 +111,31 @@ function () {
             });
           }
 
-          return res.status(400).send({
+          return res.status(400).json({
             status: 'error',
             error: 'Invalid Credentials'
           });
         }
       });
-    } // static getUsers(req, res) {
-    //   const decodedUser = req.user;
-    //   if (decodedUser.is_admin === true) {
-    //     const query = 'SELECT * FROM users';
-    //     pool.query(query, (error, data) => {
-    //       if (data.rows.length !== 0) {
-    //         return res.status(200).send({
-    //           status: 'success',
-    //           data: data.rows
-    //         });
-    //       }
-    //     });
-    //   }
-    // }
+    }
+  }, {
+    key: "getUsers",
+    value: function getUsers(req, res) {
+      var decodedUser = req.user;
 
+      if (decodedUser.is_admin === true) {
+        var query = 'SELECT * FROM users';
+
+        _db["default"].query(query, function (error, data) {
+          if (data.rows.length !== 0) {
+            return res.status(200).json({
+              status: 'success',
+              data: data.rows
+            });
+          }
+        });
+      }
+    }
   }]);
 
   return userController;

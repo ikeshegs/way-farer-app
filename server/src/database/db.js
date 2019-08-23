@@ -33,7 +33,7 @@ const pool = new Pool({
 // });
 
 pool.on('connect', () => {
-  console.log('Connected to Way-Farer database');
+  console.log('Connected to WayFarer-db database');
 });
 
 // if (process.env.NODE_ENV === 'production') {

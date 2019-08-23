@@ -11,8 +11,6 @@ var _user = _interopRequireDefault(require("../middlewares/user"));
 
 var _userController = _interopRequireDefault(require("../controllers/userController"));
 
-var _auth = _interopRequireDefault(require("../helpers/auth"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // Set Router

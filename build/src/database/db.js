@@ -31,7 +31,7 @@ var pool = new _pg.Pool({
 // });
 
 pool.on('connect', function () {
-  console.log('Connected to Way-Farer database');
+  console.log('Connected to WayFarer-db database');
 }); // if (process.env.NODE_ENV === 'production') {
 //   pool.query(createTables, (err, data) => {
 //     if (data) {

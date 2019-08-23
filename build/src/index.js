@@ -37,9 +37,9 @@ app.use(_bodyParser["default"].urlencoded({
 }));
 app.use(_swaggerRoute["default"]);
 app.use(_userRoute["default"]);
-app.use(_tripRoute["default"]);
-app.use(_busRoute["default"]);
-app.use(_bookRoute["default"]);
+app.use('api/v1', _tripRoute["default"]);
+app.use('api/v1', _busRoute["default"]);
+app.use('api/v1', _bookRoute["default"]);
 app.get('/', function (req, res) {
   return res.send({
     status: 200,

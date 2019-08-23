@@ -18,13 +18,12 @@ class userController {
       last_name: req.body.last_name,
       email: req.body.email,
       password: hash,
-      is_admin: false
+      is_admin: req.body.is_admin || false
     };
 
     // Create account if no errors
     const query = {
-      text:
-        'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5) returning *',
+      text: 'INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES ($1, $2, $3, $4, $5) returning *',
       values: [
         user.first_name,
         user.last_name,
@@ -34,11 +33,15 @@ class userController {
       ]
     };
 
-    const token = auth.createToken(user);
+    // const token = auth.createToken(user);
+    // console.log('token', token)
 
     pool.query(query, (error, data) => {
+      // Create user Signup Token
+      const token = auth.createToken(data.rows[0]);
+
       if (data) {
-        return res.status(201).send({
+        return res.status(201).json({
           status: 'success',
           data: {
             user_id: data.rows[0].id,
@@ -49,7 +52,7 @@ class userController {
       }
 
       if (error.routine === '_bt_check_unique') {
-        res.status(409).send({
+        res.status(409).json({
           status: 'error',
           error: 'Email already exist'
         });
@@ -58,17 +61,19 @@ class userController {
   }
 
   static userSignin(req, res) {
-    const { email, password } = req.body;
+    const {
+      email,
+      password
+    } = req.body;
 
     const query = {
-      text:
-        'SELECT id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
+      text: 'SELECT id, first_name, last_name, email, password, is_admin FROM users WHERE email = $1',
       values: [email]
     };
 
     pool.query(query, (error, data) => {
       if (data.rows.length === 0) {
-        return res.status(404).send({
+        return res.status(404).json({
           status: 'error',
           error: 'No user in the database'
         });
@@ -82,7 +87,7 @@ class userController {
 
         if (comparePassword) {
           const token = auth.createToken(data.rows[0]);
-          return res.status(200).send({
+          return res.status(200).json({
             status: 'success',
             data: {
               user_id: data.rows[0].id,
@@ -91,7 +96,7 @@ class userController {
             }
           });
         }
-        return res.status(400).send({
+        return res.status(400).json({
           status: 'error',
           error: 'Invalid Credentials'
         });
@@ -99,22 +104,22 @@ class userController {
     });
   }
 
-  // static getUsers(req, res) {
-  //   const decodedUser = req.user;
+  static getUsers(req, res) {
+    const decodedUser = req.user;
 
-  //   if (decodedUser.is_admin === true) {
-  //     const query = 'SELECT * FROM users';
+    if (decodedUser.is_admin === true) {
+      const query = 'SELECT * FROM users';
 
-  //     pool.query(query, (error, data) => {
-  //       if (data.rows.length !== 0) {
-  //         return res.status(200).send({
-  //           status: 'success',
-  //           data: data.rows
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
+      pool.query(query, (error, data) => {
+        if (data.rows.length !== 0) {
+          return res.status(200).json({
+            status: 'success',
+            data: data.rows
+          });
+        }
+      });
+    }
+  }
 }
 
 export default userController;
