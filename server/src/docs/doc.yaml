@@ -1,11 +1,12 @@
 swagger: '2.0'
 info:
   version: '1.0'
-  title: Way Farer App
-  description: This is a documentation for Way Farer App
+  title: Way-Farer-App
+  description: Way-Farer is a public bus transportation booking App.
   contact: {}
 host: my-way-farer-app.herokuapp.com
-basePath: /
+basePath: /api/v1
+securityDefinitions: {}
 schemes:
 - https
 consumes:
@@ -13,225 +14,297 @@ consumes:
 produces:
 - application/json
 paths:
-  /auth/signup:
-    post:
-      description: This endpoint authenticates a user, when they create an account and returns a JWT Token
-      summary: It creates a new user account
-      tags:
-      - Users
-      operationId: AuthSignupPost
-      deprecated: false
-      produces:
-      - application/json
-      consumes:
-      - application/x-www-form-urlencoded
-      parameters:
-      - name: first_name
-        in: formData
-        required: true
-        type: string
-        description: ''
-      - name: last_name
-        in: formData
-        required: true
-        type: string
-        description: ''
-      - name: email
-        in: formData
-        required: true
-        type: string
-        description: ''
-      - name: password
-        in: formData
-        required: true
-        type: string
-        description: ''
-      responses:
-        201:
-          description: 'User created successfully'
-          headers: {}
-        400:
-          description: 'Error from validation'
-          headers: {}
-        409:
-          description: 'User already exists'
-          headers: {}
   /auth/signin:
     post:
-      description: This endpoint authenticates the user on login and returns a JWT Token
-      summary: It signs in a user 
+      description: This creates a new user account, and returns user_id, is_admin and jwt token.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/auth/signup
       tags:
-      - Users
+      - User
       operationId: AuthSigninPost
       deprecated: false
       produces:
       - application/json
-      consumes:
-      - application/x-www-form-urlencoded
       parameters:
-      - name: email
-        in: formData
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Content-Type
+        in: header
         required: true
         type: string
         description: ''
-      - name: password
-        in: formData
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1auth~1signup-request'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /users:
+    get:
+      description: This route requires an admin users token, which displays a users in a json format.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/users
+      tags:
+      - User
+      operationId: UsersGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Content-Type
+        in: header
         required: true
         type: string
         description: ''
       responses:
         200:
-          description: 'Signin Successful'
-          headers: {}
-        404:
-          description: 'No user in the database'
-          headers: {}
-        400:
-          description: 'Invalid credentials'
+          description: ''
           headers: {}
   /bookings:
     post:
-      description: This endpoint creates a new booking, and returns an object in an array
-      summary: It creates a new booking
+      description: This route requires a token, which creates a new booking and returns the booking details as a json format.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/bookings
       tags:
-      - Bookings
+      - Booking
       operationId: BookingsPost
       deprecated: false
       produces:
       - application/json
       parameters:
-      - name: trip_id
-        in: formData
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Content-Type
+        in: header
         required: true
-        type: integer
+        type: string
         description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1bookings-request'
       responses:
-        201:
-          description: 'Booking created successfully'
+        200:
+          description: ''
           headers: {}
     get:
-      description: This endpoint gets all bookings and returns an object in an array
-      summary: It displays a users bookings
+      description: >-
+        This route requires a token.
+
+        For an Admin user, this route displays all bookings.
+
+        For a non-admin user, this route will display only the users bookings.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/bookings
       tags:
-      - Bookings
+      - Booking
       operationId: BookingsGet
       deprecated: false
       produces:
       - application/json
-      parameters: []
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
       responses:
         200:
-          description: 'All bookings successfully retrieved'
+          description: ''
           headers: {}
-    delete/bookingId:
-      description: This endpoint deletes a booking and returns an object in an array
-      summary: A user can delete their booking
+  /bookings/1:
+    delete:
+      description: This route requires a token, which deletes the booking, and returns a message in json format.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/bookings/1
       tags:
-      - Bookings
-      operationId: BookingsDelete
-      deprecated: false
-      produces:
-      - application/json
-      parameters: []
-      responses:
-        200:
-          description: 'Trip deleted successfully'
-          headers: {}
-    patch/bookingId:
-      description: This endpoint changes the seat number for a user on a trip
-      summary: A user can change their seat number
-      tags:
-      - Bookings
-      operationId: SeatNumberPatch
+      - Booking
+      operationId: Bookings1Delete
       deprecated: false
       produces:
       - application/json
       parameters:
-      - name: seat_number
-        in: formData
-        required: true
-        type: integer
-        description: ''
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
       responses:
         200:
-          description: 'Seat Number changed successfully'
+          description: ''
           headers: {}
-        409:
-          description: 'Seat Number has been taken'
+  /bookings/2:
+    put:
+      description: 'This route requires an admin users token, and changes the seat number for a user. '
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/bookings/2
+      tags:
+      - Booking
+      operationId: Bookings2Put
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1bookings~12-request'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /bus:
+    post:
+      description: >
+        This route requires an admin users token and creates a new bus.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/buses
+      tags:
+      - Bus
+      operationId: BusPost
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1buses-request'
+      responses:
+        200:
+          description: ''
+          headers: {}
+    get:
+      description: This route requires an admin users token, which enables you to get all buses created
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/bus
+      tags:
+      - Bus
+      operationId: BusGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      responses:
+        200:
+          description: ''
           headers: {}
   /trips:
     post:
-      description: This endpoint creates a trip, and returns an object in an array
-      summary: Admin can create a trip
+      description: This route requires an admin users token to create a new trip.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/trips
       tags:
-      - Trips
-      operationId: TripPost
+      - Trip
+      operationId: TripsPost
       deprecated: false
       produces:
       - application/json
       parameters:
-      - name: bus_id
-        in: formData
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Content-Type
+        in: header
         required: true
         type: string
         description: ''
-      - name: origin
-        in: formData
+      - name: Body
+        in: body
         required: true
-        type: string
         description: ''
-      - name: destination
-        in: formData
-        required: true
-        type: string
-        description: ''
-      - name: trip_date
-        in: formData
-        required: true
-        type: string
-        description: ''
-      - name: fare
-        in: formData
-        required: true
-        type: number
-        description: ''
+        schema:
+          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1trips-request'
       responses:
         200:
-          description: 'Trip created successfully'
-          headers: {}
-        400:
-          description: 'Form inputs error'
+          description: ''
           headers: {}
     get:
-      description: This endpoint gets all trips, and returns an object in an array
-      summary: Users can view all trips`
+      description: This route requires a token to displays all trips
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/trips
       tags:
-      - Trips
+      - Trip
       operationId: TripsGet
       deprecated: false
       produces:
       - application/json
-      parameters: []
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
       responses:
         200:
-          description: 'All trips retrieved successfully'
+          description: ''
           headers: {}
-    patch/tripId:
-      description: This endpoint cancels a trip, and returns an object in an array
-      summary: Admin can cancel a trip
+  /trips/2:
+    put:
+      description: This route requires a token to cancel a trip.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/trips/2
       tags:
-      - Trips
-      operationId: TripsPatch
+      - Trip
+      operationId: Trips2Put
       deprecated: false
       produces:
       - application/json
-      parameters: []
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
       responses:
         200:
-          description: 'Trip cancelled successfully'
+          description: ''
           headers: {}
 definitions:
-  signUp:
+  https://my-way-farer-app.herokuapp.com/api/v1/auth/signup-request:
+    title: https://my-way-farer-app.herokuapp.com/api/v1/auth/signup-request
+    example:
+      first_name: Ikechukwu
+      last_name: Okoro
+      email: ikeshegs@test.com
+      password: C00ljoe.
     type: object
     properties:
       first_name:
@@ -247,7 +320,11 @@ definitions:
     - last_name
     - email
     - password
-  signIn:
+  https://my-way-farer-app.herokuapp.com/api/v1/auth/signin-request:
+    title: https://my-way-farer-app.herokuapp.com/api/v1/auth/signin-request
+    example:
+      email: ikeshegs@test.com
+      password: C00ljoe.
     type: object
     properties:
       email:
@@ -257,7 +334,10 @@ definitions:
     required:
     - email
     - password
-  bookings:
+  https://my-way-farer-app.herokuapp.com/api/v1/bookings-request:
+    title: https://my-way-farer-app.herokuapp.com/api/v1/bookings-request
+    example:
+      trip_id: 4
     type: object
     properties:
       trip_id:
@@ -265,18 +345,65 @@ definitions:
         format: int32
     required:
     - trip_id
-  trips:
+  https://my-way-farer-app.herokuapp.com/api/v1/bookings/2-request:
+    title: https://my-way-farer-app.herokuapp.com/api/v1/bookings/2-request
+    example:
+      seat_number: 31
     type: object
     properties:
-      bus_id:
+      seat_number:
+        type: integer
+        format: int32
+    required:
+    - seat_number
+  https://my-way-farer-app.herokuapp.com/api/v1/buses-request:
+    title: https://my-way-farer-app.herokuapp.com/api/v1/buses-request
+    example:
+      number_plate: ABC01fg
+      manufacturer: Mercedes Benz
+      model: Sprinter
+      year: 2015
+      capacity: 25
+    type: object
+    properties:
+      number_plate:
         type: string
       manufacturer:
         type: string
       model:
         type: string
+      year:
+        type: integer
+        format: int32
+      capacity:
+        type: integer
+        format: int32
+    required:
+    - number_plate
+    - manufacturer
+    - model
+    - year
+    - capacity
+  https://my-way-farer-app.herokuapp.com/api/v1/trips-request:
+    title: https://my-way-farer-app.herokuapp.com/api/v1/trips-request
+    example:
+      bus_id: 2
+      origin: Aba
+      destination: Port Harcourt
+      trip_date: 2019-08-31
+      fare: 700
+    type: object
+    properties:
+      bus_id:
+        type: integer
+        format: int32
+      origin:
+        type: string
+      destination:
+        type: string
       trip_date:
-        type: date
-      fare`:
+        type: string
+      fare:
         type: integer
         format: int32
     required:
@@ -286,9 +413,11 @@ definitions:
     - trip_date
     - fare
 tags:
-- name: Bookings
-  description: All bookings routes are authenticated using JSONWebToken
-- name: Users
-  description: All users routes are authenticated using JSONWebToken
-- name: Trips
-  description: All trips routes are authenticated using JSONWebToken
+- name: User
+  description: User Routes
+- name: Booking
+  description: All Bookings Route.
+- name: Bus
+  description: All Bus Routes
+- name: Trip
+  description: ALl Trips Routes.
