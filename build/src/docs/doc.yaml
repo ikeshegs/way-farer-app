@@ -14,10 +14,41 @@ consumes:
 produces:
 - application/json
 paths:
-  /auth/signin:
+  /auth/signup:
     post:
       description: This creates a new user account, and returns user_id, is_admin and jwt token.
       summary: https://my-way-farer-app.herokuapp.com/api/v1/auth/signup
+      tags:
+      - User
+      operationId: AuthSignupPost
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1auth~1signup-request'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /auth/signin:
+    post:
+      description: This is a login user route, which returns the user_id, is-admin and jwt token for subsequent api calls.
+      summary: https://my-way-farer-app.herokuapp.com/api/v1/auth/signin
       tags:
       - User
       operationId: AuthSigninPost
@@ -40,7 +71,7 @@ paths:
         required: true
         description: ''
         schema:
-          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1auth~1signup-request'
+          $ref: '#/definitions/https%3A~1~1my-way-farer-app.herokuapp.com~1api~1v1~1auth~1signin-request'
       responses:
         200:
           description: ''
