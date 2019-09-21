@@ -101,12 +101,25 @@ class userController {
     });
   }
 
+  // static getUsers(req, res) {
+  //   const decodedUser = req.user;
+
+  //   if (decodedUser.isAdmin === true) {
+  //     const query = 'SELECT * FROM users';
+
+  //     pool.query(query, (error, data) => {
+  //       if (data.rows.length !== 0) {
+  //         return res.status(200).json({
+  //           status: 'success',
+  //           data: data.rows
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
   static getUsers(req, res) {
-    const decodedUser = req.user;
-
-    if (decodedUser.isAdmin === true) {
+    // const decodedUser = req.user;
       const query = 'SELECT * FROM users';
-
       pool.query(query, (error, data) => {
         if (data.rows.length !== 0) {
           return res.status(200).json({
@@ -115,7 +128,6 @@ class userController {
           });
         }
       });
-    }
   }
 }
 

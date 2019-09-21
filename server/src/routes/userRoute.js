@@ -18,6 +18,7 @@ userRoute.post(
   userController.userSignin
 );
 
-userRoute.get('/api/v1/users', auth.verifyToken, userController.getUsers);
+// userRoute.get('/api/v1/users', auth.verifyToken, userController.getUsers);
+userRoute.get('/api/v1/users', userController.getUsers);
 
 export default userRoute;

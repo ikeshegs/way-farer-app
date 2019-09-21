@@ -52,12 +52,31 @@ class busController {
     }
   }
 
+  // static getBuses(req, res) {
+  //   const decodedUser = req.user;
+  //   if (decodedUser.isAdmin === true) {
+  //     const query = 'SELECT * FROM buses';
+  //     pool.query(query, (error, data) => {
+  //       if (error) {
+  //         return res.status.json({
+  //           status: 'error',
+  //           error
+  //         });
+  //       }
+  //       if (data.rows.length !== 0) {
+  //         return res.status(200).json({
+  //           status: 'success',
+  //           data: data.rows
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
+
   static getBuses(req, res) {
-    const decodedUser = req.user;
+    // const decodedUser = req.user;
 
-    if (decodedUser.isAdmin === true) {
       const query = 'SELECT * FROM buses';
-
       pool.query(query, (error, data) => {
         if (error) {
           return res.status.json({
@@ -65,7 +84,6 @@ class busController {
             error
           });
         }
-
         if (data.rows.length !== 0) {
           return res.status(200).json({
             status: 'success',
@@ -73,7 +91,7 @@ class busController {
           });
         }
       });
-    }
+    
   }
 }
 
