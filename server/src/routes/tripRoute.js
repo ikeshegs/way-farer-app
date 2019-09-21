@@ -12,7 +12,14 @@ tripRoute.post(
   tripController.createTrip
 );
 
-tripRoute.get('/api/v1/trips', auth.verifyToken, tripController.getTrips);
+// tripRoute.get('/api/v1/trips', auth.verifyToken, tripController.getTrips);
+tripRoute.get('/api/v1/trips', tripController.getTrips);
+
+tripRoute.put(
+  '/api/v1/trips/:tripId',
+  auth.verifyToken,
+  tripController.patchTrip
+);
 
 tripRoute.put(
   '/api/v1/trips/:tripId',

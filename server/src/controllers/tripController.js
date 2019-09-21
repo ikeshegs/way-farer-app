@@ -61,12 +61,26 @@ class tripController {
     }
   }
 
+  // static getTrips(req, res) {
+  //   const decodedUser = req.user;
+
+  //   if (decodedUser) {
+  //     const query = 'SELECT * FROM trips';
+
+  //     pool.query(query, (error, data) => {
+  //       if (data.rows.length !== 0) {
+  //         return res.status(200).json({
+  //           status: 'success',
+  //           data: data.rows
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
+
   static getTrips(req, res) {
-    const decodedUser = req.user;
-
-    if (decodedUser) {
+    // const decodedUser = req.user;
       const query = 'SELECT * FROM trips';
-
       pool.query(query, (error, data) => {
         if (data.rows.length !== 0) {
           return res.status(200).json({
@@ -75,7 +89,6 @@ class tripController {
           });
         }
       });
-    }
   }
 
   static patchTrip(req, res) {
