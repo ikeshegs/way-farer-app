@@ -28,7 +28,12 @@ app.use(bookRoute);
 app.get('/', (req, res) => {
   return res.send({
     status: 200,
-    message: 'Welcome to WayFarer app. A public bus transport booking app. 😀'
+    message: {
+      'Message': 'These are the accessible APIs',
+      '1': 'GET: https://my-way-farer-app.herokuapp.com/api/v1/bus',
+      '2': 'GET: https://my-way-farer-app.herokuapp.com/api/v1/users',
+      '3': 'GET: https://my-way-farer-app.herokuapp.com/api/v1/trips'
+    }
   });
 });
 

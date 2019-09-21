@@ -21,12 +21,6 @@ tripRoute.put(
   tripController.patchTrip
 );
 
-tripRoute.put(
-  '/api/v1/trips/:tripId',
-  auth.verifyToken,
-  tripController.patchTrip
-);
-
 // tripRoute.get(
 //   '/api/v1/trips/tripdest/',
 //   auth.verifyToken,

@@ -74,24 +74,35 @@ function () {
           });
         });
       }
-    }
+    } // static getTrips(req, res) {
+    //   const decodedUser = req.user;
+    //   if (decodedUser) {
+    //     const query = 'SELECT * FROM trips';
+    //     pool.query(query, (error, data) => {
+    //       if (data.rows.length !== 0) {
+    //         return res.status(200).json({
+    //           status: 'success',
+    //           data: data.rows
+    //         });
+    //       }
+    //     });
+    //   }
+    // }
+
   }, {
     key: "getTrips",
     value: function getTrips(req, res) {
-      var decodedUser = req.user;
+      // const decodedUser = req.user;
+      var query = 'SELECT * FROM trips';
 
-      if (decodedUser) {
-        var query = 'SELECT * FROM trips';
-
-        _db["default"].query(query, function (error, data) {
-          if (data.rows.length !== 0) {
-            return res.status(200).json({
-              status: 'success',
-              data: data.rows
-            });
-          }
-        });
-      }
+      _db["default"].query(query, function (error, data) {
+        if (data.rows.length !== 0) {
+          return res.status(200).json({
+            status: 'success',
+            data: data.rows
+          });
+        }
+      });
     }
   }, {
     key: "patchTrip",

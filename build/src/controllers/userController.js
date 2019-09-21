@@ -116,24 +116,35 @@ function () {
           });
         }
       });
-    }
+    } // static getUsers(req, res) {
+    //   const decodedUser = req.user;
+    //   if (decodedUser.isAdmin === true) {
+    //     const query = 'SELECT * FROM users';
+    //     pool.query(query, (error, data) => {
+    //       if (data.rows.length !== 0) {
+    //         return res.status(200).json({
+    //           status: 'success',
+    //           data: data.rows
+    //         });
+    //       }
+    //     });
+    //   }
+    // }
+
   }, {
     key: "getUsers",
     value: function getUsers(req, res) {
-      var decodedUser = req.user;
+      // const decodedUser = req.user;
+      var query = 'SELECT * FROM users';
 
-      if (decodedUser.isAdmin === true) {
-        var query = 'SELECT * FROM users';
-
-        _db["default"].query(query, function (error, data) {
-          if (data.rows.length !== 0) {
-            return res.status(200).json({
-              status: 'success',
-              data: data.rows
-            });
-          }
-        });
-      }
+      _db["default"].query(query, function (error, data) {
+        if (data.rows.length !== 0) {
+          return res.status(200).json({
+            status: 'success',
+            data: data.rows
+          });
+        }
+      });
     }
   }]);
 

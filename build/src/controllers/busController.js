@@ -64,31 +64,48 @@ function () {
           });
         });
       }
-    }
+    } // static getBuses(req, res) {
+    //   const decodedUser = req.user;
+    //   if (decodedUser.isAdmin === true) {
+    //     const query = 'SELECT * FROM buses';
+    //     pool.query(query, (error, data) => {
+    //       if (error) {
+    //         return res.status.json({
+    //           status: 'error',
+    //           error
+    //         });
+    //       }
+    //       if (data.rows.length !== 0) {
+    //         return res.status(200).json({
+    //           status: 'success',
+    //           data: data.rows
+    //         });
+    //       }
+    //     });
+    //   }
+    // }
+
   }, {
     key: "getBuses",
     value: function getBuses(req, res) {
-      var decodedUser = req.user;
+      // const decodedUser = req.user;
+      var query = 'SELECT * FROM buses';
 
-      if (decodedUser.isAdmin === true) {
-        var query = 'SELECT * FROM buses';
+      _db["default"].query(query, function (error, data) {
+        if (error) {
+          return res.status.json({
+            status: 'error',
+            error: error
+          });
+        }
 
-        _db["default"].query(query, function (error, data) {
-          if (error) {
-            return res.status.json({
-              status: 'error',
-              error: error
-            });
-          }
-
-          if (data.rows.length !== 0) {
-            return res.status(200).json({
-              status: 'success',
-              data: data.rows
-            });
-          }
-        });
-      }
+        if (data.rows.length !== 0) {
+          return res.status(200).json({
+            status: 'success',
+            data: data.rows
+          });
+        }
+      });
     }
   }]);
 
